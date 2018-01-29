@@ -82,7 +82,7 @@
                             <resources>
                                 <resource>
      
-             <directory>${project.parent.basedir}/frontend/target/dist</directory>
+                                    <directory>${project.parent.basedir}/frontend/target/dist/public</directory>
                                     <includes>
                                         <include>static/</include>
                                         <include>index.html</include>

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Modified by:
  */
 
-@RestController
+@Controller
 @RequestMapping("/")
 public class DefaultController{
 
@@ -29,9 +29,15 @@ public class DefaultController{
         return "hello 你妹啊。";
     }
 
-    @RequestMapping("/home")
-    public String index(Model model) {
+    @RequestMapping("/admin")
+    public String admin(Model model) {
         System.out.println("hello index");
         return "index.html";
+    }
+
+    @RequestMapping("/addQuestion")
+    public String addQuestion(Model model) {
+        System.out.println("hello addQuestion");
+        return "question.html";
     }
 }

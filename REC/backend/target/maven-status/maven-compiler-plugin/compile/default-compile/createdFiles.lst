@@ -1,0 +1,7 @@
+cn/edu/buaa/rec/service/impl/QuestionServiceImpl.class
+cn/edu/buaa/rec/controller/QuestionController.class
+cn/edu/buaa/rec/model/Question.class
+cn/edu/buaa/rec/dao/QuestionMapper.class
+main/Main.class
+cn/edu/buaa/rec/controller/DefaultController.class
+cn/edu/buaa/rec/service/QuestionService.class
