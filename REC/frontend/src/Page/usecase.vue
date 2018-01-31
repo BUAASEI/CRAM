@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopMirror kind="用况场景" :name="name"></TopMirror>
+    <TopMirror kind="用例" :name="name"></TopMirror>
     <div class="top-btn">
       <div>
         <button>演化历史</button>

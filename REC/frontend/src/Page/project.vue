@@ -1,7 +1,7 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <Top name="北京大学学生选课系统"></Top>
+    <Top name="北航学生选课系统"></Top>
     <div class="context">
       <div class="context-nav">
         <Nav target="st"></Nav>
@@ -22,7 +22,7 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span>设置</span>
+                  <span @click="editScenario(item.id)">设置</span>
                   <span>删除</span>
                 </div>
               </div>
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用况场景</Button></div>
+          <div class="detail-btn"><Button type="primary">新增用例</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">用况场景名称</div>
@@ -45,7 +45,7 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span @click="edit(item.id)">设置</span>
+                  <span @click="editUsecase(item.id)">设置</span>
                   <span>删除</span>
                 </div>
               </div>
@@ -163,10 +163,15 @@ export default{
     Button
   },
   methods: {
-    edit: function (id) {
+    editScenario: function (id) {
       // do something
       // 路由跳转
-      this.$router.push({ name: 'usage', params: {type: 'edit'} })
+      this.$router.push({ name: 'scenario', params: {type: 'edit'} })
+    },
+    editUsecase: function (id) {
+      // do something
+      // 路由跳转
+      this.$router.push({ name: 'usecase', params: {type: 'edit'} })
     }
   }
 }

@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="basic title">
-      <span>score >></span>
-      <span class="focus-blue">{{ name }}</span>
+      <div>
+        <span>mvrec >></span>
+        <span class="focus-blue">{{ name }}</span>
+        <span class="focus-red">注销</span>
+      </div>
     </div>
     <div class="basic info">
       <div class="left">
@@ -63,32 +66,32 @@
   }
 </style>
 <script>
-export default{
-  data () {
-    return {
+  export default{
+    data () {
+      return {
+      }
+    },
+    props: {
+      kind: {
+        type: String,
+        default: '用况场景'
+      },
+      name: {
+        type: String,
+        default: '北航学生选课系统'
+      },
+      creator: {
+        type: String,
+        default: 'suruo'
+      },
+      role: {
+        type: String,
+        default: '校教务部'
+      }
+    },
+    components: {
+    },
+    methods: {
     }
-  },
-  props: {
-    kind: {
-      type: String,
-      default: '用况场景'
-    },
-    name: {
-      type: String,
-      default: '北京大学学生选课系统'
-    },
-    creator: {
-      type: String,
-      default: 'dean'
-    },
-    role: {
-      type: String,
-      default: '校教务部'
-    }
-  },
-  components: {
-  },
-  methods: {
   }
-}
 </script>

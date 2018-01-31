@@ -8,15 +8,12 @@
       <div class="left">
       </div>
       <div class="right">
-        <div class="right-name">{{ kind }}：{{ name }}</div>
-        <div class="right-tag">
-          <span>领域：{{ domain }}</span>
-          <span>创建时间：{{ dates }}</span>
-          <span>创建人：{{ creator }}</span>
-          <span class="focus-blue">角色申请</span>
-          <span class="focus-blue">管理员申请</span>
-          <router-link to="/sysuser">个人中心</router-link>
-        </div>
+        <div class="right-name">{{ kind }}</div>
+        <!--<div class="right-tag">-->
+          <!--<span class="focus-btn">领域</span>-->
+          <!--<span class="focus-btn">项目</span>-->
+          <!--<span class="focus-btn">数据</span>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -28,6 +25,11 @@
   }
   .focus-blue {
     color: blue;
+  }
+  .focus-btn {
+    padding: 5px;
+    color: #fff;
+    background-color: blue;
   }
   .title {
     height: 30px;
@@ -61,36 +63,32 @@
   }
 </style>
 <script>
-export default{
-  data () {
-    return {
+  export default{
+    data () {
+      return {
+      }
+    },
+    props: {
+      kind: {
+        type: String,
+        default: '主页'
+      },
+      name: {
+        type: String,
+        default: '苏若'
+      },
+      creator: {
+        type: String,
+        default: 'suruo'
+      },
+      role: {
+        type: String,
+        default: '校教务部'
+      }
+    },
+    components: {
+    },
+    methods: {
     }
-  },
-  props: {
-    kind: {
-      type: String,
-      default: '项目'
-    },
-    name: {
-      type: String,
-      default: '北航学生选课系统'
-    },
-    domain: {
-      type: String,
-      default: '高等教育'
-    },
-    dates: {
-      type: String,
-      default: '2017-4-23'
-    },
-    creator: {
-      type: String,
-      default: 'suruo'
-    }
-  },
-  components: {
-  },
-  methods: {
   }
-}
 </script>
