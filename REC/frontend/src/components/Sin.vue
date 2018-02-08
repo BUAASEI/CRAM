@@ -70,7 +70,8 @@ Description: 登录页
           psd:'',
           msg0:'',
           msg1:'',
-          msg2:''
+          msg2:'',
+          msg:''
         }
       },
       ready: function() {

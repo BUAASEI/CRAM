@@ -12,11 +12,11 @@ Description: 登录页面
       <div class="door">
         <div class="menu clearfix">
           <span class="title">Requirement Elicitation Card</span>
-          <button @click="logUp" class="up-btn" :class="!acount?'btn-active':''">注册</button>
-          <button @click="logIn" class="in-btn" :class="acount?'btn-active':''">登录</button>
+          <button @click="logUp" class="up-btn" :class="!account?'btn-active':''">注册</button>
+          <button @click="logIn" class="in-btn" :class="account?'btn-active':''">登录</button>
         </div>
         <div class="tabel">
-          <div v-if="acount">
+          <div v-if="account">
             <signin></signin>
           </div>
           <div v-else>
@@ -102,15 +102,15 @@ Description: 登录页面
     },
     methods: {
       logUp: function () {
-        this.acount = false;
+        this.account = false;
       },
       logIn:function () {
-        this.acount = true;
+        this.account = true;
       }
     },
     events:{
       change_acount:function(){
-        this.acount = true;
+        this.account = true;
       }
     }
   }
