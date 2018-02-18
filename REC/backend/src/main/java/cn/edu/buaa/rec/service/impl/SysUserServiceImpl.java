@@ -47,7 +47,8 @@ public class SysUserServiceImpl implements SysUserService {
             //            如果之前存在记录，那么id+1
             //            如果不存在，id设置为1
             Long userIdMax = sysUserMapper.selectMaxId();
-            sysUser.setId(((userIdMax==null)? 0 : userIdMax) + 1);
+            //            判断下，如果数据库中没有任何记录，返回null的情况
+            sysUser.setId(((userIdMax == null) ? 0 : userIdMax) + 1);
 
             if (sysUserMapper.insert(sysUser) != 1) {
                 m.put("Msg", "请检查输入数据格式");
@@ -64,12 +65,12 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> modSysUserInfo(SysUser sysUserInfo) {
         Map<String, Object> m = new HashMap<>();
         String sysUserName = sysUserInfo.getName();
-        if (noExist(sysUserName)) {
+        if (noExist(sysUserName) ) {
             m.put("Msg", "莫名其妙的错误");
-        }else {
-            if(sysUserMapper.updateByName(sysUserInfo) != 1){
+        } else {
+            if (sysUserMapper.updateByName(sysUserInfo) != 1) {
                 m.put("Msg", "请检查输入数据格式");
-            }else {
+            } else {
                 m.put("Msg", "用户信息更新成功");
             }
         }
@@ -80,7 +81,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public boolean noExist(String name) {
 //        如果用户名已存在，则返回false
-        return (sysUserMapper.selectByName(name) != null) ? false : true;
+        return sysUserMapper.selectByName(name) == null;
     }
 
     //    通过用户名，查找用户相关信息
