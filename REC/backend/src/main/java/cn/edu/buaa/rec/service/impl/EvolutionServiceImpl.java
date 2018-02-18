@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.service.EvolutionService;
+import org.springframework.stereotype.Service;
 
 /**
  * @Description:
@@ -10,5 +11,6 @@ import cn.edu.buaa.rec.service.EvolutionService;
  * @Modified by:
  */
 
+@Service("EvolutionService")
 public class EvolutionServiceImpl implements EvolutionService {
 }

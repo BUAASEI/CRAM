@@ -6,6 +6,7 @@ import cn.edu.buaa.rec.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,8 @@ import java.util.Map;
  * @Modified by:
  */
 
+//这儿要声明*Service的注解，要不到找不到对应的Service
+@Service("SysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
     private SysUserMapper sysUserMapper;
@@ -44,7 +47,7 @@ public class SysUserServiceImpl implements SysUserService {
             //            如果之前存在记录，那么id+1
             //            如果不存在，id设置为1
             Long userIdMax = sysUserMapper.selectMaxId();
-            sysUser.setId(userIdMax + 1);
+            sysUser.setId(((userIdMax==null)? 0 : userIdMax) + 1);
 
             if (sysUserMapper.insert(sysUser) != 1) {
                 m.put("Msg", "请检查输入数据格式");

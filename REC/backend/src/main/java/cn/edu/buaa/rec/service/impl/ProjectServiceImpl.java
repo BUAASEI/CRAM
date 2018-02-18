@@ -5,6 +5,7 @@ import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.ProjectService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -16,6 +17,7 @@ import java.util.*;
  * @Modified by:
  */
 
+@Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
