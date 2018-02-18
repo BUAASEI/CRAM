@@ -6,6 +6,7 @@ import cn.edu.buaa.rec.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
  * @Date: Created on 上午6:23 2018/02/01
  * @Modified by:
  */
-
+@Service("SysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
     private SysUserMapper sysUserMapper;

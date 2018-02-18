@@ -36,80 +36,80 @@
                enableSelectByExample="false" selectByExampleQueryId="false">
         </table>
         <!--<table schema="rec" tableName="sys_user" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
         <!--</table>-->
-        <!--<table schema="rec" tableName="domain" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="project" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="role" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="scenario" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="data" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="scenario" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="activity" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
+        <table schema="rec" tableName="domain" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="project" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="role" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="scenario" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="data" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="scenario" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="activity" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
         <!--<table schema="rec" tableName="usecase" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
         <!--</table>-->
-        <!--<table schema="rec" tableName="review" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="solution" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="activity_data" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="activity_role" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="scenario_data" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="scenario_role" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="usecase_activity" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="usecase_data" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="user_project_man" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
-        <!--<table schema="rec" tableName="user_project_role" enableCountByExample="true"-->
-               <!--enableUpdateByExample="true" enableDeleteByExample="true"-->
-               <!--enableSelectByExample="true" selectByExampleQueryId="true">-->
-        <!--</table>-->
+        <table schema="rec" tableName="review" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="solution" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="activity_data" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="activity_role" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="scenario_data" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="scenario_role" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="usecase_activity" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="usecase_data" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="user_project_man" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table schema="rec" tableName="user_project_role" enableCountByExample="true"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
     </context>
 </generatorConfiguration>
