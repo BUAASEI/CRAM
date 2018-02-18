@@ -89,8 +89,10 @@ public class SysUserController {
         return projectService.newProject(project);
     }
 
-//    站内信
-//    暂时不做
+    /*
+        站内信
+        暂时不做
+    */
 
     /*
         查看管理的项目，展示信息包括：
@@ -121,6 +123,4 @@ public class SysUserController {
     public List<Map<String, Object>> projectAllInfo(Model model){
         return projectService.allProject();
     }
-
-
 }

@@ -2,6 +2,8 @@ package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.Domain;
 import cn.edu.buaa.rec.model.DomainExample;
+import cn.edu.buaa.rec.model.Activity;
+
 
 public interface DomainMapper {
     /**
@@ -27,4 +29,6 @@ public interface DomainMapper {
      * @mbggenerated Sun Feb 18 09:09:16 CST 2018
      */
     int insertSelective(Domain record);
+
+    Domain selectById(Long domainId);
 }
