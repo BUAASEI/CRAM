@@ -12,11 +12,11 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
-        <result column="build_time" jdbcType="TIMESTAMP" property="buildTime"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="reg_status" jdbcType="INTEGER" property="regStatus"/>
-        <result column="reg_code" jdbcType="VARCHAR" property="regCode"/>
-        <result column="state" jdbcType="VARCHAR" property="state"/>
+        <!--<result column="build_time" jdbcType="TIMESTAMP" property="buildTime"/>-->
+        <!--<result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>-->
+        <!--<result column="reg_status" jdbcType="INTEGER" property="regStatus"/>-->
+        <!--<result column="reg_code" jdbcType="VARCHAR" property="regCode"/>-->
+        <!--<result column="state" jdbcType="VARCHAR" property="state"/>-->
     </resultMap>
 
     <!-- 查找现有记录的最大id -->
@@ -46,14 +46,18 @@
     <!-- resultType="int" -->
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.SysUser">
     insert into sys_user (id, name, phone, 
-      email, password, build_time, 
-      update_time, reg_status, reg_code, 
-      state)
+      email, password)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{buildTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{regStatus,jdbcType=INTEGER}, #{regCode,jdbcType=VARCHAR}, 
-      #{state,jdbcType=VARCHAR})
+      #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>
+    <!--
+      , build_time,
+      update_time, reg_status, reg_code,
+      state
+    , #{buildTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{regStatus,jdbcType=INTEGER}, #{regCode,jdbcType=VARCHAR},
+      #{state,jdbcType=VARCHAR}
+    -->
 
     <!-- 通过name更新用户信息 -->
     <update id="updateByName" parameterType="map">

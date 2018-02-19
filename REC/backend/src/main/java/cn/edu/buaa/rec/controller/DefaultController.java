@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,20 +53,19 @@ public class DefaultController {
     @ResponseBody
     public Map<String, Object> register(@Valid @RequestBody Map<String, Object> sysUserInfo) {
 
-        System.out.println("hello");
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
         SysUser sysUser = new SysUser(jsonObject.getString("SysUserName"), jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
 
         return sysUserService.newSysUser(sysUser);
     }
 
-    //    这才是真正的用户登录
+    //    系统用户登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> login(@Valid @RequestBody Map<String, Object> sysUserInfo) {
         Map<String, Object> m = new HashMap<>();
         //    从前端拿来用户输入的账户名和密码
-        String name = (String) sysUserInfo.get("UserName");
+        String name = (String) sysUserInfo.get("SysUserName");
         String pword = (String) sysUserInfo.get("Password");
         logger.info(name);
 

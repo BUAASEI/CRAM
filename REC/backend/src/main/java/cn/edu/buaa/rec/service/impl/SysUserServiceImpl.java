@@ -63,7 +63,7 @@ public class SysUserServiceImpl implements SysUserService {
         Map<String, Object> m = new HashMap<>();
         String sysUserName = sysUserInfo.getName();
         if (noExist(sysUserName)) {
-            m.put("Msg", "莫名其妙的错误");
+            m.put("Msg", "不存在这个用户诶 @_@ ");
         }else {
             if(sysUserMapper.updateByName(sysUserInfo) != 1){
                 m.put("Msg", "请检查输入数据格式");
@@ -78,7 +78,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public boolean noExist(String name) {
 //        如果用户名已存在，则返回false
-        return (sysUserMapper.selectByName(name) != null) ? false : true;
+        return (sysUserMapper.selectByName(name) == null);
     }
 
     //    通过用户名，查找用户相关信息
