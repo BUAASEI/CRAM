@@ -29,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/")
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 public class DefaultController {
 
     private static final Logger logger = LoggerFactory.getLogger(SysUserController.class);

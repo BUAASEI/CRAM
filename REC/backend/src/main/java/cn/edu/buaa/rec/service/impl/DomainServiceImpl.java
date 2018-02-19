@@ -4,6 +4,7 @@ import cn.edu.buaa.rec.dao.DomainMapper;
 import cn.edu.buaa.rec.model.Domain;
 import cn.edu.buaa.rec.service.DomainService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ import java.util.Map;
  * @Date: Created on 下午9:18 2018/02/05
  * @Modified by:
  */
-
+@Service("DomainService")
 public class DomainServiceImpl implements DomainService {
 
     private DomainMapper domainMapper;

@@ -8,6 +8,7 @@ import cn.edu.buaa.rec.model.SysUser;
 import cn.edu.buaa.rec.model.UserProjectMan;
 import cn.edu.buaa.rec.service.UserProjectManService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ import java.util.*;
  * @Date: Created on 下午4:41 2018/02/06
  * @Modified by:
  */
-
+@Service("UserProjectManService")
 public class UserProjectManServiceImpl implements UserProjectManService {
 
     @Autowired

@@ -8,6 +8,7 @@ import cn.edu.buaa.rec.model.SysUser;
 import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.UserProjectRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ import java.util.*;
  * @Modified by:
  */
 
+@Service("UserProjectRoleService")
 public class UserProjectRoleServiceImpl implements UserProjectRoleService{
 
     @Autowired
