@@ -31,7 +31,7 @@
     <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
         SELECT *
         FROM sys_user
-        WHERE NAME = #{name}
+        WHERE NAME = #{name,jdbcType=VARCHAR}
         LIMIT 1
     </select>
 

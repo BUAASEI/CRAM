@@ -86,7 +86,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public boolean noExist(String name) {
     //        如果用户名已存在，则返回false
-        return (sysUserMapper.selectByName(name) == null);
+        SysUser temp = sysUserMapper.selectByName(name);
+        if(temp == null){
+            return true;
+        }
+        return true;
+//        return (sysUserMapper.selectByName(name) == null);
     }
 
     //    通过用户名，查找用户相关信息

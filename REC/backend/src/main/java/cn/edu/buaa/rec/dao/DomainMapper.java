@@ -20,7 +20,7 @@ public interface DomainMapper {
      */
     int insertSelective(Domain record);
 
-    Domain selectById(Long domainId);
+    Domain selectById(Long Id);
 
     Long selectMaxId();
 

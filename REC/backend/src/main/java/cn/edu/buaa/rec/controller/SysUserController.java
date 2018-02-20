@@ -60,7 +60,7 @@ public class SysUserController {
         Long sysUserId = jsonObject.getLong("SysUserId");
         String sysUserName = jsonObject.getString("SysUserName");
         SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
-//        System.out.println(sysUser.getPhone());
+        //        System.out.println(sysUser.getPhone());
         return sysUserService.modSysUserInfo(sysUser);
 
     }
@@ -68,7 +68,9 @@ public class SysUserController {
     /*
         新建领域，信息包括：
         1）领域名称; 2）领域描述; 3）创建者id
+        DomainName\DomainDescription\CreatorId
     */
+//    没调通
     @RequestMapping("/credom")
     @ResponseBody
     public Map<String, Object> createDomain(@Valid @RequestBody Map<String, Object> domainInfo) {
@@ -83,6 +85,7 @@ public class SysUserController {
         新建项目，信息包括：
         1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
     */
+
     @RequestMapping("/crepro")
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
