@@ -35,6 +35,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
+    //    新建系统用户
     @Override
     public Map<String, Object> newSysUser(SysUser sysUser) {
         //        保存并返回从数据库查询出的结果数据
@@ -58,26 +59,33 @@ public class SysUserServiceImpl implements SysUserService {
         return m;
     }
 
+    //    修改系统用户信息
     @Override
     public Map<String, Object> modSysUserInfo(SysUser sysUserInfo) {
         Map<String, Object> m = new HashMap<>();
         String sysUserName = sysUserInfo.getName();
         if (noExist(sysUserName)) {
             m.put("Msg", "不存在这个用户诶 @_@ ");
-        }else {
-            if(sysUserMapper.updateByName(sysUserInfo) != 1){
+        } else {
+            if (sysUserMapper.updateByName(sysUserInfo) != 1) {
                 m.put("Msg", "请检查输入数据格式");
-            }else {
-                m.put("Msg", "用户信息更新成功");
+            } else {
+                m.put("Msg", "用户信息更新成功 @^@ ");
             }
         }
         return m;
     }
 
+//    根据Id，返回相应的SysUser信息
+    @Override
+    public SysUser selectById(Long sysUserId) {
+        return sysUserMapper.selectById(sysUserId);
+    }
+
     //    检查该用户名是否已经存在于数据库中
     @Override
     public boolean noExist(String name) {
-//        如果用户名已存在，则返回false
+    //        如果用户名已存在，则返回false
         return (sysUserMapper.selectByName(name) == null);
     }
 

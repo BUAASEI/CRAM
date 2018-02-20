@@ -74,7 +74,7 @@ public class DefaultController {
             if (ulo != null) {
                 if (pword.equals(ulo.getPassword())) {
                     m.put("Msg", "Success!");
-                    m.put("UserID", ulo.getId());
+                    m.put("SysUserID", ulo.getId());
                 } else {
                     m.put("Msg", "用户名与密码不符");
                 }

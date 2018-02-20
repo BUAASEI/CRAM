@@ -57,9 +57,12 @@ public class SysUserController {
     public Map<String, Object> modifyInformation(@Valid @RequestBody Map<String, Object> sysUserInfo) {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
-        SysUser sysUser = new SysUser(jsonObject.getString("SysUserName"), jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
-
+        Long sysUserId = jsonObject.getLong("SysUserId");
+        String sysUserName = jsonObject.getString("SysUserName");
+        SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
+//        System.out.println(sysUser.getPhone());
         return sysUserService.modSysUserInfo(sysUser);
+
     }
 
     /*
@@ -100,7 +103,7 @@ public class SysUserController {
     */
     @RequestMapping("/proman")
     @ResponseBody
-    public List<Map<String, Object>> projectManagedInfo(@Valid @RequestBody Map<String, Object> projectManagedInfo){
+    public List<Map<String, Object>> projectManagedInfo(@Valid @RequestBody Map<String, Object> projectManagedInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectManagedInfo);
         Long sysUserId = jsonObject.getLong("SysUserId");
         return userProjectManService.manProject(sysUserId);
@@ -112,7 +115,7 @@ public class SysUserController {
     */
     @RequestMapping("/propar")
     @ResponseBody
-    public List<Map<String, Object>> projectParticipateInfo(@Valid @RequestBody Map<String, Object> projectParticipateInfo){
+    public List<Map<String, Object>> projectParticipateInfo(@Valid @RequestBody Map<String, Object> projectParticipateInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectParticipateInfo);
         Long sysUserId = jsonObject.getLong("SysUserId");
         return userProjectRoleService.parProject(sysUserId);
@@ -120,7 +123,7 @@ public class SysUserController {
 
     @RequestMapping("/proall")
     @ResponseBody
-    public List<Map<String, Object>> projectAllInfo(Model model){
+    public List<Map<String, Object>> projectAllInfo(Model model) {
         return projectService.allProject();
     }
 }

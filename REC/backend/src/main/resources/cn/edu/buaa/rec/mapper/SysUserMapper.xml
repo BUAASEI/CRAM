@@ -39,7 +39,7 @@
     <select id="selectById" parameterType="Long" resultMap="BaseResultMap">
         SELECT *
         FROM sys_user
-        WHERE NAME = ${id}
+        WHERE NAME = #{id}
         LIMIT 1
     </select>
 
@@ -60,17 +60,11 @@
     -->
 
     <!-- 通过name更新用户信息 -->
-    <update id="updateByName" parameterType="map">
+    <update id="updateByName" parameterType="cn.edu.buaa.rec.model.SysUser">
         UPDATE sys_user
-        SET id = #{sysUserInfo.id,jdbcType=BIGINT},
-        name = #{sysUserInfo.name,jdbcType=VARCHAR},
-        phone = #{sysUserInfo.phone,jdbcType=VARCHAR},
-        email = #{sysUserInfo.email,jdbcType=VARCHAR},
-        password = #{sysUserInfo.password,jdbcType=VARCHAR},
-        build_time = #{sysUserInfo.buildTime,jdbcType=TIMESTAMP},
-        update_time = #{sysUserInfo.updateTime,jdbcType=TIMESTAMP},
-        reg_status = #{sysUserInfo.regStatus,jdbcType=INTEGER},
-        reg_code = #{sysUserInfo.regCode,jdbcType=VARCHAR},
-        state = #{sysUserInfo.state,jdbcType=VARCHAR}
+        SET phone = #{phone,jdbcType=VARCHAR},
+            email = #{email,jdbcType=VARCHAR},
+            password = #{password,jdbcType=VARCHAR}
+        where id = #{id}
     </update>
 </mapper>
