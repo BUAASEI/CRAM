@@ -46,7 +46,7 @@ public class SysUserServiceImpl implements SysUserService {
             //            如果之前存在记录，那么id+1
             //            如果不存在，id设置为1
             Long userIdMax = sysUserMapper.selectMaxId();
-            sysUser.setId(userIdMax + 1);
+            sysUser.setId((userIdMax == null)? 1 : (userIdMax + 1));
 
             if (sysUserMapper.insert(sysUser) != 1) {
                 m.put("Msg", "请检查输入数据格式");
@@ -86,12 +86,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public boolean noExist(String name) {
     //        如果用户名已存在，则返回false
-        SysUser temp = sysUserMapper.selectByName(name);
-        if(temp == null){
-            return true;
-        }
-        return true;
-//        return (sysUserMapper.selectByName(name) == null);
+        System.out.println("noExist:" + name);
+//        总是不经意间出现 null指针
+        return (sysUserMapper.selectByName(name) == null);
     }
 
     //    通过用户名，查找用户相关信息

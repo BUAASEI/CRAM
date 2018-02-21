@@ -31,7 +31,7 @@
     <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
         SELECT *
         FROM sys_user
-        WHERE NAME = #{name,jdbcType=VARCHAR}
+        WHERE NAME = #{name}
         LIMIT 1
     </select>
 
@@ -45,8 +45,7 @@
 
     <!-- resultType="int" -->
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.SysUser">
-    insert into sys_user (id, name, phone, 
-      email, password)
+    insert into sys_user (id, name, phone, email, password)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
   </insert>

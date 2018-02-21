@@ -58,7 +58,6 @@ public class DomainServiceImpl implements DomainService {
         Domain temp = domainMapper.selectByName(name);
 
         return (temp == null);
-//        return (domainMapper.selectByName(name) != null) ? false : true;
     }
 
     //    通过名字，返回领域相关信息

@@ -5,6 +5,7 @@ import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.ProjectService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -19,30 +20,7 @@ import java.util.*;
 @Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService {
 
-    @Autowired
     private ProjectMapper projectMapper;
-    @Autowired
-    private SysUserMapper sysUserMapper;
-    @Autowired
-    private DomainMapper domainMapper;
-    @Autowired
-    private ScenarioMapper scenarioMapper;
-    @Autowired
-    private ScenarioRoleMapper scenarioRoleMapper;
-    @Autowired
-    private UsecaseMapper usecaseMapper;
-    @Autowired
-    private RoleMapper roleMapper;
-    @Autowired
-    private ScenarioDataMapper scenarioDataMapper;
-    @Autowired
-    private DataMapper dataMapper;
-    @Autowired
-    private UsecaseDataMapper usecaseDataMaper;
-    @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private SolutionMapper solutionMapper;
 
     @Autowired
     public ProjectMapper getProjectMapper() {
@@ -54,17 +32,139 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectMapper = projectMapper;
     }
 
+    private SysUserMapper sysUserMapper;
+
+    @Autowired
+    public SysUserMapper getSysUserMapper() {
+        return sysUserMapper;
+    }
+
+    @Autowired
+    public void setSysUserMapper(SysUserMapper sysUserMapper) {
+        this.sysUserMapper = sysUserMapper;
+    }
+
+    private DomainMapper domainMapper;
+
+    @Autowired
+    @Qualifier("domainMapper")
+    public DomainMapper getDomainMapper() {
+        return domainMapper;
+    }
+
+    @Autowired
+    @Qualifier("domainMapper")
+    public void setDomainMapper(DomainMapper domainMapper) {
+        this.domainMapper = domainMapper;
+    }
+
+    private ScenarioMapper scenarioMapper;
+    private ScenarioRoleMapper scenarioRoleMapper;
+    private UsecaseMapper usecaseMapper;
+    private RoleMapper roleMapper;
+    private ScenarioDataMapper scenarioDataMapper;
+    private DataMapper dataMapper;
+    private UsecaseDataMapper usecaseDataMaper;
+    private QuestionMapper questionMapper;
+    private SolutionMapper solutionMapper;
+    @Autowired
+    public ScenarioMapper getScenarioMapper() {
+        return scenarioMapper;
+    }
+
+    @Autowired
+    public void setScenarioMapper(ScenarioMapper scenarioMapper) {
+        this.scenarioMapper = scenarioMapper;
+    }
+
+    @Autowired
+    public ScenarioRoleMapper getScenarioRoleMapper() {
+        return scenarioRoleMapper;
+    }
+
+    @Autowired
+    public void setScenarioRoleMapper(ScenarioRoleMapper scenarioRoleMapper) {
+        this.scenarioRoleMapper = scenarioRoleMapper;
+    }
+
+    @Autowired
+    public UsecaseMapper getUsecaseMapper() {
+        return usecaseMapper;
+    }
+
+    @Autowired
+    public void setUsecaseMapper(UsecaseMapper usecaseMapper) {
+        this.usecaseMapper = usecaseMapper;
+    }
+
+    @Autowired
+    public RoleMapper getRoleMapper() {
+        return roleMapper;
+    }
+
+    @Autowired
+    public void setRoleMapper(RoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
+    }
+
+    @Autowired
+    public ScenarioDataMapper getScenarioDataMapper() {
+        return scenarioDataMapper;
+    }
+
+    @Autowired
+    public void setScenarioDataMapper(ScenarioDataMapper scenarioDataMapper) {
+        this.scenarioDataMapper = scenarioDataMapper;
+    }
+
+    @Autowired
+    public DataMapper getDataMapper() {
+        return dataMapper;
+    }
+
+    @Autowired
+    public void setDataMapper(DataMapper dataMapper) {
+        this.dataMapper = dataMapper;
+    }
+
+    @Autowired
+    public UsecaseDataMapper getUsecaseDataMaper() {
+        return usecaseDataMaper;
+    }
+
+    @Autowired
+    public void setUsecaseDataMaper(UsecaseDataMapper usecaseDataMaper) {
+        this.usecaseDataMaper = usecaseDataMaper;
+    }
+
+    @Autowired
+    public QuestionMapper getQuestionMapper() {
+        return questionMapper;
+    }
+
+    @Autowired
+    public void setQuestionMapper(QuestionMapper questionMapper) {
+        this.questionMapper = questionMapper;
+    }
+
+    @Autowired
+    public SolutionMapper getSolutionMapper() {
+        return solutionMapper;
+    }
+
+    @Autowired
+    public void setSolutionMapper(SolutionMapper solutionMapper) {
+        this.solutionMapper = solutionMapper;
+    }
+
     @Override
     public Map<String, Object> newProject(Project project) {
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
-        String sysUserName = project.getName();
-        if (noExist(sysUserName)) {
-            //            反馈用户id
-            //            如果之前存在记录，那么id+1
-            //            如果不存在，id设置为1
-            Long userIdMax = projectMapper.selectMaxId();
-            project.setId(userIdMax + 1);
+        String projectName = project.getName();
+        if (noExist(projectName)) {
+            Long projectIdMax = projectMapper.selectMaxId();
+            project.setId((projectIdMax == null) ? 1 : (projectIdMax + 1));
 
             if (projectMapper.insert(project) != 1) {
                 m.put("Msg", "请检查输入数据格式");
@@ -202,7 +302,7 @@ public class ProjectServiceImpl implements ProjectService {
         return m;
     }
 
-//    展示Project中涉及的Role的界面信息
+    //    展示Project中涉及的Role的界面信息
     @Override
     public String getRole(String projectName) {
         List<Role> roleList = roleMapper.selectByProjectId(projectMapper.selectByName(projectName).getId());
@@ -210,7 +310,7 @@ public class ProjectServiceImpl implements ProjectService {
         return JSON.toJSONString(roleList);
     }
 
-//    展示Project中涉及的Data的界面信息
+    //    展示Project中涉及的Data的界面信息
     @Override
     public String getData(String projectName) {
         List<Data> dataList = dataMapper.selectByProjectId(projectMapper.selectByName(projectName).getId());

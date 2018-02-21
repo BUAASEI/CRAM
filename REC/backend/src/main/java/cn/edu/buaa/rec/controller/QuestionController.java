@@ -45,7 +45,7 @@ public class QuestionController {
         question.setProjectId(1L);
         question.setDescription("hello world");
         question.setTitle("linux");
-        question.setType(1L);
+        question.setType(1);
         question.setUpdateTime(new Date());
         return questionService.newQuestion(question);
     }

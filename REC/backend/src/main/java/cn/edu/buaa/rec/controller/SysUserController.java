@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,20 +35,25 @@ public class SysUserController {
 
     //      这个注解是必须的吗？还是只需要get
     @Autowired
+    @Qualifier("SysUserService")
     private SysUserService sysUserService;
     @Autowired
+    @Qualifier("DomainService")
     private DomainService domainService;
     @Autowired
+    @Qualifier("ProjectService")
     private ProjectService projectService;
     @Autowired
+    @Qualifier("UserProjectManService")
     private UserProjectManService userProjectManService;
     @Autowired
+    @Qualifier("UserProjectRoleService")
     private UserProjectRoleService userProjectRoleService;
 
     @RequestMapping("/")
     public String rootPage(Model model) {
         //      暂时不清楚这里应该返回哪个页面
-        return "index.html";
+        return null;
     }
 
     //    修改用户信息
@@ -60,7 +66,7 @@ public class SysUserController {
         Long sysUserId = jsonObject.getLong("SysUserId");
         String sysUserName = jsonObject.getString("SysUserName");
         SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
-        //        System.out.println(sysUser.getPhone());
+                System.out.println(sysUser.getName());
         return sysUserService.modSysUserInfo(sysUser);
 
     }
@@ -84,13 +90,14 @@ public class SysUserController {
     /*
         新建项目，信息包括：
         1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
+        ProjectName\ProjectDescription\DomainId\CreatorId
     */
 
     @RequestMapping("/crepro")
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
-        Project project = new Project(jsonObject.getString("Name"), jsonObject.getString("Description"), jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
+        Project project = new Project(jsonObject.getString("ProjectName"), jsonObject.getString("ProjectDescription"), jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
 
         return projectService.newProject(project);
     }
