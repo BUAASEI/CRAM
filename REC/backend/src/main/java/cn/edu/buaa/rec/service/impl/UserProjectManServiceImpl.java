@@ -29,16 +29,6 @@ public class UserProjectManServiceImpl implements UserProjectManService {
     @Autowired
     private SysUserMapper sysUserMapper;
 
-    @Autowired
-    public void getUserProjectManMapper(UserProjectManMapper userProjectManMapper) {
-        this.userProjectManMapper = userProjectManMapper;
-    }
-
-    @Autowired
-    public UserProjectManMapper getUserProjectManMapper() {
-        return userProjectManMapper;
-    }
-
     @Override
     public List<Map<String, Object>> manProject(Long sysUserId) {
 

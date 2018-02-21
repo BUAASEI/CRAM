@@ -41,9 +41,7 @@ public class DefaultController {
 //    加上就返回字符串
 //    @ResponseBody
     public String index(Model model) {
-
         System.out.println("hello");
-
         return "index.html";
     }
 
@@ -79,7 +77,7 @@ public class DefaultController {
                     m.put("Msg", "用户名与密码不符");
                 }
             } else {
-                m.put("Msg", "用户名与密码不符");
+                m.put("Msg", "不存在该用户 @@");
             }
         } else {
             m.put("Msg", "用户名与密码不符");

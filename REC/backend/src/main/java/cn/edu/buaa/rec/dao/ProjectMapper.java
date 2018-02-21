@@ -19,5 +19,5 @@ public interface ProjectMapper {
 
     List<Project> selectAll();
 
-    Project selectById(Long projectId);
+    Project selectById(Long id);
 }

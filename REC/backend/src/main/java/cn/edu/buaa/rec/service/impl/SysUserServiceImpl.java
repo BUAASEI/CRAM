@@ -21,17 +21,8 @@ import java.util.Map;
 @Service("SysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
+    @Autowired
     private SysUserMapper sysUserMapper;
-
-    @Autowired
-    public SysUserMapper getSysUserMapper() {
-        return sysUserMapper;
-    }
-
-    @Autowired
-    public void setSysUserMapper(SysUserMapper sysUserMapper) {
-        this.sysUserMapper = sysUserMapper;
-    }
 
     private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
@@ -45,9 +36,8 @@ public class SysUserServiceImpl implements SysUserService {
             //            反馈用户id
             //            如果之前存在记录，那么id+1
             //            如果不存在，id设置为1
-            Long userIdMax = sysUserMapper.selectMaxId();
-            sysUser.setId((userIdMax == null)? 1 : (userIdMax + 1));
-
+            Long sysUserIdMax = sysUserMapper.selectMaxId();
+            sysUser.setId(( sysUserIdMax== null) ? 1 : sysUserIdMax+1);
             if (sysUserMapper.insert(sysUser) != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {
@@ -85,10 +75,7 @@ public class SysUserServiceImpl implements SysUserService {
     //    检查该用户名是否已经存在于数据库中
     @Override
     public boolean noExist(String name) {
-    //        如果用户名已存在，则返回false
-        System.out.println("noExist:" + name);
-//        总是不经意间出现 null指针
-        return (sysUserMapper.selectByName(name) == null);
+        return sysUserMapper.selectByName(name) == null;
     }
 
     //    通过用户名，查找用户相关信息

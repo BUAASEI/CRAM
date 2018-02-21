@@ -19,17 +19,8 @@ import java.util.Map;
 @Service("DomainService")
 public class DomainServiceImpl implements DomainService {
 
+    @Autowired
     private DomainMapper domainMapper;
-
-    @Autowired
-    public void setDomainMapper(DomainMapper domainMapper) {
-        this.domainMapper = domainMapper;
-    }
-
-    @Autowired
-    public DomainMapper getDomainMapper() {
-        return domainMapper;
-    }
 
     //    新建领域
     @Override
@@ -55,9 +46,7 @@ public class DomainServiceImpl implements DomainService {
     //    查询数据库中是否已经存在该领域
     @Override
     public boolean noExist(String name) {
-        Domain temp = domainMapper.selectByName(name);
-
-        return (temp == null);
+        return (domainMapper.selectByName(name) == null);
     }
 
     //    通过名字，返回领域相关信息

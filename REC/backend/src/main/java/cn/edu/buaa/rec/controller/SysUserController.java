@@ -57,7 +57,7 @@ public class SysUserController {
     }
 
     //    修改用户信息
-    //    暂时不做
+    //    目前只根据id进行修改，没有验证用户名
     @RequestMapping("/modinfo")
     @ResponseBody
     public Map<String, Object> modifyInformation(@Valid @RequestBody Map<String, Object> sysUserInfo) {
@@ -74,9 +74,8 @@ public class SysUserController {
     /*
         新建领域，信息包括：
         1）领域名称; 2）领域描述; 3）创建者id
-        DomainName\DomainDescription\CreatorId
+        Name\Description\CreatorId
     */
-//    没调通
     @RequestMapping("/credom")
     @ResponseBody
     public Map<String, Object> createDomain(@Valid @RequestBody Map<String, Object> domainInfo) {
@@ -90,14 +89,13 @@ public class SysUserController {
     /*
         新建项目，信息包括：
         1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
-        ProjectName\ProjectDescription\DomainId\CreatorId
+        Name\Description\DomainId\CreatorId
     */
-
     @RequestMapping("/crepro")
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
-        Project project = new Project(jsonObject.getString("ProjectName"), jsonObject.getString("ProjectDescription"), jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
+        Project project = new Project(jsonObject.getString("Name"), jsonObject.getString("Description"), jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
 
         return projectService.newProject(project);
     }
@@ -108,8 +106,10 @@ public class SysUserController {
     */
 
     /*
-        查看管理的项目，展示信息包括：
+        查看管理的项目，传入参数：SysUserId
+        展示信息包括：
         1）项目名称； 2）项目创建人名称；
+
     */
     @RequestMapping("/proman")
     @ResponseBody

@@ -36,7 +36,7 @@
     </select>
 
     <!-- List<Project> selectAll(); -->
-    <select id="selectById" resultMap="BaseResultMap">
+    <select id="selectAll" resultMap="BaseResultMap">
         SELECT *
         FROM project
     </select>

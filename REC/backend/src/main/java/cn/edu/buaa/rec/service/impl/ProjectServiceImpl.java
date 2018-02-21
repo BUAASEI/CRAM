@@ -20,142 +20,30 @@ import java.util.*;
 @Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService {
 
+    @Autowired
     private ProjectMapper projectMapper;
-
     @Autowired
-    public ProjectMapper getProjectMapper() {
-        return projectMapper;
-    }
-
-    @Autowired
-    public void setProjectMapper(ProjectMapper projectMapper) {
-        this.projectMapper = projectMapper;
-    }
-
     private SysUserMapper sysUserMapper;
-
     @Autowired
-    public SysUserMapper getSysUserMapper() {
-        return sysUserMapper;
-    }
-
-    @Autowired
-    public void setSysUserMapper(SysUserMapper sysUserMapper) {
-        this.sysUserMapper = sysUserMapper;
-    }
-
     private DomainMapper domainMapper;
-
     @Autowired
-    @Qualifier("domainMapper")
-    public DomainMapper getDomainMapper() {
-        return domainMapper;
-    }
-
-    @Autowired
-    @Qualifier("domainMapper")
-    public void setDomainMapper(DomainMapper domainMapper) {
-        this.domainMapper = domainMapper;
-    }
-
     private ScenarioMapper scenarioMapper;
+    @Autowired
     private ScenarioRoleMapper scenarioRoleMapper;
+    @Autowired
     private UsecaseMapper usecaseMapper;
+    @Autowired
     private RoleMapper roleMapper;
+    @Autowired
     private ScenarioDataMapper scenarioDataMapper;
+    @Autowired
     private DataMapper dataMapper;
+    @Autowired
     private UsecaseDataMapper usecaseDataMaper;
+    @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
     private SolutionMapper solutionMapper;
-    @Autowired
-    public ScenarioMapper getScenarioMapper() {
-        return scenarioMapper;
-    }
-
-    @Autowired
-    public void setScenarioMapper(ScenarioMapper scenarioMapper) {
-        this.scenarioMapper = scenarioMapper;
-    }
-
-    @Autowired
-    public ScenarioRoleMapper getScenarioRoleMapper() {
-        return scenarioRoleMapper;
-    }
-
-    @Autowired
-    public void setScenarioRoleMapper(ScenarioRoleMapper scenarioRoleMapper) {
-        this.scenarioRoleMapper = scenarioRoleMapper;
-    }
-
-    @Autowired
-    public UsecaseMapper getUsecaseMapper() {
-        return usecaseMapper;
-    }
-
-    @Autowired
-    public void setUsecaseMapper(UsecaseMapper usecaseMapper) {
-        this.usecaseMapper = usecaseMapper;
-    }
-
-    @Autowired
-    public RoleMapper getRoleMapper() {
-        return roleMapper;
-    }
-
-    @Autowired
-    public void setRoleMapper(RoleMapper roleMapper) {
-        this.roleMapper = roleMapper;
-    }
-
-    @Autowired
-    public ScenarioDataMapper getScenarioDataMapper() {
-        return scenarioDataMapper;
-    }
-
-    @Autowired
-    public void setScenarioDataMapper(ScenarioDataMapper scenarioDataMapper) {
-        this.scenarioDataMapper = scenarioDataMapper;
-    }
-
-    @Autowired
-    public DataMapper getDataMapper() {
-        return dataMapper;
-    }
-
-    @Autowired
-    public void setDataMapper(DataMapper dataMapper) {
-        this.dataMapper = dataMapper;
-    }
-
-    @Autowired
-    public UsecaseDataMapper getUsecaseDataMaper() {
-        return usecaseDataMaper;
-    }
-
-    @Autowired
-    public void setUsecaseDataMaper(UsecaseDataMapper usecaseDataMaper) {
-        this.usecaseDataMaper = usecaseDataMaper;
-    }
-
-    @Autowired
-    public QuestionMapper getQuestionMapper() {
-        return questionMapper;
-    }
-
-    @Autowired
-    public void setQuestionMapper(QuestionMapper questionMapper) {
-        this.questionMapper = questionMapper;
-    }
-
-    @Autowired
-    public SolutionMapper getSolutionMapper() {
-        return solutionMapper;
-    }
-
-    @Autowired
-    public void setSolutionMapper(SolutionMapper solutionMapper) {
-        this.solutionMapper = solutionMapper;
-    }
 
     @Override
     public Map<String, Object> newProject(Project project) {
@@ -201,7 +89,6 @@ public class ProjectServiceImpl implements ProjectService {
 
             m.add(temp);
         }
-
         return m;
     }
 
