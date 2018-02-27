@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopMirrorSysUser name="苏若"></TopMirrorSysUser>
+    <TopMirrorSysUser name="苏若" @showIbox="showIbox"></TopMirrorSysUser>
     <div class="context">
       <div class="context-nav">
         <NavMirrorSysUser target="st"></NavMirrorSysUser>
@@ -21,9 +21,13 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
+      </div>
+    </div>
+    <div  v-if="show" class="box">
+      <div class="subWindow" v-if="showThree">
+        <InfoBox @closeIbox="close"></InfoBox>
       </div>
     </div>
   </div>
@@ -34,6 +38,7 @@
   import TopMirrorSysUser from '@/components/TopMirrorSysUser'
   import NavMirrorSysUser from '@/components/NavMirrorSysUser'
   import {Button} from 'iview'
+  import InfoBox from '@/components/InfoBox'
   export default{
     data () {
       return {
@@ -42,19 +47,37 @@
             id: 1,
             name: '北航学生选课系统'
           },
-        ]
+        ],
+        show: false,
+        showThree: false
       }
     },
     components: {
       TopMirrorSysUser,
       NavMirrorSysUser,
-      Button
+      Button,
+      InfoBox
+    },
+    mounted () {
+      this.close()
     },
     methods: {
       view: function (id) {
         // do something
         // 路由跳转
         this.$router.push({ name: 'project', params: {type: 'view'} })
+      },
+      showIbox (idx) {
+        this.show = true
+        if (idx === 3) {
+          this.showThree = true
+        }
+      },
+      close (idx) {
+        this.show = false
+        if (idx === 3) {
+          this.showThree = false
+        }
       }
     }
   }
@@ -114,5 +137,13 @@
   .col-operate>span {
     color: dodgerblue;
     cursor: pointer;
+  }
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 1000px;
+    height: 700px;
+    background-color: rgba(0,0,0,0.6);
   }
 </style>
