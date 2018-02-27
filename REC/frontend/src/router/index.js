@@ -7,6 +7,11 @@ import ProManage from '@/Page/proManage'
 import ProParticipate from '@/Page/proParticipate'
 import ProAll from '@/Page/proAll'
 import Project from '@/Page/project'
+import Role from '@/Page/role'
+import Data from '@/Page/data'
+import Problem from '@/Page/problem'
+import Solution from '@/Page/solution'
+import Historys from '@/Page/historys'
 import Scenario from '@/Page/scenario'
 import Activity from '@/Page/activity'
 import Usecase from '@/Page/usecase'
@@ -50,6 +55,31 @@ export default new Router({
       path: '/project/home',
       name: 'project',
       component: Project
+    },
+    {
+      path: '/project/role',
+      name: 'role',
+      component: Role
+    },
+    {
+      path: '/project/data',
+      name: 'data',
+      component: Data
+    },
+    {
+      path: '/project/problem',
+      name: 'problem',
+      component: Problem
+    },
+    {
+      path: '/project/solution',
+      name: 'solution',
+      component: Solution
+    },
+    {
+      path: '/project/historys',
+      name: 'historys',
+      component: Historys
     },
     {
       path: '/project/scenario',

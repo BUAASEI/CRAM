@@ -13,7 +13,12 @@
           <span>领域：{{ domain }}</span>
           <span>创建时间：{{ dates }}</span>
           <span>创建人：{{ creator }}</span>
-          <span class="focus-blue">角色申请</span>
+          <span>角色：{{ rolename }}</span>
+          <span class="focus-blue">切换角色
+            <select v-model="selected">
+              <option v-for="item in other_roles" v-bind:value="item">{{item}}</option>
+            </select>
+          </span>
           <span class="focus-blue">管理员申请</span>
           <router-link to="/sysuser">个人中心</router-link>
         </div>
@@ -86,6 +91,14 @@ export default{
     creator: {
       type: String,
       default: 'suruo'
+    },
+    rolename: {
+      type: String,
+      default: '学生'
+    },
+    other_roles: {
+      type: Array,
+      default: ['学生','老师','管理员']
     }
   },
   components: {

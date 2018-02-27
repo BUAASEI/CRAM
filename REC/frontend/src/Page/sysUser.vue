@@ -27,13 +27,16 @@
     </div>
     <div  v-if="show" class="box">
       <div class="subWindow" v-if="showThree">
-        <InfoBox @closeIbox="close"></InfoBox>
+        <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
       </div>
       <div class="subWindow2" v-if="showTwo">
-        <InfoBox_2 @closeIbox="close"></InfoBox_2>
+        <InfoBoxNewDomain @closeIbox="close"></InfoBoxNewDomain>
       </div>
       <div class="subWindow1" v-if="showOne">
-        <InfoBox_1 @closeIbox="close"></InfoBox_1>
+        <InfoBoxUserInfo @closeIbox="close"></InfoBoxUserInfo>
+      </div>
+      <div class="subWindow1" v-if="showFour">
+        <InfoBoxMassage @closeIbox="close"></InfoBoxMassage>
       </div>
     </div>
   </div>
@@ -44,9 +47,10 @@
   import TopMirrorSysUser from '@/components/TopMirrorSysUser'
   import NavMirrorSysUser from '@/components/NavMirrorSysUser'
   import {Button} from 'iview'
-  import InfoBox from '@/components/InfoBox'
-  import InfoBox_2 from '@/components/InfoBox_2'
-  import InfoBox_1 from '@/components/InfoBox_1'
+  import InfoBoxNewProject from '@/components/InfoBoxNewProject'
+  import InfoBoxNewDomain from '@/components/InfoBoxNewDomain'
+  import InfoBoxUserInfo from '@/components/InfoBoxUserInfo'
+  import InfoBoxMassage from '@/components/InfoBoxMassage'
   export default{
     data () {
       return {
@@ -64,9 +68,10 @@
       TopMirrorSysUser,
       NavMirrorSysUser,
       Button,
-      InfoBox,
-      InfoBox_2,
-      InfoBox_1
+      InfoBoxNewProject,
+      InfoBoxNewDomain,
+      InfoBoxUserInfo,
+      InfoBoxMassage
     },
     mounted () {
       this.close()
@@ -88,6 +93,9 @@
         if (idx === 1) {
           this.showOne = true
         }
+        if (idx === 4) {
+          this.showFour = true
+        }
       },
       close (idx) {
         this.show = false
@@ -99,6 +107,9 @@
         }
         if (idx === 1) {
           this.showOne = false
+        }
+        if (idx === 4) {
+          this.showFour = false
         }
       }
     }
