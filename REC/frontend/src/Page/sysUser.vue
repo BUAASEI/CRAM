@@ -29,6 +29,12 @@
       <div class="subWindow" v-if="showThree">
         <InfoBox @closeIbox="close"></InfoBox>
       </div>
+      <div class="subWindow2" v-if="showTwo">
+        <InfoBox_2 @closeIbox="close"></InfoBox_2>
+      </div>
+      <div class="subWindow1" v-if="showOne">
+        <InfoBox_1 @closeIbox="close"></InfoBox_1>
+      </div>
     </div>
   </div>
 
@@ -39,6 +45,8 @@
   import NavMirrorSysUser from '@/components/NavMirrorSysUser'
   import {Button} from 'iview'
   import InfoBox from '@/components/InfoBox'
+  import InfoBox_2 from '@/components/InfoBox_2'
+  import InfoBox_1 from '@/components/InfoBox_1'
   export default{
     data () {
       return {
@@ -56,7 +64,9 @@
       TopMirrorSysUser,
       NavMirrorSysUser,
       Button,
-      InfoBox
+      InfoBox,
+      InfoBox_2,
+      InfoBox_1
     },
     mounted () {
       this.close()
@@ -72,11 +82,23 @@
         if (idx === 3) {
           this.showThree = true
         }
+        if (idx === 2) {
+          this.showTwo = true
+        }
+        if (idx === 1) {
+          this.showOne = true
+        }
       },
       close (idx) {
         this.show = false
         if (idx === 3) {
           this.showThree = false
+        }
+        if (idx === 2) {
+          this.showTwo = false
+        }
+        if (idx === 1) {
+          this.showOne = false
         }
       }
     }
