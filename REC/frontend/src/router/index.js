@@ -10,6 +10,7 @@ import Project from '@/Page/project'
 import Scenario from '@/Page/scenario'
 import Activity from '@/Page/activity'
 import Usecase from '@/Page/usecase'
+import Evolution from '@/Page/evolution'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ export default new Router({
       path: '/project/usecase',
       name: 'usecase',
       component: Usecase
+    },
+    {
+      path: '/evolution',
+      name: 'evolution',
+      component: Evolution
     }
   ]
 })

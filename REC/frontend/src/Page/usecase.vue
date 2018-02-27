@@ -3,7 +3,9 @@
     <TopMirror kind="用例" :name="name"></TopMirror>
     <div class="top-btn">
       <div>
-        <button>演化历史</button>
+        <button>
+          <router-link to="/evolution">演化历史</router-link>
+        </button>
         <button>演化</button>
       </div>
       <div>
