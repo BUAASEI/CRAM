@@ -11,60 +11,23 @@
         <button>取消</button>
       </div>
     </div>
-    <div class="box1">
-      <div class="ylevel">
-        <label for="name">业务活动名称:</label>
-        <input class="xlevel" id="name">
+    <div class="box1 scroll">
+      <div class="rucm-head">Use Case Specitication</div>
+      <div class="flow rucm-basic-info">
+        <Table :colums="colums1" :datas="datas1"></Table>
       </div>
-      <div class="ylevel">
-        <label for="prior">优先级:</label>
-        <select class="xlevel" id="prior">
-          <option>高</option>
-          <option>低</option>
-        </select>
+      <div class="flow rucm-basicflow">
+        <SpecialTable title="Basic Flow" tag="Step" :colums="colums2" :datas="datas2"></SpecialTable>
       </div>
-      <div class="ylevel">
-        <label for="precon">前提条件:</label>
-        <input  class="xlevel" id="precon">
+      <div class=" flow rucm-boundedflow"v-for = "(item,index) in specData1">
+        <SpecialTable @add="add" @del="del" title="Bounded Alternative Flow" tag="RFS"  :pos="index" :colums="item.colum" :datas="item.data"></SpecialTable>
       </div>
-      <div class="ylevel">
-        <label for="postcon">结束条件:</label>
-        <input class="xlevel"  id="postcon">
+      <div class="flow rucm-specificflow" v-for = "(item,index) in specData2">
+        <SpecialTable @add="add" @del="del" title="Specific Alternative Flow" tag="RFS" :pos="index" :colums="item.colum" :datas="item.data"></SpecialTable>
       </div>
-      <div class="ylevel">
-        <label for="data">相关数据:</label>
-        <input class="xlevel" id="data">
+      <div class=" flow rucm-Globalflow" v-for = "(item,index) in specData3">
+        <SpecialTable @add="add" @del="del" title="Global Alternative Flow" tag="RFS"  :pos="index" :colums="item.colum" :datas="item.data"></SpecialTable>
       </div>
-      <div class="ylevel">
-        <label for="discribe">描述:</label>
-        <textarea class="xlevel" id="discribe"></textarea>
-      </div>
-    </div>
-    <div class="box2">
-      <div class="up"><span>交互序列：</span></div>
-      <div class="box2-bottom">
-        <div class="box2-head">
-          <div class="col-order">顺序</div>
-          <div class="col-role">{{ name }}</div>
-          <div class="col-system">系统</div>
-          <div class="col-operate"></div>
-        </div>
-        <div class="box2-body">
-          <div class="box2-context" v-for="( item, index ) in infos" :key="index">
-            <div class="col-order">{{ index }}</div>
-            <div class="col-role">
-              <input v-model="item.role">
-            </div>
-            <div class="col-system">
-              <input v-model="item.system">
-            </div>
-            <div class="col-operate">
-              <span  class="focus-color" @click="del(index)">删除</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div><span class="focus-color" @click="add()">+新增</span></div>
     </div>
     <div class="box3">
       <div class="up"><span>相关业务活动：</span></div>
@@ -107,21 +70,21 @@
   }
   .box1 {
     position: relative;
-    margin: 20px 0;
+    width: 50%;
+    min-height: 200px;
+    max-height: 900px;
+    margin: 20px auto;
     text-align: left;
+    overflow: auto;
   }
-  .ylevel {
-    padding: 10px;
+  .rucm-head {
+    height: 30px;
+    text-align: center;
   }
-  .ylevel label {
-    color: gray;
+  .flow {
+    margin: 20px 0;
   }
-  .xlevel {
-    position: absolute;
-    left: 100px;
-    width: 500px;
-  }
-  .box2, .box3, .box4 {
+  .box3, .box4 {
     padding: 20px 0;
     text-align: left;
     border-bottom: 1px solid lightgray;
@@ -160,6 +123,8 @@
 </style>
 <script>
 import TopMirror from '@/components/TopMirror'
+import Table from '@/components/Table'
+import SpecialTable from '@/components/SpecialTable'
 import {Button} from 'iview'
 export default{
   data () {
@@ -171,15 +136,38 @@ export default{
           role: '查找某些数据',
           system: '展示该课程详细信息'
         }
+      ],
+      colums1: ['Use Case Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization'],
+      datas1: [],
+      colums2: [1],
+      datas2: [''],
+      specData1: [
+        {
+          colum: [1],
+          data: []
+        }
+      ],
+      specData2: [
+        {
+          colum: [1],
+          data: []
+        }
+      ],
+      specData3: [
+        {
+          colum: [1],
+          data: []
+        }
       ]
     }
   },
   components: {
     TopMirror,
-    Button
+    Button,
+    Table,
+    SpecialTable
   },
   beforeMount: function () {
-    console.log(this.type)
     this.type = this.$route.params.type
     this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
   },
@@ -188,8 +176,23 @@ export default{
       // do something
       this.infos.splice(index, 1)
     },
-    add: function () {
-      this.infos.push({})
+    add (obj) {
+      if (obj.title === 'Bounded Alternative Flow') {
+        this.specData1.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+      } else if (obj.title === 'Specific Alternative Flow') {
+        this.specData2.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+      } else {
+        this.specData3.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+      }
+    },
+    del (obj) {
+      if (obj.title === 'Bounded Alternative Flow') {
+        this.specData1.splice(obj.pos, 1)
+      } else if (obj.title === 'Specific Alternative Flow') {
+        this.specData2.splice(obj.pos, 1)
+      } else {
+        this.specData3.splice(obj.pos, 1)
+      }
     }
   }
 }
