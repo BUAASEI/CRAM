@@ -9,4 +9,5 @@ package cn.edu.buaa.rec.service;
  */
 
 public interface EvolutionService {
+
 }
