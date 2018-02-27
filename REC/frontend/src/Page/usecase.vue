@@ -70,7 +70,7 @@
   }
   .box1 {
     position: relative;
-    width: 50%;
+    width: 80%;
     min-height: 200px;
     max-height: 900px;
     margin: 20px auto;
