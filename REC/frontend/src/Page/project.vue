@@ -189,6 +189,12 @@ export default{
           name: '选课结束',
           roles: '学生，开课老师，计算中心',
           datas: '学生选课结果'
+        },
+        {
+          id: 3,
+          name: '选课结束',
+          roles: '学生，开课老师，计算中心',
+          datas: '学生选课结果'
         }
       ]
       let a2 = [
