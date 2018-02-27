@@ -1,27 +1,27 @@
 <template>
   <div class="s-up" clearfix>
     <p class="gap">
-      <span>用户名:&nbsp</span>
+      <span class="text-left">用户名:&nbsp</span>
       <input @blur="checkUser" type="text" placeholder="请输入用户名" v-model="data.name"/>
       <span class="error-msg">{{msg0}}</span>
     </p>
     <p class="gap">
-      <span>手机号:&nbsp</span>
+      <span class="text-left">手机号:&nbsp</span>
       <input @blur="checkPhone" type="text" placeholder="请输入有效的手机号" v-model="data.phone"/>
       <span class="error-msg">{{msg1}}</span>
     </p>
     <p class="gap">
-      <span>邮箱:&nbsp</span>
+      <span class="text-left">邮箱:&nbsp</span>
       <input @blur="checkEmail" type="text" placeholder="请输入有效的邮箱地址" v-model="data.email"/>
       <span class="error-msg">{{msg2}}</span>
     </p>
     <p class="gap">
-      <span>密码:&nbsp&nbsp</span>
+      <span class="text-left">密码:&nbsp&nbsp</span>
       <input @blur="checkPsd" type="password" placeholder="以字母开头，长度在6~31之间" v-model="data.psd"/>
       <span class="error-msg">{{msg3}}</span>
     </p>
     <p class="gap">
-      <span>确认密码:</span>
+      <span class="text-left">确认密码:</span>
       <input @blur="matchPsd" type="password" placeholder="再次输入密码" v-model="confirm"/>
       <span class="error-msg">{{msg4}}</span>
     </p>
@@ -63,7 +63,16 @@
     padding: 20px;
     border:1px solid dodgerblue;
   }
-
+  .text-left {
+    position: absolute;
+    left: 0;
+    line-height: 30px;
+  }
+  .error-msg {
+    position: absolute;
+    right: 0;
+    line-height: 30px;
+  }
 </style>
 
 <script>

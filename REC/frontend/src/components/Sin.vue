@@ -10,12 +10,12 @@ Description: 登录页
   <div class="s-in">
     <p v-show="msg!=''">{{msg0}}</p>
     <p class="gap">
-      <span>用户名:&nbsp</span>
+      <span class="text-left">用户名:&nbsp</span>
       <input v-model="user" type="text"/>
       <span class="error-msg">{{msg1}}</span>
     </p>
     <p class="gap">
-      <span>密码:&nbsp&nbsp</span>
+      <span class="text-left">密码:&nbsp&nbsp</span>
       <input @keyup.enter="gLogin" v-model="psd" type="password"/>
       <span class="error-msg">{{msg2}}</span>
     </p>
@@ -57,6 +57,11 @@ Description: 登录页
   }
   .find-psd{
     cursor: pointer;
+  }
+  .text-left {
+    position: absolute;
+    left: 0;
+    line-height: 30px;
   }
 </style>
 
