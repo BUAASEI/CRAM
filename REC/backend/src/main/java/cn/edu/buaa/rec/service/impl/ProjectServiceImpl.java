@@ -20,6 +20,7 @@ import java.util.*;
 @Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService {
 
+
     @Autowired
     private ProjectMapper projectMapper;
     @Autowired
@@ -28,14 +29,10 @@ public class ProjectServiceImpl implements ProjectService {
     private DomainMapper domainMapper;
     @Autowired
     private ScenarioMapper scenarioMapper;
-    @Autowired
-    private ScenarioRoleMapper scenarioRoleMapper;
-    @Autowired
+        @Autowired
     private UsecaseMapper usecaseMapper;
     @Autowired
     private RoleMapper roleMapper;
-    @Autowired
-    private ScenarioDataMapper scenarioDataMapper;
     @Autowired
     private DataMapper dataMapper;
     @Autowired
@@ -46,7 +43,8 @@ public class ProjectServiceImpl implements ProjectService {
     private SolutionMapper solutionMapper;
 
     @Override
-    public Map<String, Object> newProject(Project project) {
+    public Map<String, Object> newProject(Project project, Long domianId) {
+//        需要重新写
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
         String projectName = project.getName();
@@ -96,11 +94,14 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectInfo(String projectName) {
         Map<String, Object> m = new HashMap<>();
 
-        Project project = projectMapper.selectByName(projectName);
+        Project project = getProject(projectName);
 
-        m.put("DomainName", domainMapper.selectById(project.getDomainId()).getName());
+//        项目和领域的对应 关系变了 重新写
+//        m.put("DomainName", domainMapper.selectById(project.getDomainId()).getName());
         m.put("BuildTime", project.getBuildTime());
-        m.put("CreatorName", sysUserMapper.selectById(project.getCreatorId()).getName());
+        SysUser sysUser = sysUserMapper.selectById(project.getCreatorId());
+        System.out.println(sysUser);
+        m.put("CreatorName", sysUser.getName());
         return m;
     }
 
@@ -119,100 +120,120 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //    索引该项目包含的所有业务场景 & 用况场景
-    @Override
-    public List<Map<String, Object>> getScenes(String projectName) {
-
-        List<Map<String, Object>> m = new LinkedList<>();
-
-        Long projectId = projectMapper.selectByName(projectName).getId();
-        List<Scenario> scenarioList = scenarioMapper.selectByProjectId(projectId);
-        List<Usecase> usecaseList = usecaseMapper.selectByProjectId(projectId);
-
-//        索引业务场景数据
-        Iterator<Scenario> scenarioIterator = scenarioList.iterator();
-        while (scenarioIterator.hasNext()) {
-            //            项目中涉及的每一条业务场景数据
-            Scenario scenario = scenarioIterator.next();
-            //            存储返回List中的Map
-            Map<String, Object> temp = new HashMap<>();
-            temp.put("ScenarioName", scenario.getName());
-            Long scenarioId = scenarioMapper.selectByName(scenario.getName()).getId();
-
-            //            索引业务场景中涉及的Role
-            //            一个业务场景可能对应多个Role
-            Map<String, Object> relatedRoleMap = new HashMap<>();
-            List<ScenarioRole> scenarioRoleList = scenarioRoleMapper.selectByScenarioId(scenarioId);
-            for (ScenarioRole scenarioRole : scenarioRoleList) {
-                Long roleId = scenarioRole.getRoleId();
-                //                将每一个Role的id和name，都放到map中
-                relatedRoleMap.put(roleId + "", roleMapper.selectById(roleId).getName());
-            }
-            temp.put("ScenarioRelatedRole", relatedRoleMap);
-
-            //            索引业务场景中涉及的Data
-            //            一个业务场景中，可能涉及多个Data
-            Map<String, Object> relateDataMap = new HashMap<>();
-            List<ScenarioData> scenarioDataList = scenarioDataMapper.selectByScenarioId(scenarioId);
-            for (ScenarioData scenarioData : scenarioDataList) {
-                Long dataId = scenarioData.getDataId();
-                relateDataMap.put(dataId + "", dataMapper.selectById(dataId).getName());
-            }
-            temp.put("ScenarioRelatedData", relateDataMap);
-        }
-
-//        索引用例场景数据
-        Iterator<Usecase> usecaseIterator = usecaseList.iterator();
-        while (usecaseIterator.hasNext()) {
-            //            项目中涉及的每一条用例数据
-            Usecase usecase = usecaseIterator.next();
-
-            //            存储返回List中的Map
-            Map<String, Object> temp = new HashMap<>();
-            temp.put("UsecaseName", usecase.getName());
-            Long usecaseId = usecaseMapper.selectByName(usecase.getName()).getId();
-
-            //            索引用例中涉及的Role
-            //            一个用例只对应一个Role
-            temp.put("UsecaseRelatedRole", roleMapper.selectById(usecase.getRoleId()));
-
-            //            索引业务场景中涉及的Data
-            //            一个业务场景中，可能涉及多个Data
-            Map<String, Object> relateDataMap = new HashMap<>();
-            List<UsecaseData> usecaseDataList = usecaseDataMaper.selectByUsecaseId(usecaseId);
-            for (UsecaseData usecaseData : usecaseDataList) {
-                Long dataId = usecaseData.getDataId();
-                relateDataMap.put(dataId + "", dataMapper.selectById(dataId).getName());
-            }
-            temp.put("UsecaseRelatedData", relateDataMap);
-        }
-
-        return m;
-    }
+    //  关系改变，重新写
+//    @Override
+//    public List<Map<String, Object>> getScenes(String projectName) {
+//
+//        List<Map<String, Object>> m = new LinkedList<>();
+//
+//        Long projectId = projectMapper.selectByName(projectName).getId();
+//        List<Scenario> scenarioList = scenarioMapper.selectByProjectId(projectId);
+//        List<Usecase> usecaseList = usecaseMapper.selectByProjectId(projectId);
+//
+////        索引业务场景数据
+//        Iterator<Scenario> scenarioIterator = scenarioList.iterator();
+//        while (scenarioIterator.hasNext()) {
+//            //            项目中涉及的每一条业务场景数据
+//            Scenario scenario = scenarioIterator.next();
+//            //            存储返回List中的Map
+//            Map<String, Object> temp = new HashMap<>();
+//            temp.put("ScenarioName", scenario.getName());
+//            Long scenarioId = scenarioMapper.selectByName(scenario.getName()).getId();
+//
+//            //            索引业务场景中涉及的Role
+//            //            一个业务场景可能对应多个Role
+//            Map<String, Object> relatedRoleMap = new HashMap<>();
+//            List<ScenarioRole> scenarioRoleList = scenarioRoleMapper.selectByScenarioId(scenarioId);
+//            for (ScenarioRole scenarioRole : scenarioRoleList) {
+//                Long roleId = scenarioRole.getRoleId();
+//                //                将每一个Role的id和name，都放到map中
+//                relatedRoleMap.put(roleId + "", roleMapper.selectById(roleId).getName());
+//            }
+//            temp.put("ScenarioRelatedRole", relatedRoleMap);
+//
+//            //            索引业务场景中涉及的Data
+//            //            一个业务场景中，可能涉及多个Data
+//            Map<String, Object> relateDataMap = new HashMap<>();
+//            List<ScenarioData> scenarioDataList = scenarioDataMapper.selectByScenarioId(scenarioId);
+//            for (ScenarioData scenarioData : scenarioDataList) {
+//                Long dataId = scenarioData.getDataId();
+//                relateDataMap.put(dataId + "", dataMapper.selectById(dataId).getName());
+//            }
+//            temp.put("ScenarioRelatedData", relateDataMap);
+//        }
+//
+////        用例和角色由一对多编程多对多，新建中间表，重新写
+//////        索引用例场景数据
+////        Iterator<Usecase> usecaseIterator = usecaseList.iterator();
+////        while (usecaseIterator.hasNext()) {
+////            //            项目中涉及的每一条用例数据
+////            Usecase usecase = usecaseIterator.next();
+////
+////            //            存储返回List中的Map
+////            Map<String, Object> temp = new HashMap<>();
+////            temp.put("UsecaseName", usecase.getName());
+////            Long usecaseId = usecaseMapper.selectByName(usecase.getName()).getId();
+////
+////            //            索引用例中涉及的Role
+////            //            一个用例只对应一个Role
+////            temp.put("UsecaseRelatedRole", roleMapper.selectById(usecase.getRoleId()));
+////
+////            //            索引业务场景中涉及的Data
+////            //            一个业务场景中，可能涉及多个Data
+////            Map<String, Object> relateDataMap = new HashMap<>();
+////            List<UsecaseData> usecaseDataList = usecaseDataMaper.selectByUsecaseId(usecaseId);
+////            for (UsecaseData usecaseData : usecaseDataList) {
+////                Long dataId = usecaseData.getDataId();
+////                relateDataMap.put(dataId + "", dataMapper.selectById(dataId).getName());
+////            }
+////            temp.put("UsecaseRelatedData", relateDataMap);
+////        }
+//
+//        return m;
+//    }
 
     //    展示Project中涉及的Role的界面信息
     @Override
     public String getRole(String projectName) {
-        List<Role> roleList = roleMapper.selectByProjectId(projectMapper.selectByName(projectName).getId());
-
+        List<Role> roleList = roleMapper.selectByProjectId(getProject(projectName).getId());
         return JSON.toJSONString(roleList);
     }
 
     //    展示Project中涉及的Data的界面信息
     @Override
     public String getData(String projectName) {
-        List<Data> dataList = dataMapper.selectByProjectId(projectMapper.selectByName(projectName).getId());
+        List<Data> dataList = dataMapper.selectByProjectId(getProject(projectName).getId());
         return JSON.toJSONString(dataList);
     }
 
     @Override
     public String getQuestion(String projectName) {
-        List<Question> questionList = questionMapper.selectByProjectId(projectMapper.selectByName(projectName).getId());
+        List<Question> questionList = questionMapper.selectByProjectId(getProject(projectName).getId());
         return JSON.toJSONString(questionList);
     }
 
     @Override
     public String getSolution(String projectName) {
-        List<Solution> solutionList = solutionMapper.selectByProjectId(projectMapper.selectByName(projectName).getId());
+
+        List<Solution> solutionList = solutionMapper.selectByProjectId(getProject(projectName).getId());
         return JSON.toJSONString(solutionList);
+    }
+
+    private Project getProject(String name){
+        System.out.println("name:" + name);
+        Project pro =  projectMapper.selectByName(name);
+        System.out.println(pro);
+        return pro;
+    }
+
+    @Override
+    public Map<String, Object> newProject(Project project) {
+
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getScenes(String projectName) {
+        return null;
     }
 }

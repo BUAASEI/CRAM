@@ -14,6 +14,8 @@ import java.util.Map;
  */
 
 public interface ProjectService {
+    Map<String,Object> newProject(Project project, Long domainId) ;
+
     Map<String,Object> newProject(Project project) ;
 
     //    查询数据库中是否已经存在该项目名称

@@ -50,7 +50,9 @@ public class ProjectController {
     @RequestMapping("/scenes")
     @ResponseBody
     public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName){
-        return projectService.getScenes(projectName);
+//        return projectService.getScenes(projectName);
+//        关系改变，重新写
+        return null;
     }
 
     @RequestMapping("/role")

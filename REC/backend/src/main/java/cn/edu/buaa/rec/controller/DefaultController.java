@@ -65,10 +65,11 @@ public class DefaultController {
         //    从前端拿来用户输入的账户名和密码
         String name = (String) sysUserInfo.get("SysUserName");
         String pword = (String) sysUserInfo.get("Password");
-        logger.info(name);
+        logger.info(name + "-" + pword);
 
         if (sysUserInfo != null && name != null & pword != null) {
             SysUser ulo = sysUserService.getByName(name);
+            System.out.println("---" + ulo);
             if (ulo != null) {
                 if (pword.equals(ulo.getPassword())) {
                     m.put("Msg", "Success!");

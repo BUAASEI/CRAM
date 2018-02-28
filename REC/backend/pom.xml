@@ -122,9 +122,9 @@
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                     <jdbcDriver>com.mysql.cj.jdbc.Driver</jdbcDriver>
-                    <jdbcURL>jdbc:mysql://localhost:3306/rec?userSSL=false</jdbcURL>
+                    <jdbcURL>jdbc:mysql://localhost:3306/cram?userSSL=false</jdbcURL>
                     <jdbcUserId>root</jdbcUserId>
-                    <jdbcPassword>msyql@mbp</jdbcPassword>
+                    <jdbcPassword>root</jdbcPassword>
                 </configuration>
                 <executions>
                     <execution>

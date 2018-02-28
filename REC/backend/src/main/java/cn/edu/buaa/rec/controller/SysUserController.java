@@ -95,9 +95,11 @@ public class SysUserController {
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
+//        关系改变，重新写
         Project project = new Project(jsonObject.getString("Name"), jsonObject.getString("Description"), jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
 
         return projectService.newProject(project);
+//        return null;
     }
 
     /*

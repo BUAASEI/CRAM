@@ -38,16 +38,17 @@ public class QuestionController {
     @RequestMapping("/new")
     @ResponseBody
     public boolean newQuestion() {
-        Question question = new Question();
-        question.setId(2L);
-        question.setBuildTime(new Date());
-        question.setCreatorId(1L);
-        question.setProjectId(1L);
-        question.setDescription("hello world");
-        question.setTitle("linux");
-        question.setType(1);
-        question.setUpdateTime(new Date());
-        return questionService.newQuestion(question);
+//        Question question = new Question();
+//        question.setId(2L);
+//        question.setBuildTime(new Date());
+//        question.setCreatorId(1L);
+//        question.setProjectId(1L);
+//        question.setDescription("hello world");
+//        question.setTitle("linux");
+//        question.setType(1);
+//        question.setUpdateTime(new Date());
+//        return questionService.newQuestion(question);
+        return false;
     }
 
     @RequestMapping(value = "/add", method = {RequestMethod.GET})
