@@ -91,6 +91,6 @@ public class DefaultController {
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     public String home(Model model) {
 
-        return null;
+        return "index.html";
     }
 }
