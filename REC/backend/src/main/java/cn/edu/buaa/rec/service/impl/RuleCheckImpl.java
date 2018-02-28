@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
  * Created by menghan on 2018/2/27.
  */
 public class RuleCheckImpl implements RuleCheckService {
-
     public String ruleCheckResult(RucmModel rucmModel){
         return checkResult(rucmModel);
     }
@@ -49,7 +48,7 @@ public class RuleCheckImpl implements RuleCheckService {
         for(int i = 1;i <= content.getAlternativeFlows().size();i++ ){
             if(content.getAlternativeFlows().get(i-1).getPostCondition()==null||content.getAlternativeFlows().get(i-1).getPostCondition().length()==0){
                 map.put("status",1);
-                String errorInfo="AlternativeFLow-"+i+"触发了规则1：控制流必须有起始和退出节点\n";
+                String errorInfo="AlternativeFLow-"+i+"触发了规则1：控制流必须有后置条件\n";
                 if(map.get("result")!=null){
                     String str = (String)map.get("result");
                     str+= errorInfo;
@@ -75,7 +74,7 @@ public class RuleCheckImpl implements RuleCheckService {
                 }
                 if(j==rucmModel.getAlternativeFlows().size()||rucmModel.getAlternativeFlows().size()==0){
                     map.put("status",1);
-                    String errorInfo = "BasicFlow-步骤"+i+"触发了规则3:没有对应的分支节点\n";
+                    String errorInfo = "BasicFlow-步骤"+i+"触发了规则3：没有对应的分支节点\n";
                     if(map.get("result")!=null){
                         String str = (String)map.get("result");
                         str+= errorInfo;
@@ -128,6 +127,7 @@ public class RuleCheckImpl implements RuleCheckService {
         if(map.get("status")==null) map.put("status",0);
         return map;
     }
+
     public static boolean isNumeric(String str){
         try{
             Integer.parseInt(str);

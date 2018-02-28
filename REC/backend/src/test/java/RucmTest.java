@@ -17,6 +17,7 @@ public class RucmTest {
         List<String> steps = new ArrayList<>();
         steps.add("bcACTION asd OP");
         steps.add("bcACTION asd OP");
+        steps.add("VALIDATE THAT asd OP");
         basicFlow.setSteps(steps);
         rucmModel.setBasicFlow(basicFlow);
         RuleCheckImpl ruleCheck = new RuleCheckImpl();

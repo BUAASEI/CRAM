@@ -7,6 +7,7 @@ import java.util.List;
  * Created by menghan on 2018/2/27.
  */
 public class RucmModel {
+
     private String useCaseName;
     private String briefDescription;
     private String preCondition;
