@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="basic title">
-      <span>score >></span>
+      <span>mvrec >></span>
       <span class="focus-blue">{{ name }}</span>
     </div>
     <div class="basic info">
@@ -15,6 +15,7 @@
           <span>创建人：{{ creator }}</span>
           <span class="focus-blue">角色申请</span>
           <span class="focus-blue">管理员申请</span>
+          <router-link to="/sysuser">个人中心</router-link>
         </div>
       </div>
     </div>
@@ -72,7 +73,7 @@ export default{
     },
     name: {
       type: String,
-      default: '北京大学学生选课系统'
+      default: '北航学生选课系统'
     },
     domain: {
       type: String,
@@ -80,11 +81,11 @@ export default{
     },
     dates: {
       type: String,
-      default: '2013-4-23'
+      default: '2017-4-23'
     },
     creator: {
       type: String,
-      default: 'dean'
+      default: 'suruo'
     }
   },
   components: {

@@ -55,6 +55,16 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.31</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -63,7 +73,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>main.Main</mainClass>
+                    <mainClass>main.RECApplication</mainClass>
                 </configuration>
             </plugin>
             
@@ -112,9 +122,9 @@
                     <verbose>true</verbose>
                     <overwrite>true</overwrite>
                     <jdbcDriver>com.mysql.cj.jdbc.Driver</jdbcDriver>
-                    <jdbcURL>jdbc:mysql://localhost:3306/rec?userSSL=false</jdbcURL>
+                    <jdbcURL>jdbc:mysql://localhost:3306/cram?userSSL=false</jdbcURL>
                     <jdbcUserId>root</jdbcUserId>
-                    <jdbcPassword>msyql@mbp</jdbcPassword>
+                    <jdbcPassword>root</jdbcPassword>
                 </configuration>
                 <executions>
                     <execution>
