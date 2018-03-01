@@ -1,8 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/Page/index'
-import Stage from '@/Page/stage'
-import Usage from '@/Page/usage'
+import Index from '@/Page/index'
+import SysUser from '@/Page/sysUser'
+import Home from '@/Page/home'
+import ProManage from '@/Page/proManage'
+import ProParticipate from '@/Page/proParticipate'
+import ProAll from '@/Page/proAll'
+import Project from '@/Page/project'
+import Role from '@/Page/role'
+import Data from '@/Page/data'
+import Problem from '@/Page/problem'
+import Solution from '@/Page/solution'
+import Historys from '@/Page/historys'
+import Scenario from '@/Page/scenario'
+import Activity from '@/Page/activity'
+import Usecase from '@/Page/usecase'
+import Evolution from '@/Page/evolution'
 
 Vue.use(Router)
 
@@ -11,17 +24,82 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: index
+      component: Index
     },
     {
-      path: '/system/stage',
-      name: 'stage',
-      component: Stage
+      path: '/sysuser',
+      name: 'sysuser',
+      component: SysUser
     },
     {
-      path: '/system/stage/usage',
-      name: 'usage',
-      component: Usage
+      path: '/home',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/sysuser/proman',
+      name: 'proman',
+      component: ProManage
+    },
+    {
+      path: '/sysuser/propar',
+      name: 'propar',
+      component: ProParticipate
+    },
+    {
+      path: '/sysuser/proall',
+      name: 'proall',
+      component: ProAll
+    },
+    {
+      path: '/project/home',
+      name: 'project',
+      component: Project
+    },
+    {
+      path: '/project/role',
+      name: 'role',
+      component: Role
+    },
+    {
+      path: '/project/data',
+      name: 'data',
+      component: Data
+    },
+    {
+      path: '/project/problem',
+      name: 'problem',
+      component: Problem
+    },
+    {
+      path: '/project/solution',
+      name: 'solution',
+      component: Solution
+    },
+    {
+      path: '/project/historys',
+      name: 'historys',
+      component: Historys
+    },
+    {
+      path: '/project/scenario',
+      name: 'scenario',
+      component: Scenario
+    },
+    {
+      path: '/project/scenario/activity',
+      name: 'activity',
+      component: Activity
+    },
+    {
+      path: '/project/usecase',
+      name: 'usecase',
+      component: Usecase
+    },
+    {
+      path: '/evolution',
+      name: 'evolution',
+      component: Evolution
     }
   ]
 })

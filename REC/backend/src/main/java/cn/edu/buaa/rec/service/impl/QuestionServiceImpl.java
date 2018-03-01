@@ -4,7 +4,6 @@ import cn.edu.buaa.rec.dao.QuestionMapper;
 import cn.edu.buaa.rec.model.Question;
 import cn.edu.buaa.rec.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,22 +16,16 @@ import org.springframework.stereotype.Service;
 @Service("QuestionService")
 public class QuestionServiceImpl implements QuestionService {
 
+    private QuestionMapper questionMapper;
+
+    @Autowired
     public QuestionMapper getQuestionMapper() {
         return questionMapper;
     }
 
     @Autowired
     public void setQuestionMapper(QuestionMapper questionMapper) {
-        System.out.println(questionMapper);
         this.questionMapper = questionMapper;
-    }
-
-
-    private QuestionMapper questionMapper;
-
-    public QuestionServiceImpl() {
-        System.out.println(questionMapper);
-        System.out.println("hello world");
     }
 
     @Override

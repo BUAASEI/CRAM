@@ -1,19 +1,19 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <Top name="北京大学学生选课系统"></Top>
+    <Top name="北航学生选课系统"></Top>
     <div class="context">
       <div class="context-nav">
         <Nav target="st"></Nav>
       </div>
       <div class="context-detail">
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增业务场景</Button></div>
+          <div class="detail-btn"><Button type="primary">新增方案</Button></div>
           <div class="detail-body">
             <div class="detail-head">
-              <div class="col-name">业务场景名称</div>
-              <div class="col-roles">相关角色</div>
-              <div class="col-datas">相关数据</div>
+              <div class="col-name">方案名称</div>
+              <div class="col-roles">方案描述</div>
+              <div class="col-datas">解决的问题</div>
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
@@ -22,21 +22,19 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span>设置</span>
-                  <span>删除</span>
+                  <!--<span @click="editScenario(item.id)">设置</span>-->
+                  <span>修改</span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用况场景</Button></div>
           <div class="detail-body">
             <div class="detail-head">
-              <div class="col-name">用况场景名称</div>
-              <div class="col-roles">相关角色</div>
-              <div class="col-datas">相关数据</div>
+              <div class="col-name">方案名称</div>
+              <div class="col-roles">方案描述</div>
+              <div class="col-datas">解决的问题</div>
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
@@ -45,8 +43,8 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span @click="edit(item.id)">设置</span>
-                  <span>删除</span>
+                  <!--<span @click="editUsecase(item.id)">设置</span>-->
+                  <span>关联</span>
                 </div>
               </div>
             </div>
@@ -64,6 +62,15 @@
   }
   .context-nav {
     width: 150px;
+  }
+  .context-title {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .context-title>div {
+    margin-top: 10px;
   }
   .context-detail {
     flex-grow: 1;
@@ -121,53 +128,67 @@
 
 </style>
 <script>
-import Top from '@/components/Top'
-import Nav from '@/components/Nav'
-import {Button} from 'iview'
-export default{
-  data () {
-    return {
-      BusinessData: [
-        {
-          id: 1,
-          name: '毕业选课结果',
-          roles: '校教务部，院系教务',
-          datas: '学生选课结果'
-        },
-        {
-          id: 2,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
-        }
-      ],
-      UsageData: [
-        {
-          id: 1,
-          name: '毕业选课结果',
-          roles: '校教务部，院系教务',
-          datas: '学生选课结果'
-        },
-        {
-          id: 2,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
-        }
-      ]
+  import Top from '@/components/Top'
+  import Nav from '@/components/Nav'
+  import {Button} from 'iview'
+  let a1 = [
+    {
+      id: 1,
+      name: '毕业选课结果',
+      roles: '校教务部，院系教务',
+      datas: '学生选课结果'
+    },
+    {
+      id: 2,
+      name: '选课结束',
+      roles: '学生，开课老师，计算中心',
+      datas: '学生选课结果'
+    },
+    {
+      id: 3,
+      name: '选课结束',
+      roles: '学生，开课老师，计算中心',
+      datas: '学生选课结果'
     }
-  },
-  components: {
-    Top,
-    Nav,
-    Button
-  },
-  methods: {
-    edit: function (id) {
-      // do something
-      // 路由跳转
-      this.$router.push({ name: 'usage', params: {type: 'edit'} })
+  ]
+  let a2 = [
+    {
+      id: 1,
+      name: '毕业选课结果',
+      roles: '校教务部，院系教务',
+      datas: '学生选课结果'
+    },
+    {
+      id: 2,
+      name: '选课结束',
+      roles: '学生，开课老师，计算中心',
+      datas: '学生选课结果'
+    }
+  ]
+
+  export default{
+    data () {
+      return {
+        BusinessData: a1,
+        UsageData: a2
+      }
+    },
+    components: {
+      Top,
+      Nav,
+      Button
+    },
+    methods: {
+      editScenario: function (id) {
+        // do something
+        // 路由跳转
+        this.$router.push({ name: 'scenario', params: {type: 'edit'} })
+      },
+      editUsecase: function (id) {
+        // do something
+        // 路由跳转
+        this.$router.push({ name: 'usecase', params: {type: 'edit'} })
+      }
     }
   }
-}
 </script>

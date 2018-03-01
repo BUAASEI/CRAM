@@ -2,11 +2,9 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.Question;
 import cn.edu.buaa.rec.service.QuestionService;
-import cn.edu.buaa.rec.service.impl.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -23,31 +21,30 @@ import java.util.Date;
 @RequestMapping("/question")
 @EnableAutoConfiguration
 public class QuestionController {
+    @Autowired
+    @Qualifier("QuestionService")
+    private QuestionService questionService;
 
-
+    @Autowired
     public QuestionService getQuestionService() {
         return questionService;
     }
 
-
+    @Autowired
     public void setQuestionService(QuestionService questionService) {
         this.questionService = questionService;
     }
-
-    @Autowired
-    @Qualifier("QuestionService")
-    private QuestionService questionService;
 
     @RequestMapping("/new")
     @ResponseBody
     public boolean newQuestion() {
         Question question = new Question();
-        question.setQuestionId(2L);
+        question.setId(2L);
         question.setBuildTime(new Date());
         question.setCreatorId(1L);
         question.setProjectId(1L);
-        question.setQuestionDescription("hello world");
-        question.setQuestionTitle("linux");
+        question.setDescription("hello world");
+        question.setTitle("linux");
         question.setType(1L);
         question.setUpdateTime(new Date());
         return questionService.newQuestion(question);
@@ -58,7 +55,7 @@ public class QuestionController {
     public boolean newQuestion1(@RequestParam("id") long questionId) {
 
         Question question = new Question();
-        question.setQuestionId(questionId);
+        question.setId(questionId);
         return questionService.newQuestion(question);
     }
 }

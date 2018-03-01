@@ -1,20 +1,23 @@
 <!--左侧导航组件-->
 <template>
   <div class="nav-view">
+    <div>
+      <router-link to="/project/historys">演化历史</router-link>
+    </div>
     <div :class="target === 'st'? 'locked' : ''">
-      <router-link to="/system/stage">场景</router-link>
+      <router-link to="/project/home">场景</router-link>
     </div>
     <div>
-      <router-link to="">角色</router-link>
+      <router-link to="/project/role">角色</router-link>
     </div>
     <div>
-      <router-link to="">数据</router-link>
+      <router-link to="/project/data">数据</router-link>
     </div>
     <div>
-      <router-link to="">问题</router-link>
+      <router-link to="/project/problem">问题</router-link>
     </div>
     <div>
-      <router-link to="">解决方案</router-link>
+      <router-link to="/project/solution">解决方案</router-link>
     </div>
   </div>
 </template>
