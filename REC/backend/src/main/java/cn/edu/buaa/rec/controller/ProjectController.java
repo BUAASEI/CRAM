@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.service.ProjectService;
+import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ public class ProjectController {
     @Qualifier("ProjectService")
     private ProjectService projectService;
 
+    @Autowired
+    private RuleCheckImpl ruleCheckService;
+
 
     @RequestMapping("/home")
     @ResponseBody
@@ -53,6 +57,12 @@ public class ProjectController {
 //        return projectService.getScenes(projectName);
 //        关系改变，重新写
         return null;
+    }
+
+    @RequestMapping("/uc/new")
+    @ResponseBody
+    public String showCheckResult(@Valid @RequestBody String rucmModel){
+        return "helloworld";
     }
 
     @RequestMapping("/role")

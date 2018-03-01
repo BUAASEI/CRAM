@@ -1,5 +1,6 @@
 package cn.edu.buaa.rec.dao;
 
+import cn.edu.buaa.rec.model.Business;
 import cn.edu.buaa.rec.model.BusinessWithBLOBs;
 
 public interface BusinessMapper {
@@ -18,4 +19,6 @@ public interface BusinessMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(BusinessWithBLOBs record);
+
+    Business selectBusiness(Long businessId);
 }

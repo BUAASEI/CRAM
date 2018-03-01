@@ -1,5 +1,8 @@
 package cn.edu.buaa.rec.model;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import java.util.List;
  * Created by menghan on 2018/2/27.
  */
 public class RucmModel {
+
     private String useCaseName;
     private String briefDescription;
     private String preCondition;
@@ -17,9 +21,13 @@ public class RucmModel {
     private BasicFlow basicFlow;
     private List<AlternativeFlow> alternativeFlows;
     public RucmModel(String text){
+        JSONObject jsonObject = JSONObject.parseObject(text);
+
         alternativeFlows = new ArrayList<>();
     }
+    public RucmModel(){
 
+    }
     public String getUseCaseName() {
         return useCaseName;
     }
