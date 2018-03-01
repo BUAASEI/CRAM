@@ -27,7 +27,8 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span @click="editScenario(item.id)">设置</span>
+                  <span>查看</span>
+                  <span @click="editScenario(item.id)">修改</span>
                   <span>删除</span>
                 </div>
               </div>
@@ -35,7 +36,7 @@
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用例</Button></div>
+          <div class="detail-btn"><Button type="primary">新增用例场景</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">用况场景名称</div>
@@ -49,7 +50,8 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span @click="editUsecase(item.id)">设置</span>
+                  <span>查看</span>
+                  <span @click="editUsecase(item.id)">修改</span>
                   <span>删除</span>
                 </div>
               </div>
@@ -143,15 +145,15 @@ export default{
       stage: [
         {
           projectId: 1,
-          projectName: '场景1'
+          projectName: '预选课'
         },
         {
           projectId: 2,
-          projectName: '场景2'
+          projectName: '选课'
         },
         {
           projectId: 3,
-          projectName: '场景3'
+          projectName: '四六级考试报名'
         }
       ],
       BusinessData: [],

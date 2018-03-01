@@ -6,10 +6,10 @@
         <button>
           <router-link to="/evolution">演化历史</router-link>
         </button>
-        <button>演化</button>
+        <button>缺陷检测</button>
       </div>
       <div>
-        <button>更新</button>
+        <button>保存</button>
         <button>取消</button>
       </div>
     </div>
@@ -32,12 +32,12 @@
       </div>
     </div>
     <div class="box3">
-      <div class="up"><span>相关业务活动：</span></div>
+      <div class="up"><span>相关业务场景：</span></div>
       <p>
         <span class="focus-color">维护课程信息</span>
       </p>
       <p>
-        <button>关联业务活动</button>
+        <button>关联业务场景</button>
       </p>
     </div>
     <div class="box4">
@@ -139,7 +139,7 @@ export default{
           system: '展示该课程详细信息'
         }
       ],
-      colums1: ['Use Case Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization'],
+      colums1: ['Use Case Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization','Input','OutPut','DataDictionary'],
       datas1: [],
       colums2: [1],
       datas2: [''],

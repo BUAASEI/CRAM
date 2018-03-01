@@ -4,10 +4,10 @@
     <div class="top-btn">
       <div>
         <button>演化历史</button>
-        <button>演化</button>
+        <button>缺陷检测</button>
       </div>
       <div>
-        <button>更新</button>
+        <button>保存</button>
         <button>取消</button>
       </div>
     </div>
@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="box2">
-      <div class="up"><span>相关业务活动：</span></div>
+      <div class="up"><span>相关用例场景：</span></div>
       <div class="box2-body">
           <div class="col-name">
             <span class="focus-color">选课退课（预选）</span>
@@ -41,7 +41,7 @@
       </div>
       <p>
         <router-link to='/project/scenario/activity'>
-          <Button type="primary">新增业务活动</Button>
+          <Button type="primary">新增用例场景</Button>
         </router-link>
       </p>
     </div>
@@ -134,7 +134,7 @@
     beforeMount: function () {
       console.log(this.type)
       this.type = this.$route.params.type
-      this.name = this.type === 'new' ? '新增' : '预选课阶段'
+      this.name = this.type === 'new' ? '新增' : '选课退课'
     },
     methods: {
       del: function (index) {
