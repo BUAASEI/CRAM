@@ -21,4 +21,6 @@ public interface SysUserService {
     Map<String,Object> newSysUser(SysUser sysUser);
 
     Map<String,Object> modSysUserInfo(SysUser sysUserInfo);
+
+    SysUser selectById(Long sysUserId);
 }

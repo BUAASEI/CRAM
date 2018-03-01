@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ import java.util.Map;
 public class ProjectController {
 
     @Autowired
+    @Qualifier("ProjectService")
     private ProjectService projectService;
 
 
@@ -48,7 +50,9 @@ public class ProjectController {
     @RequestMapping("/scenes")
     @ResponseBody
     public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName){
-        return projectService.getScenes(projectName);
+//        return projectService.getScenes(projectName);
+//        关系改变，重新写
+        return null;
     }
 
     @RequestMapping("/role")

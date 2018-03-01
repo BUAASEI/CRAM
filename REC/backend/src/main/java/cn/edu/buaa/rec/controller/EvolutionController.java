@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.service.EvolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/evolution")
 public class EvolutionController {
     @Autowired
+    @Qualifier("EvolutionService")
     private EvolutionService evolutionService;
 
     @Autowired

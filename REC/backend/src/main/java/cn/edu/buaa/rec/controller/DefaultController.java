@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,9 +41,7 @@ public class DefaultController {
 //    加上就返回字符串
 //    @ResponseBody
     public String index(Model model) {
-
         System.out.println("hello");
-
         return "index.html";
     }
 
@@ -54,34 +51,34 @@ public class DefaultController {
     @ResponseBody
     public Map<String, Object> register(@Valid @RequestBody Map<String, Object> sysUserInfo) {
 
-        System.out.println("hello");
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
         SysUser sysUser = new SysUser(jsonObject.getString("SysUserName"), jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
 
         return sysUserService.newSysUser(sysUser);
     }
 
-    //    这才是真正的用户登录
+    //    系统用户登录
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> login(@Valid @RequestBody Map<String, Object> sysUserInfo) {
         Map<String, Object> m = new HashMap<>();
         //    从前端拿来用户输入的账户名和密码
-        String name = (String) sysUserInfo.get("UserName");
+        String name = (String) sysUserInfo.get("SysUserName");
         String pword = (String) sysUserInfo.get("Password");
-        logger.info(name);
+        logger.info(name + "-" + pword);
 
         if (sysUserInfo != null && name != null & pword != null) {
             SysUser ulo = sysUserService.getByName(name);
+            System.out.println("---" + ulo);
             if (ulo != null) {
                 if (pword.equals(ulo.getPassword())) {
                     m.put("Msg", "Success!");
-                    m.put("UserID", ulo.getId());
+                    m.put("SysUserID", ulo.getId());
                 } else {
                     m.put("Msg", "用户名与密码不符");
                 }
             } else {
-                m.put("Msg", "用户名与密码不符");
+                m.put("Msg", "不存在该用户 @@");
             }
         } else {
             m.put("Msg", "用户名与密码不符");
@@ -94,6 +91,6 @@ public class DefaultController {
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     public String home(Model model) {
 
-        return null;
+        return "index.html";
     }
 }

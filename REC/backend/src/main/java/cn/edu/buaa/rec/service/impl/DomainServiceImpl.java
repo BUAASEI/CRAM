@@ -19,17 +19,8 @@ import java.util.Map;
 @Service("DomainService")
 public class DomainServiceImpl implements DomainService {
 
+    @Autowired
     private DomainMapper domainMapper;
-
-    @Autowired
-    public void setDomainMapper(DomainMapper domainMapper) {
-        this.domainMapper = domainMapper;
-    }
-
-    @Autowired
-    public DomainMapper getDomainMapper() {
-        return domainMapper;
-    }
 
     //    新建领域
     @Override
@@ -39,7 +30,7 @@ public class DomainServiceImpl implements DomainService {
         String domainName = domain.getName();
         if (noExist(domainName)) {
             Long domainIdMax = domainMapper.selectMaxId();
-            domain.setId(domainIdMax + 1);
+            domain.setId((domainIdMax == null) ? 1 : domainIdMax + 1);
 
             if (domainMapper.insert(domain) != 1) {
                 m.put("Msg", "请检查输入数据格式");
@@ -55,7 +46,7 @@ public class DomainServiceImpl implements DomainService {
     //    查询数据库中是否已经存在该领域
     @Override
     public boolean noExist(String name) {
-        return (domainMapper.selectByName(name) != null) ? false : true;
+        return (domainMapper.selectByName(name) == null);
     }
 
     //    通过名字，返回领域相关信息

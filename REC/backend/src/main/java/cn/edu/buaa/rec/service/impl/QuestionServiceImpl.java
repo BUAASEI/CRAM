@@ -16,17 +16,8 @@ import org.springframework.stereotype.Service;
 @Service("QuestionService")
 public class QuestionServiceImpl implements QuestionService {
 
+    @Autowired
     private QuestionMapper questionMapper;
-
-    @Autowired
-    public QuestionMapper getQuestionMapper() {
-        return questionMapper;
-    }
-
-    @Autowired
-    public void setQuestionMapper(QuestionMapper questionMapper) {
-        this.questionMapper = questionMapper;
-    }
 
     @Override
     public boolean newQuestion(Question question) {
