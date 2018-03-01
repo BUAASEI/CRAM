@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import 'iview/dist/styles/iview.css'
 import VueResource from 'vue-resource'
+import './style/style.css'
+
 
 Vue.config.productionTip = false
 Vue.use(VueResource)

@@ -18,6 +18,8 @@ import java.util.Map;
  * @Date: Created on 上午6:23 2018/02/01
  * @Modified by:
  */
+
+//这儿要声明*Service的注解，要不到找不到对应的Service
 @Service("SysUserService")
 public class SysUserServiceImpl implements SysUserService {
 
@@ -37,7 +39,8 @@ public class SysUserServiceImpl implements SysUserService {
             //            如果之前存在记录，那么id+1
             //            如果不存在，id设置为1
             Long sysUserIdMax = sysUserMapper.selectMaxId();
-            sysUser.setId(( sysUserIdMax== null) ? 1 : sysUserIdMax+1);
+            sysUser.setId((sysUserIdMax == null) ? 1 : sysUserIdMax + 1);
+
             if (sysUserMapper.insert(sysUser) != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {
@@ -56,6 +59,7 @@ public class SysUserServiceImpl implements SysUserService {
         String sysUserName = sysUserInfo.getName();
         if (noExist(sysUserName)) {
             m.put("Msg", "不存在这个用户诶 @_@ ");
+
         } else {
             if (sysUserMapper.updateByName(sysUserInfo) != 1) {
                 m.put("Msg", "请检查输入数据格式");
@@ -66,7 +70,7 @@ public class SysUserServiceImpl implements SysUserService {
         return m;
     }
 
-//    根据Id，返回相应的SysUser信息
+    //    根据Id，返回相应的SysUser信息
     @Override
     public SysUser selectById(Long sysUserId) {
         return sysUserMapper.selectById(sysUserId);
@@ -75,6 +79,8 @@ public class SysUserServiceImpl implements SysUserService {
     //    检查该用户名是否已经存在于数据库中
     @Override
     public boolean noExist(String name) {
+
+//        如果用户名已存在，则返回false
         return sysUserMapper.selectByName(name) == null;
     }
 

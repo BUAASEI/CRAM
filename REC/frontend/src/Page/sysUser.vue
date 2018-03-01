@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopMirrorSysUser name="苏若"></TopMirrorSysUser>
+    <TopMirrorSysUser name="苏若" @showIbox="showIbox"></TopMirrorSysUser>
     <div class="context">
       <div class="context-nav">
         <NavMirrorSysUser target="st"></NavMirrorSysUser>
@@ -21,9 +21,22 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
+      </div>
+    </div>
+    <div  v-if="show" class="box">
+      <div class="subWindow" v-if="showThree">
+        <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
+      </div>
+      <div class="subWindow2" v-if="showTwo">
+        <InfoBoxNewDomain @closeIbox="close"></InfoBoxNewDomain>
+      </div>
+      <div class="subWindow1" v-if="showOne">
+        <InfoBoxUserInfo @closeIbox="close"></InfoBoxUserInfo>
+      </div>
+      <div class="subWindow1" v-if="showFour">
+        <InfoBoxMassage @closeIbox="close"></InfoBoxMassage>
       </div>
     </div>
   </div>
@@ -34,6 +47,10 @@
   import TopMirrorSysUser from '@/components/TopMirrorSysUser'
   import NavMirrorSysUser from '@/components/NavMirrorSysUser'
   import {Button} from 'iview'
+  import InfoBoxNewProject from '@/components/InfoBoxNewProject'
+  import InfoBoxNewDomain from '@/components/InfoBoxNewDomain'
+  import InfoBoxUserInfo from '@/components/InfoBoxUserInfo'
+  import InfoBoxMassage from '@/components/InfoBoxMassage'
   export default{
     data () {
       return {
@@ -42,19 +59,58 @@
             id: 1,
             name: '北航学生选课系统'
           },
-        ]
+        ],
+        show: false,
+        showThree: false
       }
     },
     components: {
       TopMirrorSysUser,
       NavMirrorSysUser,
-      Button
+      Button,
+      InfoBoxNewProject,
+      InfoBoxNewDomain,
+      InfoBoxUserInfo,
+      InfoBoxMassage
+    },
+    mounted () {
+      this.close()
     },
     methods: {
       view: function (id) {
         // do something
         // 路由跳转
         this.$router.push({ name: 'project', params: {type: 'view'} })
+      },
+      showIbox (idx) {
+        this.show = true
+        if (idx === 3) {
+          this.showThree = true
+        }
+        if (idx === 2) {
+          this.showTwo = true
+        }
+        if (idx === 1) {
+          this.showOne = true
+        }
+        if (idx === 4) {
+          this.showFour = true
+        }
+      },
+      close (idx) {
+        this.show = false
+        if (idx === 3) {
+          this.showThree = false
+        }
+        if (idx === 2) {
+          this.showTwo = false
+        }
+        if (idx === 1) {
+          this.showOne = false
+        }
+        if (idx === 4) {
+          this.showFour = false
+        }
       }
     }
   }
@@ -114,5 +170,13 @@
   .col-operate>span {
     color: dodgerblue;
     cursor: pointer;
+  }
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 1000px;
+    height: 700px;
+    background-color: rgba(0,0,0,0.6);
   }
 </style>
