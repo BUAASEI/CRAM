@@ -34,8 +34,10 @@ import org.springframework.context.annotation.ComponentScan;
     2）将接口和对应实现类，放在main启动类的同一目录或其子目录下
 
 */
-// 手动指定controller的路径
-@ComponentScan(basePackages = {"cn.edu.buaa.rec.controller", "cn.edu.buaa.rec.service"})
+
+//这儿要单独并列指明 controller 的扫描路径
+//无论是上级路径，还是直接改成controller都会报错（前者均找不到，后者找不到Service）
+@ComponentScan(basePackages = {"cn.edu.buaa.rec.service", "cn.edu.buaa.rec.controller"})
 public class RECApplication {
 
     public static void main(String[] args){

@@ -32,6 +32,7 @@
     -->
     description, rucm_spec
   </sql>
+<<<<<<< HEAD
   <select id="selectUseCases" resultType="String" parameterType="Long">
       SELECT usecase_id
       from usecase_business
@@ -42,6 +43,8 @@
     FROM usecase
     WHERE id=#{useCaseId}
   </select>
+=======
+>>>>>>> master
   <insert id="insert" parameterType="cn.edu.buaa.rec.model.UsecaseWithBLOBs">
     <!--
       WARNING - @mbggenerated

@@ -10,12 +10,12 @@ Description: 登录页
   <div class="s-in">
     <p v-show="msg!=''">{{msg0}}</p>
     <p class="gap">
-      <span>用户名:&nbsp</span>
+      <span class="text-left">用户名:&nbsp</span>
       <input v-model="user" type="text"/>
       <span class="error-msg">{{msg1}}</span>
     </p>
     <p class="gap">
-      <span>密码:&nbsp&nbsp</span>
+      <span class="text-left">密码:&nbsp&nbsp</span>
       <input @keyup.enter="gLogin" v-model="psd" type="password"/>
       <span class="error-msg">{{msg2}}</span>
     </p>
@@ -57,6 +57,11 @@ Description: 登录页
   }
   .find-psd{
     cursor: pointer;
+  }
+  .text-left {
+    position: absolute;
+    left: 0;
+    line-height: 30px;
   }
 </style>
 
@@ -111,15 +116,12 @@ Description: 登录页
             vm.$http.post('login', info)
               .then((response) => {
                 if(response.data.Msg=='Success!'){
-                  localStorage.removeItem('rnode');
+                  localStorage.removeItem('rnode'); //这是啥
                   let date=vm.getDate();
-                  Vue.http.headers.common['Auth'] ='';
                   Vue.http.headers.common['ID'] = '';
                   localStorage.setItem('UserName',vm.user);
                   localStorage.setItem('curTime',date);
                   localStorage.setItem('id',response.data.UserID);
-                  localStorage.setItem('key',response.data.Auth);
-                  Vue.http.headers.common.Auth = localStorage.getItem('key');
                   Vue.http.headers.common.ID= localStorage.getItem('id');
                   vm.$router.go({path:'./home'});
                 }

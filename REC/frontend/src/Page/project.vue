@@ -6,7 +6,12 @@
       <div class="context-nav">
         <Nav target="st"></Nav>
       </div>
-      <div class="context-detail">
+      <div class="context-title">
+        <div v-for="item in stage">
+          <Button @click="reqInfo(item.projectId)" type="primary">{{ item.projectName }}</Button>
+        </div>
+      </div>
+      <div v-if="showStage" class="context-detail">
         <div class="detail">
           <div class="detail-btn"><Button type="primary">新增业务场景</Button></div>
           <div class="detail-body">
@@ -22,16 +27,16 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span @click="editScenario(item.id)">设置</span>
+                  <span>查看</span>
+                  <span @click="editScenario(item.id)">修改</span>
                   <span>删除</span>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用例</Button></div>
+          <div class="detail-btn"><Button type="primary">新增用例场景</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">用况场景名称</div>
@@ -45,7 +50,8 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
-                  <span @click="editUsecase(item.id)">设置</span>
+                  <span>查看</span>
+                  <span @click="editUsecase(item.id)">修改</span>
                   <span>删除</span>
                 </div>
               </div>
@@ -64,6 +70,15 @@
   }
   .context-nav {
     width: 150px;
+  }
+  .context-title {
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .context-title>div {
+    margin-top: 10px;
   }
   .context-detail {
     flex-grow: 1;
@@ -127,34 +142,23 @@ import {Button} from 'iview'
 export default{
   data () {
     return {
-      BusinessData: [
+      stage: [
         {
-          id: 1,
-          name: '毕业选课结果',
-          roles: '校教务部，院系教务',
-          datas: '学生选课结果'
+          projectId: 1,
+          projectName: '预选课'
         },
         {
-          id: 2,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
+          projectId: 2,
+          projectName: '选课'
+        },
+        {
+          projectId: 3,
+          projectName: '四六级考试报名'
         }
       ],
-      UsageData: [
-        {
-          id: 1,
-          name: '毕业选课结果',
-          roles: '校教务部，院系教务',
-          datas: '学生选课结果'
-        },
-        {
-          id: 2,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
-        }
-      ]
+      BusinessData: [],
+      UsageData: [],
+      showStage: false
     }
   },
   components: {
@@ -172,6 +176,46 @@ export default{
       // do something
       // 路由跳转
       this.$router.push({ name: 'usecase', params: {type: 'edit'} })
+    },
+    reqInfo: function (id) {
+      //ajax请求
+      let a1 = [
+        {
+          id: 1,
+          name: '毕业选课结果',
+          roles: '校教务部，院系教务',
+          datas: '学生选课结果'
+        },
+        {
+          id: 2,
+          name: '选课结束',
+          roles: '学生，开课老师，计算中心',
+          datas: '学生选课结果'
+        },
+        {
+          id: 3,
+          name: '选课结束',
+          roles: '学生，开课老师，计算中心',
+          datas: '学生选课结果'
+        }
+      ]
+      let a2 = [
+        {
+          id: 1,
+          name: '毕业选课结果',
+          roles: '校教务部，院系教务',
+          datas: '学生选课结果'
+        },
+        {
+          id: 2,
+          name: '选课结束',
+          roles: '学生，开课老师，计算中心',
+          datas: '学生选课结果'
+        }
+      ]
+      this. BusinessData = a1
+      this.UsageData = a2
+      this.showStage = true
     }
   }
 }

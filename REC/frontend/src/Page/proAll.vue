@@ -21,7 +21,7 @@
                 <div class="col-roles">{{ item.roles }}</div>
                 <div class="col-operate">
                   <span @click="view(item.id)">查看</span>
-                  <span>删除</span>
+                  <!--<span>删除</span>-->
                 </div>
               </div>
             </div>
