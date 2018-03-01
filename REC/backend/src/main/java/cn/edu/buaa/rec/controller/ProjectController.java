@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ public class ProjectController {
     private ProjectService projectService;
 
     @Autowired
+    @Qualifier("RuleCheckService")
     private RuleCheckImpl ruleCheckService;
 
 
@@ -59,10 +61,11 @@ public class ProjectController {
         return null;
     }
 
-    @RequestMapping("/uc/new")
+    @RequestMapping(value = "/uc/new",method = RequestMethod.POST)
     @ResponseBody
     public String showCheckResult(@Valid @RequestBody String rucmModel){
-        return "helloworld";
+        String result = ruleCheckService.ruleCheckResult(rucmModel);
+        return result;
     }
 
     @RequestMapping("/role")

@@ -10,6 +10,7 @@ import cn.edu.buaa.rec.model.RucmModel;
 import cn.edu.buaa.rec.service.RuleCheckService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import javax.swing.text.StyledEditorKit;
 /**
  * Created by menghan on 2018/2/27.
  */
+@Service("RuleCheckService")
 public class RuleCheckImpl implements RuleCheckService {
 
     @Autowired
@@ -102,8 +104,9 @@ public class RuleCheckImpl implements RuleCheckService {
         map.put("status",flag?0:1);
         return map;
     }
-    public String ruleCheckResult(RucmModel rucmModel){
-        return checkResult(rucmModel);
+    public String ruleCheckResult(String rucmModel){
+        RucmModel rucmModelM = new RucmModel(rucmModel);
+        return checkResult(rucmModelM);
     }
     public String checkResult(RucmModel rucmModel ){
         //transfer rucmModel to object
