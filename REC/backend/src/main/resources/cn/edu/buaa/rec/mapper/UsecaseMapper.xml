@@ -32,6 +32,16 @@
     -->
     description, rucm_spec
   </sql>
+  <select id="selectUseCases" resultType="String" parameterType="Long">
+      SELECT usecase_id
+      from usecase_business
+      where business_id=#{businessId}
+  </select>
+  <select id="selectRucmSpecByUseCase" resultType="String" parameterType="Long">
+    SELECT rucm_spec
+    FROM usecase
+    WHERE id=#{useCaseId}
+  </select>
   <insert id="insert" parameterType="cn.edu.buaa.rec.model.UsecaseWithBLOBs">
     <!--
       WARNING - @mbggenerated

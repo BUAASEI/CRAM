@@ -1,21 +1,107 @@
 package cn.edu.buaa.rec.service.impl;
 
+import cn.edu.buaa.rec.dao.BusinessMapper;
+import cn.edu.buaa.rec.dao.UsecaseMapper;
 import cn.edu.buaa.rec.model.AlternativeFlow;
 import cn.edu.buaa.rec.model.BasicFlow;
+import cn.edu.buaa.rec.model.Business;
 import cn.edu.buaa.rec.model.Flow;
 import cn.edu.buaa.rec.model.RucmModel;
 import cn.edu.buaa.rec.service.RuleCheckService;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import javax.swing.text.StyledEditorKit;
 
 /**
  * Created by menghan on 2018/2/27.
  */
 public class RuleCheckImpl implements RuleCheckService {
+
+    @Autowired
+    private UsecaseMapper usecaseMapper;
+
+    @Autowired
+    private BusinessMapper businessMapper;
+
+    public Map<String,Object> ruleCheckGlobal(Long businessId){
+        Boolean flag = true;
+        Map<String,Object> map = new HashMap<>();
+        Business business = businessMapper.selectBusiness(businessId);
+        List<Long> useCasesId = usecaseMapper.selectUseCases(businessId);
+        List<String> rucmSpecs = new ArrayList<>();
+        List<RucmModel> rucmModels = new ArrayList<>();
+        for(Long id:useCasesId){
+            String rucmSpec = usecaseMapper.selectRucmSpecByUseCase(id);
+            rucmSpecs.add(rucmSpec);
+        }
+        String preCondition = business.getPreCondition();
+        String postCondition = business.getPostCondition();
+        if(rucmModels.size()>0) {
+            String useCaseBeginPre = rucmModels.get(0).getPreCondition();
+            String useCaseEndPost = rucmModels.get(rucmModels.size()-1).getBasicFlow().getPostCondition();
+            if(preCondition==null||useCaseBeginPre==null){
+                flag = false;
+                map.put("result","业务-"+business.getId()+"没有输入\n");
+            }
+            if(postCondition==null||useCaseEndPost==null){
+                flag = false;
+                String errorInfo = "业务-"+business.getId()+"没有输出\n";
+                if(map.get("result")!=null){
+                    String str = (String)map.get("result");
+                    str+= errorInfo;
+                    map.put("result",str);
+                }
+                else map.put("result",errorInfo);
+            }
+            else{
+                if(!preCondition.equals(useCaseBeginPre)){
+                    flag = false;
+                    String errorInfo = "业务-"+business.getId()+"的输入存在不一致\n";
+                    if(map.get("result")!=null){
+                        String str = (String)map.get("result");
+                        str+= errorInfo;
+                        map.put("result",str);
+                    }
+                    else map.put("result",errorInfo);
+                }
+                if(!postCondition.equals(useCaseEndPost)){
+                    flag = false;
+                    String errorInfo = "业务-"+business.getId()+"的输出存在不一致\n";
+                    if(map.get("result")!=null){
+                        String str = (String)map.get("result");
+                        str+= errorInfo;
+                        map.put("result",str);
+                    }
+                    else map.put("result",errorInfo);
+                }
+            }
+            for (int i = 0; i < rucmModels.size()-1; i++) {
+                String preUseCasePost = rucmModels.get(i).getBasicFlow().getPostCondition();
+                String postUseCasePre = rucmModels.get(i+1).getPreCondition();
+                if(!preUseCasePost.equals(postUseCasePre)){
+                    flag = false;
+                    String errorInfo = "业务-"+business.getId()+"中的用例"+(i+1)+"的输出和用例"+(i+2)+"的输入不一致";
+                    if(map.get("result")!=null){
+                        String str = (String)map.get("result");
+                        str+= errorInfo;
+                        map.put("result",str);
+                    }
+                    else map.put("result",errorInfo);
+                }
+            }
+        }else{
+            flag = false;
+            map.put("result","业务-"+business.getId()+"没有用例\n");
+        }
+        map.put("status",flag?0:1);
+        return map;
+    }
     public String ruleCheckResult(RucmModel rucmModel){
         return checkResult(rucmModel);
     }
