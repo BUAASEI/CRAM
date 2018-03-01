@@ -116,15 +116,12 @@ Description: 登录页
             vm.$http.post('login', info)
               .then((response) => {
                 if(response.data.Msg=='Success!'){
-                  localStorage.removeItem('rnode');
+                  localStorage.removeItem('rnode'); //这是啥
                   let date=vm.getDate();
-                  Vue.http.headers.common['Auth'] ='';
                   Vue.http.headers.common['ID'] = '';
                   localStorage.setItem('UserName',vm.user);
                   localStorage.setItem('curTime',date);
                   localStorage.setItem('id',response.data.UserID);
-                  localStorage.setItem('key',response.data.Auth);
-                  Vue.http.headers.common.Auth = localStorage.getItem('key');
                   Vue.http.headers.common.ID= localStorage.getItem('id');
                   vm.$router.go({path:'./home'});
                 }
