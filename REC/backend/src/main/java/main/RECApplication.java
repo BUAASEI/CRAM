@@ -1,11 +1,13 @@
 package main;
 
+import cn.edu.buaa.rec.dao.UsecaseMapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -45,6 +47,11 @@ public class RECApplication {
     public static void main(String[] args){
 
         SpringApplication.run(RECApplication.class);
+
+//        ApplicationContext context = SpringApplication.run(RECApplication.class);
+//        UsecaseMapper mapper = (UsecaseMapper)BeanFactoryUtils.beanOfTypeIncludingAncestors(context,UsecaseMapper.class);
+//        System.out.println(mapper.selectUseCases(1L));
+
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {//跨域解决

@@ -1,11 +1,13 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.service.ProjectService;
+import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
@@ -27,6 +29,10 @@ public class ProjectController {
     @Autowired
     @Qualifier("ProjectService")
     private ProjectService projectService;
+
+    @Autowired
+    @Qualifier("RuleCheckService")
+    private RuleCheckImpl ruleCheckService;
 
 
     @RequestMapping("/home")
@@ -53,6 +59,13 @@ public class ProjectController {
 //        return projectService.getScenes(projectName);
 //        关系改变，重新写
         return null;
+    }
+
+    @RequestMapping(value = "/uc/new",method = RequestMethod.POST)
+    @ResponseBody
+    public String showCheckResult(@Valid @RequestBody String rucmModel){
+        String result = ruleCheckService.ruleCheckResult(rucmModel);
+        return result;
     }
 
     @RequestMapping("/role")

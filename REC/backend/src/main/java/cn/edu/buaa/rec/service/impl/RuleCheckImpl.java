@@ -1,24 +1,112 @@
 package cn.edu.buaa.rec.service.impl;
 
+import cn.edu.buaa.rec.dao.BusinessMapper;
+import cn.edu.buaa.rec.dao.UsecaseMapper;
 import cn.edu.buaa.rec.model.AlternativeFlow;
 import cn.edu.buaa.rec.model.BasicFlow;
+import cn.edu.buaa.rec.model.Business;
 import cn.edu.buaa.rec.model.Flow;
 import cn.edu.buaa.rec.model.RucmModel;
 import cn.edu.buaa.rec.service.RuleCheckService;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import javax.swing.text.StyledEditorKit;
 
 /**
  * Created by menghan on 2018/2/27.
  */
+@Service("RuleCheckService")
 public class RuleCheckImpl implements RuleCheckService {
 
-    public String ruleCheckResult(RucmModel rucmModel){
-        return checkResult(rucmModel);
+    @Autowired
+    private UsecaseMapper usecaseMapper;
+
+    @Autowired
+    private BusinessMapper businessMapper;
+
+    public Map<String,Object> ruleCheckGlobal(Long businessId){
+        Boolean flag = true;
+        Map<String,Object> map = new HashMap<>();
+        Business business = businessMapper.selectBusiness(businessId);
+        List<Long> useCasesId = usecaseMapper.selectUseCases(businessId);
+        List<String> rucmSpecs = new ArrayList<>();
+        List<RucmModel> rucmModels = new ArrayList<>();
+        for(Long id:useCasesId){
+            String rucmSpec = usecaseMapper.selectRucmSpecByUseCase(id);
+            rucmSpecs.add(rucmSpec);
+        }
+        String preCondition = business.getPreCondition();
+        String postCondition = business.getPostCondition();
+        if(rucmModels.size()>0) {
+            String useCaseBeginPre = rucmModels.get(0).getPreCondition();
+            String useCaseEndPost = rucmModels.get(rucmModels.size()-1).getBasicFlow().getPostCondition();
+            if(preCondition==null||useCaseBeginPre==null){
+                flag = false;
+                map.put("result","业务-"+business.getId()+"没有输入\n");
+            }
+            if(postCondition==null||useCaseEndPost==null){
+                flag = false;
+                String errorInfo = "业务-"+business.getId()+"没有输出\n";
+                if(map.get("result")!=null){
+                    String str = (String)map.get("result");
+                    str+= errorInfo;
+                    map.put("result",str);
+                }
+                else map.put("result",errorInfo);
+            }
+            else{
+                if(!preCondition.equals(useCaseBeginPre)){
+                    flag = false;
+                    String errorInfo = "业务-"+business.getId()+"的输入存在不一致\n";
+                    if(map.get("result")!=null){
+                        String str = (String)map.get("result");
+                        str+= errorInfo;
+                        map.put("result",str);
+                    }
+                    else map.put("result",errorInfo);
+                }
+                if(!postCondition.equals(useCaseEndPost)){
+                    flag = false;
+                    String errorInfo = "业务-"+business.getId()+"的输出存在不一致\n";
+                    if(map.get("result")!=null){
+                        String str = (String)map.get("result");
+                        str+= errorInfo;
+                        map.put("result",str);
+                    }
+                    else map.put("result",errorInfo);
+                }
+            }
+            for (int i = 0; i < rucmModels.size()-1; i++) {
+                String preUseCasePost = rucmModels.get(i).getBasicFlow().getPostCondition();
+                String postUseCasePre = rucmModels.get(i+1).getPreCondition();
+                if(!preUseCasePost.equals(postUseCasePre)){
+                    flag = false;
+                    String errorInfo = "业务-"+business.getId()+"中的用例"+(i+1)+"的输出和用例"+(i+2)+"的输入不一致";
+                    if(map.get("result")!=null){
+                        String str = (String)map.get("result");
+                        str+= errorInfo;
+                        map.put("result",str);
+                    }
+                    else map.put("result",errorInfo);
+                }
+            }
+        }else{
+            flag = false;
+            map.put("result","业务-"+business.getId()+"没有用例\n");
+        }
+        map.put("status",flag?0:1);
+        return map;
+    }
+    public String ruleCheckResult(String rucmModel){
+        RucmModel rucmModelM = new RucmModel(rucmModel);
+        return checkResult(rucmModelM);
     }
     public String checkResult(RucmModel rucmModel ){
         //transfer rucmModel to object
@@ -49,7 +137,7 @@ public class RuleCheckImpl implements RuleCheckService {
         for(int i = 1;i <= content.getAlternativeFlows().size();i++ ){
             if(content.getAlternativeFlows().get(i-1).getPostCondition()==null||content.getAlternativeFlows().get(i-1).getPostCondition().length()==0){
                 map.put("status",1);
-                String errorInfo="AlternativeFLow-"+i+"触发了规则1：控制流必须有起始和退出节点\n";
+                String errorInfo="AlternativeFLow-"+i+"触发了规则1：控制流必须有后置条件\n";
                 if(map.get("result")!=null){
                     String str = (String)map.get("result");
                     str+= errorInfo;
@@ -75,7 +163,7 @@ public class RuleCheckImpl implements RuleCheckService {
                 }
                 if(j==rucmModel.getAlternativeFlows().size()||rucmModel.getAlternativeFlows().size()==0){
                     map.put("status",1);
-                    String errorInfo = "BasicFlow-步骤"+i+"触发了规则3:没有对应的分支节点\n";
+                    String errorInfo = "BasicFlow-步骤"+i+"触发了规则3：没有对应的分支节点\n";
                     if(map.get("result")!=null){
                         String str = (String)map.get("result");
                         str+= errorInfo;
@@ -128,6 +216,7 @@ public class RuleCheckImpl implements RuleCheckService {
         if(map.get("status")==null) map.put("status",0);
         return map;
     }
+
     public static boolean isNumeric(String str){
         try{
             Integer.parseInt(str);

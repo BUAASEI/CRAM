@@ -12,16 +12,19 @@ import java.util.List;
  */
 public class RucmTest {
     public static void main(String[] args) {
-        RucmModel rucmModel = new RucmModel("");
-        BasicFlow basicFlow = new BasicFlow();
-        List<String> steps = new ArrayList<>();
-        steps.add("bcACTION asd OP");
-        steps.add("bcACTION asd OP");
-        basicFlow.setSteps(steps);
-        rucmModel.setBasicFlow(basicFlow);
-        RuleCheckImpl ruleCheck = new RuleCheckImpl();
-        String res = ruleCheck.checkResult(rucmModel);
-        System.out.println(res);
+//        RucmModel rucmModel = new RucmModel("");
+//        //BasicFlow basicFlow = new BasicFlow();
+//        List<String> steps = new ArrayList<>();
+//        steps.add("bcACTION asd OP");
+//        steps.add("bcACTION asd OP");
+//        steps.add("ACTION OP");
+//        steps.add("VALIDATE THAT asd OP");
+//        steps.add("VALIDATE THAT12344");
+//        basicFlow.setSteps(steps);
+//        rucmModel.setBasicFlow(basicFlow);
+//        RuleCheckImpl ruleCheck = new RuleCheckImpl();
+//        String res = ruleCheck.checkResult(rucmModel);
+//        System.out.println(res);
 
 
     }

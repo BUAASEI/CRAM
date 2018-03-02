@@ -1,5 +1,9 @@
 package cn.edu.buaa.rec.model;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +11,7 @@ import java.util.List;
  * Created by menghan on 2018/2/27.
  */
 public class RucmModel {
+
     private String useCaseName;
     private String briefDescription;
     private String preCondition;
@@ -17,9 +22,36 @@ public class RucmModel {
     private BasicFlow basicFlow;
     private List<AlternativeFlow> alternativeFlows;
     public RucmModel(String text){
+        JSONObject jsonObject = JSONObject.parseObject(text);
+        JSONObject rucmSpecification = jsonObject.getJSONObject("UseCaseSpecification");
+        setBriefDescription((String)rucmSpecification.get("BriefDescription"));
+        setUseCaseName((String)rucmSpecification.get("UseCaseName"));
+        setPreCondition((String)rucmSpecification.get("Precondition"));
+        setPrimaryActor((String)rucmSpecification.get("PrimaryActor"));
+        setSecondaryActors((String)rucmSpecification.get("SecondaryActors"));
+        setDependency((String)rucmSpecification.get("Dependency"));
+        setGeneralization((String)rucmSpecification.get("Generalization"));
+        basicFlow = new BasicFlow(rucmSpecification.getJSONObject("BasicFlow"));
         alternativeFlows = new ArrayList<>();
+        JSONArray specificFlows = rucmSpecification.getJSONArray("SpecificAlternativeFlows");
+        for(int i = 0 ; i<specificFlows.size();i++){
+            AlternativeFlow flow = new AlternativeFlow(specificFlows.getJSONObject(i),"SpecificAlternativeFlow");
+            alternativeFlows.add(flow);
+        }
+        JSONArray boundedFlows = rucmSpecification.getJSONArray("BoundedAlternativeFlows");
+        for(int i = 0 ; i<boundedFlows.size();i++){
+            AlternativeFlow flow = new AlternativeFlow(boundedFlows.getJSONObject(i),"BoundedAlternativeFlow");
+            alternativeFlows.add(flow);
+        }
+        JSONArray globalFlows = rucmSpecification.getJSONArray("GlobalAlternativeFlows");
+        for(int i = 0 ; i<globalFlows.size();i++){
+            AlternativeFlow flow = new AlternativeFlow(globalFlows.getJSONObject(i),"GlobalAlternativeFlow");
+            alternativeFlows.add(flow);
+        }
     }
+    public RucmModel(){
 
+    }
     public String getUseCaseName() {
         return useCaseName;
     }

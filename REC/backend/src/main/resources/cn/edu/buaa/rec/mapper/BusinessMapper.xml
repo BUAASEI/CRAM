@@ -34,6 +34,11 @@
     -->
     description, flow
   </sql>
+  <select id="selectBusiness" resultMap="BaseResultMap" parameterType="Long">
+    SELECT *
+    FROM business
+    WHERE id=#{businessId}
+  </select>
   <insert id="insert" parameterType="cn.edu.buaa.rec.model.BusinessWithBLOBs">
     <!--
       WARNING - @mbggenerated

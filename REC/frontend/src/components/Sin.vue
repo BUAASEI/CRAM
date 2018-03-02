@@ -123,7 +123,7 @@ Description: 登录页
                   localStorage.setItem('curTime',date);
                   localStorage.setItem('id',response.data.SysUserID);
                   Vue.http.headers.common.ID= localStorage.getItem('id');
-                  vm.$router.go({path:'./sysuser'});
+                  vm.$router.go({path:'/sysuser'});
                 }
                 else{
                   confirm(response.data.Msg);
