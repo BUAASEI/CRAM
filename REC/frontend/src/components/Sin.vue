@@ -96,16 +96,11 @@ Description: 登录页
           else{
             vm.msg1='用户名不能为空';
           }
-          if(vm.psd!=''&&vm.psd.length>5){
+          if(vm.psd!=''){
             vm.msg2='';
           }
           else{
-            if(vm.psd==''){
-              vm.msg2='密码不能为空'
-            }
-            else{
-              vm.msg2="密码不能小于6位"
-            }
+            vm.msg2='密码不能为空'
           }
 //                发送ajax,若code=404,msg0='用户名和密码不一致'
           let info={
@@ -123,7 +118,7 @@ Description: 登录页
                   localStorage.setItem('curTime',date);
                   localStorage.setItem('id',response.data.SysUserID);
                   Vue.http.headers.common.ID= localStorage.getItem('id');
-                  vm.$router.go({path:'/sysuser'});
+                  vm.$router.push({path:'./sysuser'});
                 }
                 else{
                   confirm(response.data.Msg);
