@@ -1,6 +1,7 @@
 cn/edu/buaa/rec/dao/ScenarioBusinessMapper.class
 cn/edu/buaa/rec/controller/ProjectController.class
 cn/edu/buaa/rec/model/QuestionScenario.class
+main/RECApplication$1.class
 cn/edu/buaa/rec/dao/RoleActivityMapper.class
 cn/edu/buaa/rec/model/UserProjectRole.class
 cn/edu/buaa/rec/dao/QuestionScenarioMapper.class

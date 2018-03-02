@@ -6,7 +6,7 @@
     <div class="table-data">
       <div class="row" v-for="(item,index) in datas" :key='index'>
         <input v-model="datas[index]">
-        <div class="btn" v-if="addAble && index=== datas.length - 1">
+        <div class="btn" v-if="addAble && index=== datas.length-1">
           <span @click="addRow">+</span>
           <span v-if="addAble && index !== 0" @click="delRow">-</span>
         </div>

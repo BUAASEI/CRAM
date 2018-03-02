@@ -13,6 +13,10 @@
         <input v-if="tag === 'RFS'">
       </div>
       <Table :colums = "colums" :datas = "datas" addAble></Table>
+      <div class="flex">
+        <div class="item">PostCondition</div>
+        <div class="text"><input v-model="postCondition"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,12 +48,34 @@
     color: blue;
     cursor: pointer;
   }
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    border: 1px solid #ccc;
+  }
+  .item {
+    width: 23%;
+    line-height: 30px;
+    font-weight: bolder;
+    padding-left: 10px;
+    color: blue;
+    border-right: 1px solid #ccc;
+  }
+  .text {
+    flex-grow: 1;
+  }
+  .text>input {
+    outline: none;
+    border: none;
+  }
 </style>
 <script>
   import Table from '@/components/Table'
   export default{
     data () {
       return {
+        postCondition: ''
       }
     },
     props: {

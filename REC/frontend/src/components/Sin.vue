@@ -109,21 +109,21 @@ Description: 登录页
           }
 //                发送ajax,若code=404,msg0='用户名和密码不一致'
           let info={
-            UserName:vm.user,
+            SysUserName:vm.user,
             Password:vm.psd
           }
           if(vm.msg1==''&&vm.msg2==''){
             vm.$http.post('login', info)
               .then((response) => {
+                console.log(response)
                 if(response.data.Msg=='Success!'){
-                  localStorage.removeItem('rnode'); //这是啥
                   let date=vm.getDate();
                   Vue.http.headers.common['ID'] = '';
                   localStorage.setItem('UserName',vm.user);
                   localStorage.setItem('curTime',date);
-                  localStorage.setItem('id',response.data.UserID);
+                  localStorage.setItem('id',response.data.SysUserID);
                   Vue.http.headers.common.ID= localStorage.getItem('id');
-                  vm.$router.go({path:'./home'});
+                  vm.$router.go({path:'./sysuser'});
                 }
                 else{
                   confirm(response.data.Msg);
