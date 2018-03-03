@@ -34,8 +34,8 @@ cn/edu/buaa/rec/dao/ScenarioUsecaseMapper.class
 cn/edu/buaa/rec/model/Usecase.class
 main/RECApplication.class
 cn/edu/buaa/rec/service/impl/QuestionServiceImpl.class
-cn/edu/buaa/rec/model/Data.class
 cn/edu/buaa/rec/model/Review.class
+cn/edu/buaa/rec/model/Data.class
 cn/edu/buaa/rec/dao/SolutionMapper.class
 cn/edu/buaa/rec/service/impl/UserProjectManServiceImpl.class
 cn/edu/buaa/rec/model/SolutionQuestionUsecase.class

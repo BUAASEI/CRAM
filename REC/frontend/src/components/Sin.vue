@@ -104,7 +104,7 @@ Description: 登录页
           }
 //                发送ajax,若code=404,msg0='用户名和密码不一致'
           let info={
-            SysUserName:vm.user,
+            UserName:vm.user,
             Password:vm.psd
           }
           if(vm.msg1==''&&vm.msg2==''){

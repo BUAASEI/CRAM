@@ -52,7 +52,8 @@ public class DefaultController {
     public Map<String, Object> register(@Valid @RequestBody Map<String, Object> sysUserInfo) {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
-        SysUser sysUser = new SysUser(jsonObject.getString("SysUserName"), jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
+
+        SysUser sysUser = new SysUser(jsonObject.getString("UserName"), jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
 
         return sysUserService.newSysUser(sysUser);
     }
@@ -63,7 +64,7 @@ public class DefaultController {
     public Map<String, Object> login(@Valid @RequestBody Map<String, Object> sysUserInfo) {
         Map<String, Object> m = new HashMap<>();
         //    从前端拿来用户输入的账户名和密码
-        String name = (String) sysUserInfo.get("SysUserName");
+        String name = (String) sysUserInfo.get("UserName");
         String pword = (String) sysUserInfo.get("Password");
         logger.info(name + "-" + pword);
         System.out.println("gsdffghghfdjhjjjjjjjjjjjjjjjjjjjjjjgkuil");
@@ -93,4 +94,15 @@ public class DefaultController {
 
         return "index.html";
     }
+
+    @RequestMapping(value = "/nameExi", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> nameExi(@Valid @RequestBody Map<String, Object> sysUserInfo) {
+
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("Msg", "Success");
+        return m;
+    }
+
+
 }

@@ -33,7 +33,6 @@
     <button class="gap" @click="prin">注册</button>
   </div>
 </template>
-
 <style scoped>
   input{
     position: absolute;
@@ -181,12 +180,11 @@
           else{
             let info={
               UserName:vm.data.name,
-              Tel:vm.data.phone,
+              Phone:vm.data.phone,
               Email:vm.data.email,
-              Password:vm.data.psd,
-              AllowP:vm.data.key
+              Password:vm.data.psd
             };
-            vm.$http.post('reg',info)
+            vm.$http.post('logup',info)
               .then((response) => {
                 if(response.data.Msg=='注册成功'){
                   confirm("注册成功");
