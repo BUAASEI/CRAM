@@ -63,8 +63,8 @@ public class SysUserController {
     public Map<String, Object> modifyInformation(@Valid @RequestBody Map<String, Object> sysUserInfo) {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
-        Long sysUserId = jsonObject.getLong("SysUserId");
-        String sysUserName = jsonObject.getString("SysUserName");
+        Long sysUserId = jsonObject.getLong("UserId");
+        String sysUserName = jsonObject.getString("UserName");
         SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
                 System.out.println(sysUser.getName());
         return sysUserService.modSysUserInfo(sysUser);
@@ -81,7 +81,7 @@ public class SysUserController {
     public Map<String, Object> createDomain(@Valid @RequestBody Map<String, Object> domainInfo) {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(domainInfo);
-        Domain domain = new Domain(jsonObject.getString("Name"), jsonObject.getString("Description"), jsonObject.getLong("CreatorId"));
+        Domain domain = new Domain(jsonObject.getString("DomainName"), jsonObject.getString("Description"), jsonObject.getLong("CreatorId"));
 
         return domainService.newDomain(domain);
     }
@@ -96,7 +96,12 @@ public class SysUserController {
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
 //        关系改变，重新写
-        Project project = new Project(jsonObject.getString("Name"), jsonObject.getString("Description"), jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
+        Project project = new Project(jsonObject.getString("ProjectName"), jsonObject.getString("Description"),
+                jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
+
+
+        System.out.println(project.toString());
+
 
         return projectService.newProject(project);
 //        return null;

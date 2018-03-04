@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
     private SolutionMapper solutionMapper;
 
     @Override
-    public Map<String, Object> newProject(Project project, Long domianId) {
+    public Map<String, Object> newProject(Project project) {
 //        需要重新写
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
@@ -224,12 +224,6 @@ public class ProjectServiceImpl implements ProjectService {
         Project pro =  projectMapper.selectByName(name);
         System.out.println(pro);
         return pro;
-    }
-
-    @Override
-    public Map<String, Object> newProject(Project project) {
-
-        return null;
     }
 
     @Override

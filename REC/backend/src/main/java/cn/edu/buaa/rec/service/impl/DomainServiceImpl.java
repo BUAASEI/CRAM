@@ -49,9 +49,8 @@ public class DomainServiceImpl implements DomainService {
         return (domainMapper.selectByName(name) == null);
     }
 
-    //    通过名字，返回领域相关信息
     @Override
-    public Domain getByName(String name) {
+    public Domain selectByName(String name) {
         return domainMapper.selectByName(name);
     }
 }

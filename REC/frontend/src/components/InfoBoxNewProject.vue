@@ -36,7 +36,7 @@
     </div>
     <div class="box3">
       <Button @click="reset">重置</Button>
-      <Button>确定</Button>
+      <Button @click="submit">确定</Button>
     </div>
   </div>
 </template>
@@ -143,10 +143,14 @@
         let body = {
           ProjectName: this.name,
           Description: this.discribe,
-          DomainId: this.vertical,
+          DomainId: this.verticalgit,
           CreatorId: 1/*登陆时获得*/
-        }
+        };
         /*ajax*/
+        this.$http.post('sysuser/crepro',body)
+          .then((response) => {
+            confirm(response.data.Msg);
+          })
       },
       close () {
         this.$emit('closeIbox', 3)

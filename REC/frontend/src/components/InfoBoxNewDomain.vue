@@ -17,7 +17,7 @@
     </div>
     <div class="box3">
       <Button @click="reset">重置</Button>
-      <Button>确定</Button>
+      <Button @click="submit">确定</Button>
     </div>
   </div>
 </template>
@@ -123,8 +123,12 @@
           DomainName: this.name,
           Description: this.discribe,
           CreatorId: 1/*登陆时获得*/
-        }
+        };
         /*ajax*/
+        this.$http.post('sysuser/credom',body)
+          .then((response) => {
+            confirm(response.data.Msg);
+          })
       },
       close () {
         this.$emit('closeIbox', 2)
