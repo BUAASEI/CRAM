@@ -11,7 +11,7 @@ Description: 登录页面
     <div class="wbody clearfix">
       <div class="door">
         <div class="menu clearfix">
-          <span class="title">Requirement Elicitation Card</span>
+          <span class="title">multi-view Cards based Requirement Acquisition and Modelling tool</span>
           <button @click="logUp" class="up-btn" :class="!account?'btn-active':''">注册</button>
           <button @click="logIn" class="in-btn" :class="account?'btn-active':''">登录</button>
         </div>
@@ -24,11 +24,11 @@ Description: 登录页面
           </div>
         </div>
       </div>
-      <div class="tempIn">
-        <router-link to='/sysuser'>
-          <Button type="primary">登录</Button>
-        </router-link>
-      </div>
+      <!--<div class="tempIn">-->
+        <!--<router-link to='/sysuser'>-->
+          <!--<Button type="primary">登录</Button>-->
+        <!--</router-link>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
