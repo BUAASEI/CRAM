@@ -116,6 +116,6 @@
   <!-- max后面不能有空格 -->
   <select id="selectMaxId" resultType="Long">
     SELECT max(id)
-    FROM domain
+    FROM sys_user
   </select>
 </mapper>

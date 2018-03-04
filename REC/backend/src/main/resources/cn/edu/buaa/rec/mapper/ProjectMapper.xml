@@ -40,11 +40,11 @@
     -->
     insert into project (id, name, description, 
       build_time, update_time, creator_id, 
-      domain_id, dom_id, function
+      domain_id,  function
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{buildTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, 
-      #{domainId,jdbcType=BIGINT}, #{domId,jdbcType=BIGINT}, #{function,jdbcType=LONGVARCHAR}
+      #{domainId,jdbcType=BIGINT}, #{function,jdbcType=LONGVARCHAR}
       )
   </insert>
 

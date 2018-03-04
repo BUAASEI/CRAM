@@ -54,4 +54,15 @@ public class UserProjectRoleServiceImpl implements UserProjectRoleService{
 
         return m;
     }
+
+    @Override
+    public List<Long> getUserRoleId(Long projectId, Long userId){
+    //根据用户Id和项目Id查寻角色Id
+        if (projectId == 0 || userId == 0){
+            return null;
+        }
+
+        List<Long> list = userProjectRoleMapper.selectByProjectIdAndUserId(projectId,userId);
+        return list;
+    }
 }

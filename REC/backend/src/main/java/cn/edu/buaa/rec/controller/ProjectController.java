@@ -1,7 +1,11 @@
 package cn.edu.buaa.rec.controller;
 
+import cn.edu.buaa.rec.model.Project;
+import cn.edu.buaa.rec.model.Role;
 import cn.edu.buaa.rec.service.ProjectService;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
+import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +40,9 @@ public class ProjectController {
     @Qualifier("RuleCheckService")
     private RuleCheckImpl ruleCheckService;
 
+    @Autowired
+    @Qualifier("UserProjectRoleService")
+    private UserProjectRoleServiceImpl userProjectRoleService;
 
     @RequestMapping("/home")
     @ResponseBody
@@ -68,10 +77,27 @@ public class ProjectController {
         return result;
     }
 
-    @RequestMapping("/role")
+    @RequestMapping(value = "/role",method = RequestMethod.POST)
     @ResponseBody
-    public String showRole(@Valid @RequestBody String projectName){
-        return projectService.getRole(projectName);
+    public Map<String,Object> showRole(@Valid @RequestBody Map<String, Object> info){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long projectId = jsonObject.getLong("projectId");
+        Long userId = jsonObject.getLong("userId");
+        Map<String,Object> m = new HashMap<String,Object>();
+        List<Role> listRoles = projectService.getRole(projectId);
+        m.put("listRoles",listRoles);
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
+        List<Role>  userRoles =new LinkedList<Role>();
+        for (Role r : listRoles){
+            for (Long id : roleIds ){
+                if (id == r.getId()){
+                    userRoles.add(r);
+                }
+            }
+        }
+
+        m.put("userRoles",userRoles);
+        return m;
     }
 
     @RequestMapping("/data")

@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.service;
 
 import cn.edu.buaa.rec.model.Project;
+import cn.edu.buaa.rec.model.Role;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public interface ProjectService {
 
     List<Map<String,Object>> getScenes(String projectName);
 
-    String getRole(String projectName);
+    List<Role> getRole(Long projectId);
 
     String getData(String projectName);
 

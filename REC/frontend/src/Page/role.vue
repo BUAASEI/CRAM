@@ -13,14 +13,14 @@
             <div class="detail-head">
               <div class="col-name">角色名称</div>
               <div class="col-roles">角色描述</div>
-              <div class="col-datas">所属场景</div>
+              <!--<div class="col-datas">所属场景</div>-->
               <div class="col-operate">操作</div>
             </div>
-            <div class="detail-context">
-              <div class="detail-item" v-for="item in BusinessData" :key=item.id>
+            <div class="detail-context" >
+              <div class="detail-item" v-for="item in userRoles" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
-                <div class="col-datas">{{ item.datas }}</div>
+                <div class="col-roles">{{ item.description }}</div>
+                <!--<div class="col-datas">{{ item.datas }}</div>-->
                 <div class="col-operate">
                   <!--<span @click="editScenario(item.id)">设置</span>-->
                   <span>删除</span>
@@ -37,11 +37,11 @@
               <div class="col-datas">所属场景</div>
               <div class="col-operate">操作</div>
             </div>
-            <div class="detail-context">
-              <div class="detail-item" v-for="item in UsageData" :key=item.id>
+            <div class="detail-context" id="role">
+              <div class="detail-item" v-for="item in listRoles" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
-                <div class="col-datas">{{ item.datas }}</div>
+                <div class="col-roles">{{ item.description }}</div>
+                <!--<div class="col-datas">{{ item.datas }}</div>-->
                 <div class="col-operate">
                   <!--<span @click="editUsecase(item.id)">设置</span>-->
                   <span>申请</span>
@@ -131,54 +131,33 @@
   import Top from '@/components/Top'
   import Nav from '@/components/Nav'
   import {Button} from 'iview'
-  let a1 = [
-    {
-      id: 1,
-      name: '毕业选课结果',
-      roles: '校教务部，院系教务',
-      datas: '学生选课结果'
-    },
-    {
-      id: 2,
-      name: '选课结束',
-      roles: '学生，开课老师，计算中心',
-      datas: '学生选课结果'
-    },
-    {
-      id: 3,
-      name: '选课结束',
-      roles: '学生，开课老师，计算中心',
-      datas: '学生选课结果'
-    }
-  ]
-  let a2 = [
-    {
-      id: 1,
-      name: '毕业选课结果',
-      roles: '校教务部，院系教务',
-      datas: '学生选课结果'
-    },
-    {
-      id: 2,
-      name: '选课结束',
-      roles: '学生，开课老师，计算中心',
-      datas: '学生选课结果'
-    }
-  ]
 
   export default{
-    data () {
+
+    data() {
       return {
-        BusinessData: a1,
-        UsageData: a2
+        userRoles:[],
+        listRoles:[]
       }
     },
-    components: {
-      Top,
-      Nav,
-      Button
+    mounted() {
+      this.getRoles(1,3);
     },
-    methods: {
+    methods:{
+
+      getRoles:function (projectId,userId) {
+        let info={
+          projectId:projectId,
+          userId:userId
+        };
+        this.$http.post('project/role',info)
+          .then((response) => {
+            this.listRoles = response.data.listRoles;
+
+            this.userRoles=response.data.userRoles;
+
+          })
+      },
       editScenario: function (id) {
         // do something
         // 路由跳转
@@ -189,6 +168,12 @@
         // 路由跳转
         this.$router.push({ name: 'usecase', params: {type: 'edit'} })
       }
+    },
+    components: {
+      Top,
+      Nav,
+      Button
     }
+
   }
 </script>

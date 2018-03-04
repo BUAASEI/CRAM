@@ -194,9 +194,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     //    展示Project中涉及的Role的界面信息
     @Override
-    public String getRole(String projectName) {
-        List<Role> roleList = roleMapper.selectByProjectId(getProject(projectName).getId());
-        return JSON.toJSONString(roleList);
+    public  List<Role> getRole(Long projectId) {
+        List<Role> roleList = roleMapper.selectByProjectId(projectId);
+        return roleList;
     }
 
     //    展示Project中涉及的Data的界面信息
