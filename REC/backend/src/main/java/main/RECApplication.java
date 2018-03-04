@@ -58,7 +58,8 @@ public class RECApplication {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("*").allowedOrigins("*");
+//                两个*，不然403，可以连接，却没有权限
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     }

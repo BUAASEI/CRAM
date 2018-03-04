@@ -95,6 +95,7 @@ public class DefaultController {
         return "index.html";
     }
 
+//    注册验证是否存在重名用户
     @RequestMapping(value = "/nameExi", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> nameExi(@Valid @RequestBody Map<String, Object> sysUserInfo) {

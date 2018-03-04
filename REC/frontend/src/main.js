@@ -10,7 +10,7 @@ import './style/style.css'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
-Vue.http.options.root = 'http://192.168.109.190:8088/rec/';
+Vue.http.options.root = 'http://192.168.109.250:8088/rec/';
 
 /* eslint-disable no-new */
 new Vue({
