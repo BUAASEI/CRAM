@@ -20,5 +20,5 @@ public interface QuestionMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(Question record);
-    List<Question> selectByProjectId(Long id);
+    List<Question> selectByProjectId(Long projectId);
 }

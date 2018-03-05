@@ -1,10 +1,12 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
-import cn.edu.buaa.rec.service.BusinessRoleService;
+import cn.edu.buaa.rec.model.Data;
+import cn.edu.buaa.rec.model.Question;
+import cn.edu.buaa.rec.model.Role;
+import cn.edu.buaa.rec.model.Solution;
 import cn.edu.buaa.rec.service.ProjectService;
 import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
-import cn.edu.buaa.rec.service.impl.BusinessRoleServiceImpl;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
 import com.alibaba.fastjson.JSONObject;
@@ -66,128 +68,135 @@ public class ProjectController {
 
     @RequestMapping("/roleapply")
     @ResponseBody
-    public Map<String, Object> applyRole(@Valid @RequestBody Map<String, Object> applyRoleInfo){
+    public Map<String, Object> applyRole(@Valid @RequestBody Map<String, Object> applyRoleInfo) {
         return projectService.applyRole(applyRoleInfo);
     }
 
     @RequestMapping("/manapply")
     @ResponseBody
-    public Map<String, Object> applyManager(@Valid @RequestBody Map<String, Object> applyManagerInfo){
+    public Map<String, Object> applyManager(@Valid @RequestBody Map<String, Object> applyManagerInfo) {
         return projectService.applyManager(applyManagerInfo);
     }
 
     @RequestMapping("/scenes")
     @ResponseBody
-    public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName){
+    public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName) {
 //        return projectService.getScenes(projectName);
 //        关系改变，重新写
         return null;
     }
 
-    @RequestMapping(value = "/uc/new",method = RequestMethod.POST)
+    @RequestMapping(value = "/uc/new", method = RequestMethod.POST)
     @ResponseBody
-    public String showCheckResult(@Valid @RequestBody String rucmModel){
+    public String showCheckResult(@Valid @RequestBody String rucmModel) {
         String result = ruleCheckService.ruleCheckResult(rucmModel);
         return result;
     }
 
-    @RequestMapping(value = "/role",method = RequestMethod.POST)
+    //    显示项目中心的角色项
+    @RequestMapping(value = "/role", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> showRole(@Valid @RequestBody Map<String, Object> info){
+    public Map<String, Object> showRole(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long projectId = jsonObject.getLong("projectId");
         Long userId = jsonObject.getLong("userId");
-        Map<String,Object> m = new HashMap<String,Object>();
+        Map<String, Object> m = new HashMap<String, Object>();
         List<Role> roles = projectService.getRole(projectId);
 
-        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
-        List<Role>  userRoles = new LinkedList<Role>();
-        List<Role>  listRoles = new LinkedList<Role>();
-        for (Role r : roles){
-            Boolean flag = false ;
-            for (Long id : roleIds ){
-                if (id == r.getId()){
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+        List<Role> userRoles = new LinkedList<Role>();
+        List<Role> listRoles = new LinkedList<Role>();
+        for (Role r : roles) {
+            Boolean flag = false;
+            for (Long id : roleIds) {
+                if (id == r.getId()) {
                     userRoles.add(r);
                     flag = true;
                     break;
                 }
             }
-            if (!flag){
+            if (!flag) {
                 listRoles.add(r);
             }
         }
-        m.put("listRoles",listRoles);
-        m.put("userRoles",userRoles);
+        m.put("listRoles", listRoles);
+        m.put("userRoles", userRoles);
         return m;
     }
 
-    @RequestMapping(value = "/data",method = RequestMethod.POST)
+    @RequestMapping(value = "/data", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> showData(@Valid @RequestBody Map<String,Object> info){
+    public Map<String, Object> showData(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("projectId");
-        Long userId = jsonObject.getLong("userId");
-        Map<String,Object> map = new HashMap<String,Object>();
+        Long projectId = jsonObject.getLong("ProjectId");
+        Long userId = jsonObject.getLong("UserId");
+        Map<String, Object> map = new HashMap<>();
         List<Data> datas = projectService.getData(projectId);
-        List<Data> listDatas = new LinkedList<Data>();
-        List<Data> userDatas = new LinkedList<Data>();
-        for (Data d : datas){
-            if (d.getCreatorId()!=userId){
+        List<Data> listDatas = new LinkedList<>();
+        List<Data> userDatas = new LinkedList<>();
+        for (Data d : datas) {
+            if (d.getCreatorId() != userId) {
                 System.out.println(d.toString());
                 listDatas.add(d);
-            }else{
+            } else {
                 userDatas.add(d);
             }
         }
 
-        map.put("listDatas", datas);
+        map.put("listDatas", listDatas);
         map.put("userDatas", userDatas);
         return map;
     }
 
+    //    展示项目中还未解决的问题
     @RequestMapping("/question")
     @ResponseBody
-    public Map<String, Object> showQuestion(@Valid @RequestBody Map<String, Object> info){
+    public Map<String, Object> showQuestion(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("projectId");
-        Long userId = jsonObject.getLong("userId");
-        Map<String,Object> map = new HashMap<String,Object>();
+        Long projectId = jsonObject.getLong("ProjectId");
+        Long userId = jsonObject.getLong("UserId");
+        if (projectId == null) {
+            return null;
+        }
+        Map<String, Object> map = new HashMap<>();
         List<Question> questions = projectService.getQuestion(projectId);
-        List<Question> listQuestions = new LinkedList<Question>();
-        List<Question> userQuestions = new LinkedList<Question>();
-        for (Question q : questions){
-            if (q.getCreatorId()!=userId){
+        System.out.println(questions);
+        List<Question> listQuestions = new LinkedList<>();
+        List<Question> userQuestions = new LinkedList<>();
+        for (Question q : questions) {
+            if (q.getCreatorId() != userId) {
                 System.out.println(q.toString());
                 listQuestions.add(q);
-            }else{
+            } else {
                 userQuestions.add(q);
             }
         }
-        map.put("listQuestions", questions);
-        map.put("userQuestions", userQuestions);
+        map.put("ListQuestions", listQuestions);
+        map.put("UserQuestions", userQuestions);
         return map;
     }
 
-    @RequestMapping(value = "/solution",method = RequestMethod.POST)
+//    展示项目中未处理的解决方案
+    @RequestMapping(value = "/solution", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> showSolution(@Valid @RequestBody Map<String,Object> info){
+    public Map<String, Object> showSolution(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("projectId");
-        Long userId = jsonObject.getLong("userId");
-        Map<String,Object> map = new HashMap<String,Object>();
+        Long projectId = jsonObject.getLong("ProjectId");
+        Long userId = jsonObject.getLong("UserId");
+        Map<String, Object> map = new HashMap<>();
         List<Solution> solutions = projectService.getSolution(projectId);
-        List<Solution> listSolutions = new LinkedList<Solution>();
-        List<Solution> userSolutions = new LinkedList<Solution>();
-        for (Solution s : solutions){
-            if (s.getCreatorId()!=userId){
+        List<Solution> listSolutions = new LinkedList<>();
+        List<Solution> userSolutions = new LinkedList<>();
+        for (Solution s : solutions) {
+            if (s.getCreatorId() != userId) {
                 System.out.println(s.toString());
                 listSolutions.add(s);
-            }else{
+            } else {
                 userSolutions.add(s);
             }
         }
 
-        map.put("listSolutions", solutions);
+        map.put("listSolutions", listSolutions);
         map.put("userSolutions", userSolutions);
         return map;
     }

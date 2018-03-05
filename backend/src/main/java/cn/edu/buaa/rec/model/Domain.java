@@ -67,6 +67,52 @@ public class Domain {
      */
     private String description;
 
+    private String typicalData;
+
+    @Override
+    public String toString() {
+        return "Domain{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", creatorId=" + creatorId +
+                ", buildTime=" + buildTime +
+                ", updateTime=" + updateTime +
+                ", useState='" + useState + '\'' +
+                ", isapproved=" + isapproved +
+                ", description='" + description + '\'' +
+                ", typicalData='" + typicalData + '\'' +
+                ", typicalRole='" + typicalRole + '\'' +
+                ", typicalScenario='" + typicalScenario + '\'' +
+                '}';
+    }
+
+    public String getTypicalData() {
+        return typicalData;
+    }
+
+    public void setTypicalData(String typicalData) {
+        this.typicalData = typicalData;
+    }
+
+    public String getTypicalRole() {
+        return typicalRole;
+    }
+
+    public void setTypicalRole(String typicalRole) {
+        this.typicalRole = typicalRole;
+    }
+
+    public String getTypicalScenario() {
+        return typicalScenario;
+    }
+
+    public void setTypicalScenario(String typicalScenario) {
+        this.typicalScenario = typicalScenario;
+    }
+
+    private String typicalRole;
+    private String typicalScenario;
+
     public Domain(String name, String description, Long creatorId) {
         this.name = name;
         this.description = description;

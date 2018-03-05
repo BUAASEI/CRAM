@@ -67,6 +67,20 @@ public class Project {
      */
     private String function;
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", buildTime=" + buildTime +
+                ", updateTime=" + updateTime +
+                ", creatorId=" + creatorId +
+                ", domainId=" + domainId +
+                ", function='" + function + '\'' +
+                '}';
+    }
+
     public Project() {
         System.out.println(1);
     }
@@ -296,17 +310,4 @@ public class Project {
         this.function = function == null ? null : function.trim();
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", buildTime=" + buildTime +
-                ", updateTime=" + updateTime +
-                ", creatorId=" + creatorId +
-                ", domainId=" + domainId +
-                ", function='" + function + '\'' +
-                '}';
-    }
 }
