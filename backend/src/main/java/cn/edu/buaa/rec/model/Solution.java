@@ -1,6 +1,6 @@
 package cn.edu.buaa.rec.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Solution {
     /**

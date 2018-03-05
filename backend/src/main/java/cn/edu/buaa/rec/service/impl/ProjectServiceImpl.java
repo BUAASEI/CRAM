@@ -208,6 +208,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (projectId==null){
             return null;
         }
+        System.out.println(projectId);
         List<Data> listDatas = dataMapper.selectByProjectId(projectId);
         return listDatas;
     }
@@ -227,9 +228,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (projectId==null){
             return null;
         }
-        List<Question> listQuestion = questionMapper.selectByProjectId(projectId);
-
-        return listQuestion;
+        return questionMapper.selectByProjectId(projectId);
     }
 
     @Override
@@ -256,7 +255,7 @@ public class ProjectServiceImpl implements ProjectService {
     private Project getProject(String name){
         System.out.println("name:" + name);
         Project pro =  projectMapper.selectByName(name);
-        System.out.println(pro);
+        System.out.println(pro.toString());
         return pro;
     }
 

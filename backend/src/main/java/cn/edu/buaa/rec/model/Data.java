@@ -1,6 +1,6 @@
 package cn.edu.buaa.rec.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Data {
     /**
@@ -68,6 +68,17 @@ public class Data {
     private String description;
 
     public Data() {
+    }
+
+    public Data(Long id, String name, Date buildTime, Date updateTime, Long creatorId, Long projectId, String useState, String description) {
+        this.id = id;
+        this.name = name;
+        this.buildTime = buildTime;
+        this.updateTime = updateTime;
+        this.creatorId = creatorId;
+        this.projectId = projectId;
+        this.useState = useState;
+        this.description = description;
     }
 
     /**

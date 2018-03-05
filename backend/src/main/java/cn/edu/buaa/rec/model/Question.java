@@ -67,6 +67,20 @@ public class Question {
      */
     private String content;
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", buildTime=" + buildTime +
+                ", updateTime=" + updateTime +
+                ", creatorId=" + creatorId +
+                ", projectId=" + projectId +
+                ", type=" + type +
+                ", content='" + content + '\'' +
+                '}';
+    }
+
     public Question() {
     }
 

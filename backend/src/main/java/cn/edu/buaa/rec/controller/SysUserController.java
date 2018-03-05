@@ -52,19 +52,21 @@ public class SysUserController {
     private UserProjectRoleService userProjectRoleService;
 
     //    跳转到个人中心界面，默认显示其参与的项目
-    @RequestMapping(name="/home", method = RequestMethod.POST)
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
     @ResponseBody
     public List<String> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
         //      返回的是参与的项目的简介界面
-//        添加 user_project表
-        JSONObject jsonObject = (JSONObject)JSONObject.toJSON(userInfo);
+        //        添加 user_project表
+        System.out.println("hah");
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
         System.out.println(jsonObject.getLong("UserId"));
         return sysUserService.participateProjectsInfo(jsonObject.getLong("UserId"));
     }
 
     //    修改用户信息
-    //    目前只根据id进行修改，没有验证用户名
-    @RequestMapping("/modinfo")
+    //    目前只根据id进行修改
+    //    不能修改用户名
+    @RequestMapping(value = "/modinfo", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> modifyInformation(@Valid @RequestBody Map<String, Object> sysUserInfo) {
 
@@ -72,9 +74,8 @@ public class SysUserController {
         Long sysUserId = jsonObject.getLong("UserId");
         String sysUserName = jsonObject.getString("UserName");
         SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
-        System.out.println(sysUser.getName());
+        System.out.println(sysUser.getEmail());
         return sysUserService.modSysUserInfo(sysUser);
-
     }
 
     /*
