@@ -1,13 +1,20 @@
 package main;
 
+import cn.edu.buaa.rec.dao.BusinessRoleDataMapper;
+import cn.edu.buaa.rec.dao.SolutionMapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @Description:
@@ -43,13 +50,13 @@ public class RECApplication {
 
     public static void main(String[] args){
 
-        SpringApplication.run(RECApplication.class);
-//
+          SpringApplication.run(RECApplication.class);
+
 //        ApplicationContext context = SpringApplication.run(RECApplication.class);
-//        SolutionMapper mapper = (SolutionMapper) BeanFactoryUtils.beanOfTypeIncludingAncestors(context,SolutionMapper.class);
-//        System.out.println(mapper.selectByProjectId(3L));
-
-
+//        BusinessRoleDataMapper businessRoleDataMapper = (BusinessRoleDataMapper) BeanFactoryUtils.beanOfTypeIncludingAncestors(context,SolutionMapper.class);
+//        List<Long> rId = new LinkedList<>();
+//        rId.add(3L);
+//        System.out.println(businessRoleDataMapper.selectBusinessRoleDataByRoleIds(rId));
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {//跨域解决

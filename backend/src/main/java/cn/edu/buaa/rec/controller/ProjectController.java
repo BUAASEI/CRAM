@@ -3,6 +3,7 @@ package cn.edu.buaa.rec.controller;
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.BusinessRoleService;
 import cn.edu.buaa.rec.service.ProjectService;
+import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.BusinessRoleServiceImpl;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
@@ -46,26 +47,21 @@ public class ProjectController {
     private UserProjectRoleServiceImpl userProjectRoleService;
 
     @Autowired
-    @Qualifier("BusinessRoleService")
-    private BusinessRoleServiceImpl businessRoleService;
+    @Qualifier("BusinessRoleDataService")
+    private BusinessRoleDataServiceImpl businessRoleDataService;
 
     @RequestMapping("/home")
     @ResponseBody
-    public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
+    public List<Map<String,Object>> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long projectId = jsonObject.getLong("projectId");
         Long userId = jsonObject.getLong("userId");
         Map<String,Object> m = new HashMap<String,Object>();
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
-        List<Role> roles = projectService.getRole(projectId);
-        List<Long> bIds = businessRoleService.getBusinessId(roleIds);
-        System.out.println(bIds.toString());
-        List<Business> listBusiness = projectService.getBusinessByIds(bIds);
+        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
 
-
-
-
-        return projectService.getProjectInfo(projectName);
+       List<Map<String,Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        return businessForms;
     }
 
     @RequestMapping("/roleapply")

@@ -52,11 +52,4 @@
       </if>
     </trim>
   </insert>
-
-  <select id="selectByProjectIdAndUserId" resultType="Long">
-    SELECT role_id
-    from user_project_role
-    where project_id=#{projectId} AND user_id=#{userId}
-  </select>
-
 </mapper>

@@ -267,12 +267,12 @@ public class ProjectServiceImpl implements ProjectService {
         return null;
     }
 
-    @Override
-    public List<Business> getBusinessByIds(List<Long> bIds) {
-        if (bIds == null){
-            return null;
-        }
-        List<Business> listBusiness = businessMapper.selectBusinessByIds(bIds);
-        return listBusiness;
-    }
+//    @Override
+//    public List<Business> getBusinessByIds(List<Long> bIds) {
+//        if (bIds == null){
+//            return null;
+//        }
+//        List<Business> listBusiness = businessMapper.selectBusinessByIds(bIds);
+//        return listBusiness;
+//    }
 }

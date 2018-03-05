@@ -59,4 +59,19 @@
       </if>
     </trim>
   </insert>
+  <!--<select id="selectBusinessRoleDataByRoleIds" resultType="cn.edu.buaa.rec.model.BusinessRoleData">-->
+    <!--SELECT *-->
+    <!--from business_role_data-->
+    <!--where role_id IN-->
+    <!--<foreach collection="rIds" item="role_id" open="(" close=")"-->
+             <!--separator=",">-->
+      <!--#{role_id}-->
+    <!--</foreach>-->
+  <!--</select>-->
+
+  <select id="selectBusinessRoleDataByRoleId" parameterType="Long" resultType="cn.edu.buaa.rec.model.BusinessRoleData">
+  SELECT *
+  from business_role_data
+  where role_id = #{rId}
+  </select>
 </mapper>
