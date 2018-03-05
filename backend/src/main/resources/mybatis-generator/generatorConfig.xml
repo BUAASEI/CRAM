@@ -17,17 +17,17 @@
 
         <!-- 注意这里的路径，如果工程文件地址变了，这里也需要更改 -->
         <javaModelGenerator targetPackage="cn.edu.buaa.rec.model"
-                            targetProject="/Users/suruo/Documents/workspace/rec/rec/backend/src/main/java">
+                            targetProject="/Users/suruo/Documents/workspace/CRAM/backend/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <sqlMapGenerator targetPackage="cn.edu.buaa.rec.mapper"
-                         targetProject="/Users/suruo/Documents/workspace/rec/rec/backend/src/main/resources">
+                         targetProject="/Users/suruo/Documents/workspace/CRAM/backend/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="cn.edu.buaa.rec.dao"
-                             targetProject="/Users/suruo/Documents/workspace/rec/rec/backend/src/main/java">
+                             targetProject="/Users/suruo/Documents/workspace/CRAM/backend/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
