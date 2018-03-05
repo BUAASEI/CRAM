@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
@@ -50,10 +51,15 @@ public class SysUserController {
     @Qualifier("UserProjectRoleService")
     private UserProjectRoleService userProjectRoleService;
 
-    @RequestMapping("/")
-    public String rootPage(Model model) {
-        //      暂时不清楚这里应该返回哪个页面
-        return null;
+    //    跳转到个人中心界面，默认显示其参与的项目
+    @RequestMapping(name="/home", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
+        //      返回的是参与的项目的简介界面
+//        添加 user_project表
+        JSONObject jsonObject = (JSONObject)JSONObject.toJSON(userInfo);
+        System.out.println(jsonObject.getLong("UserId"));
+        return sysUserService.participateProjectsInfo(jsonObject.getLong("UserId"));
     }
 
     //    修改用户信息
@@ -66,7 +72,7 @@ public class SysUserController {
         Long sysUserId = jsonObject.getLong("UserId");
         String sysUserName = jsonObject.getString("UserName");
         SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
-                System.out.println(sysUser.getName());
+        System.out.println(sysUser.getName());
         return sysUserService.modSysUserInfo(sysUser);
 
     }
@@ -76,10 +82,11 @@ public class SysUserController {
         1）领域名称; 2）领域描述; 3）创建者id
         Name\Description\CreatorId
     */
-    @RequestMapping("/credom")
+    @RequestMapping(value = "/credom", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> createDomain(@Valid @RequestBody Map<String, Object> domainInfo) {
 
+        System.out.println(domainInfo);
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(domainInfo);
         Domain domain = new Domain(jsonObject.getString("DomainName"), jsonObject.getString("Description"), jsonObject.getLong("CreatorId"));
 

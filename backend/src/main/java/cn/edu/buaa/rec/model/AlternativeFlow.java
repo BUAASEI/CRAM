@@ -16,6 +16,9 @@ public class AlternativeFlow extends Flow{
     private String guardCondition;
     private String name;
 
+    public AlternativeFlow() {
+    }
+
     public String getName() {
         return name;
     }
@@ -55,4 +58,5 @@ public class AlternativeFlow extends Flow{
         else if(name.equals("GlobalAlternativeFlow"))
             this.setGuardCondition((String)flow.get("GuardCondition"));
     }
+
 }

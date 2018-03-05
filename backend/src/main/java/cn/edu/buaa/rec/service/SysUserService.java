@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.service;
 
 import cn.edu.buaa.rec.model.SysUser;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,4 +24,6 @@ public interface SysUserService {
     Map<String,Object> modSysUserInfo(SysUser sysUserInfo);
 
     SysUser selectById(Long sysUserId);
+
+    List<String> participateProjectsInfo(Long userId);
 }
