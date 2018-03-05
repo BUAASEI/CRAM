@@ -1,7 +1,9 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
+import cn.edu.buaa.rec.service.BusinessRoleService;
 import cn.edu.buaa.rec.service.ProjectService;
+import cn.edu.buaa.rec.service.impl.BusinessRoleServiceImpl;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
 import com.alibaba.fastjson.JSONObject;
@@ -43,9 +45,26 @@ public class ProjectController {
     @Qualifier("UserProjectRoleService")
     private UserProjectRoleServiceImpl userProjectRoleService;
 
+    @Autowired
+    @Qualifier("BusinessRoleService")
+    private BusinessRoleServiceImpl businessRoleService;
+
     @RequestMapping("/home")
     @ResponseBody
-    public Map<String, Object> ProjectHomePage(@Valid @RequestBody String projectName){
+    public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long projectId = jsonObject.getLong("projectId");
+        Long userId = jsonObject.getLong("userId");
+        Map<String,Object> m = new HashMap<String,Object>();
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
+        List<Role> roles = projectService.getRole(projectId);
+        List<Long> bIds = businessRoleService.getBusinessId(roleIds);
+        System.out.println(bIds.toString());
+        List<Business> listBusiness = projectService.getBusinessByIds(bIds);
+
+
+
+
         return projectService.getProjectInfo(projectName);
     }
 

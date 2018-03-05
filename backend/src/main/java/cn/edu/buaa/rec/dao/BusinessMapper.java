@@ -2,6 +2,9 @@ package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.Business;
 import cn.edu.buaa.rec.model.BusinessWithBLOBs;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface BusinessMapper {
     /**
@@ -21,4 +24,6 @@ public interface BusinessMapper {
     int insertSelective(BusinessWithBLOBs record);
 
     Business selectBusiness(Long businessId);
+
+    List<Business> selectBusinessByIds(@Param("ids")List<Long> ids);
 }

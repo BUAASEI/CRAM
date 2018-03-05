@@ -1,6 +1,9 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.BusinessRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface BusinessRoleMapper {
     /**
@@ -18,4 +21,8 @@ public interface BusinessRoleMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(BusinessRole record);
+
+    List<Long> selectBusinessId(@Param("roleIds") List<Long> roleIds);
+
+
 }

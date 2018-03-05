@@ -17,9 +17,9 @@
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in BusinessData" :key=item.id>
-                <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
+              <div class="detail-item" v-for="item in userQuestions" :key=item.id>
+                <div class="col-name">{{ item.title}}</div>
+                <div class="col-roles">{{ item.content }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
                   <!--<span @click="editScenario(item.id)">设置</span>-->
@@ -38,9 +38,9 @@
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in UsageData" :key=item.id>
-                <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
+              <div class="detail-item" v-for="item in listQuestions" :key=item.id>
+                <div class="col-name">{{ item.title }}</div>
+                <div class="col-roles">{{ item.content }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
                   <!--<span @click="editUsecase(item.id)">设置</span>-->
@@ -169,8 +169,8 @@
   export default{
     data () {
       return {
-        BusinessData: a1,
-        UsageData: a2
+        userQuestions: [],
+        listQuestions: []
       }
     },
     components: {
@@ -178,7 +178,23 @@
       Nav,
       Button
     },
+    mounted() {
+      this.getQuestions(3,3);
+    },
     methods: {
+
+      getQuestions:function (projectId,userId) {
+        let info={
+          projectId:projectId,
+          userId:userId
+        };
+        this.$http.post('project/question',info)
+          .then((response) => {
+          this.listQuestions = response.data.listQuestions;
+          this.userQuestions=response.data.userQuestions;
+
+      })
+      },
       editScenario: function (id) {
         // do something
         // 路由跳转

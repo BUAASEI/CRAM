@@ -132,4 +132,11 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectBusinessByIds" resultType="Long">
+    SELECT *
+    from business
+    where id IN
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">#{id}</foreach>
+  </select>
 </mapper>

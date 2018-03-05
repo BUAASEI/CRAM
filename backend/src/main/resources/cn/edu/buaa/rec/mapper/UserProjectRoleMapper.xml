@@ -76,9 +76,10 @@
     </trim>
   </insert>
 
-  <select id="selectByProjectIdAndUserId" resultType="Long">
-    SELECT role_id
-    from user_project_role
-    where project_id=#{projectId} AND user_id=#{userId}
+  <select id="selectBusinessId" resultType="Long">
+    SELECT business_id
+    from business_role
+    where role_id IN
+    <foreach collection="roleIds" item="rId" open="(" close=")" separator=",">#{rId}</foreach>>
   </select>
 </mapper>
