@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopMirrorSysUser name="苏若" @showIbox="showIbox"></TopMirrorSysUser>
+    <TopMirrorSysUser name="buaa" @showIbox="showIbox"></TopMirrorSysUser>
     <div class="context">
       <div class="context-nav">
         <NavMirrorSysUser target="st"></NavMirrorSysUser>

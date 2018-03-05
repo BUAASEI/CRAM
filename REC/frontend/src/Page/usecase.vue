@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="box1 scroll">
-      <div class="rucm-head">Use Case Specitication</div>
+      <div class="rucm-head">Use Case Specitication for CRAM</div>
       <div class="flow rucm-basic-info">
         <Table :colums="colums1" :datas="datas1"></Table>
       </div>

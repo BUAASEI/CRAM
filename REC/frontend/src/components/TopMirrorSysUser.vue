@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="basic title">
-      <span>mvrec >></span>
+      <span>cram >></span>
       <span class="focus-blue">{{ name }}</span>
     </div>
     <div class="basic info">
@@ -77,11 +77,11 @@
       },
       name: {
         type: String,
-        default: '苏若'
+        default: 'buaa'
       },
       creator: {
         type: String,
-        default: 'suruo'
+        default: 'buaa'
       },
       role: {
         type: String,

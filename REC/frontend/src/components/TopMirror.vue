@@ -2,7 +2,7 @@
   <div>
     <div class="basic title">
       <div>
-        <span>mvrec >></span>
+        <span>cram >></span>
         <span class="focus-blue">{{ name }}</span>
         <span class="focus-red">注销</span>
       </div>
@@ -74,7 +74,7 @@
     props: {
       kind: {
         type: String,
-        default: '用况场景'
+        default: '用例'
       },
       name: {
         type: String,
@@ -86,7 +86,7 @@
       },
       role: {
         type: String,
-        default: '校教务部'
+        default: '学生'
       }
     },
     components: {

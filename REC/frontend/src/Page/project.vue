@@ -6,12 +6,7 @@
       <div class="context-nav">
         <Nav target="st"></Nav>
       </div>
-      <div class="context-title">
-        <div v-for="item in stage">
-          <Button @click="reqInfo(item.projectId)" type="primary">{{ item.projectName }}</Button>
-        </div>
-      </div>
-      <div v-if="showStage" class="context-detail">
+      <div class="context-detail">
         <div class="detail">
           <div class="detail-btn"><Button type="primary">新增业务场景</Button></div>
           <div class="detail-body">
@@ -36,10 +31,10 @@
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用例场景</Button></div>
+          <div class="detail-btn"><Button type="primary">新增用例</Button></div>
           <div class="detail-body">
             <div class="detail-head">
-              <div class="col-name">用况场景名称</div>
+              <div class="col-name">用例名称</div>
               <div class="col-roles">相关角色</div>
               <div class="col-datas">相关数据</div>
               <div class="col-operate">操作</div>
@@ -142,23 +137,49 @@ import {Button} from 'iview'
 export default{
   data () {
     return {
-      stage: [
+      // stage: [
+      //   {
+      //     projectId: 1,
+      //     projectName: '预选课'
+      //   },
+      //   {
+      //     projectId: 2,
+      //     projectName: '选课'
+      //   },
+      //   {
+      //     projectId: 3,
+      //     projectName: '四六级考试报名'
+      //   }
+      // ],
+      BusinessData: [
         {
-          projectId: 1,
-          projectName: '预选课'
+          id: 1,
+          name: '预选课',
+          roles: '校教务部，院系教务',
+          datas: '课程信息，学生选课结果'
         },
         {
-          projectId: 2,
-          projectName: '选课'
-        },
-        {
-          projectId: 3,
-          projectName: '四六级考试报名'
+          id: 2,
+          name: '选课',
+          roles: '校教务部，院系教务',
+          datas: '学生选课结果'
         }
       ],
-      BusinessData: [],
-      UsageData: [],
-      showStage: false
+      UsageData: [
+        {
+          id: 1,
+          name: '提交选课申请',
+          roles: '学生，校教务部，院系教务',
+          datas: '学生选课信息'
+        },
+        {
+          id: 2,
+          name: '选课结束',
+          roles: '学生，开课老师，计算中心',
+          datas: '学生选课结果'
+        }
+      ],
+      // showStage: false
     }
   },
   components: {
@@ -215,7 +236,7 @@ export default{
       ]
       this. BusinessData = a1
       this.UsageData = a2
-      this.showStage = true
+      // this.showStage = true
     }
   }
 }

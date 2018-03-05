@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="basic title">
-      <span>mvrec >></span>
+      <span>cram >></span>
       <span class="focus-blue">{{ name }}</span>
     </div>
     <div class="basic info">
@@ -90,11 +90,11 @@ export default{
     },
     creator: {
       type: String,
-      default: 'suruo'
+      default: 'buaa'
     },
     rolename: {
       type: String,
-      default: '学生'
+      default: '校教务部'
     },
     other_roles: {
       type: Array,

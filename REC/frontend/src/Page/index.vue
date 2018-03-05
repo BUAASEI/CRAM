@@ -24,11 +24,11 @@ Description: 登录页面
           </div>
         </div>
       </div>
-      <!--<div class="tempIn">-->
-        <!--<router-link to='/sysuser'>-->
-          <!--<Button type="primary">登录</Button>-->
-        <!--</router-link>-->
-      <!--</div>-->
+      <div class="tempIn">
+        <router-link to='/sysuser'>
+          <Button type="primary">登录</Button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>

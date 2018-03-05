@@ -15,15 +15,15 @@
       return {
         data: [
         {
-          title: 'parent 1',
+          title: '导出选课结果',
           expand: true,
           children: [
             {
-              title: 'parent 1-1',
+              title: '相关数据',
               expand: true,
               children: [
                 {
-                  title: 'leaf 1-1-1',
+                  title: '选课结果',
                   expand: true,
                   children: [
                     {
@@ -33,14 +33,27 @@
                       title: 'leaf 1-1-2-1'
                     }
                   ]
+                }
+                // ,
+                // {
+                //   title: 'leaf 1-1-2'
+                // }
+              ]
+            },
+            {
+              title: '相关角色',
+              expand: true,
+              children: [
+                {
+                  title: 'leaf 1-2-1'
                 },
                 {
-                  title: 'leaf 1-1-2'
+                  title: 'leaf 1-2-1'
                 }
               ]
             },
             {
-              title: 'parent 1-2',
+              title: 'Older： 查看选课结果',
               expand: true,
               children: [
                 {
@@ -52,7 +65,46 @@
               ]
             }
           ]
-        }
+        },
+          {
+            title: '选课',
+            expand: true,
+            children: [
+              {
+                title: '相关数据',
+                expand: true,
+                children: [
+                  {
+                    title: 'leaf 1-1-1',
+                    expand: true,
+                    children: [
+                      {
+                        title: 'leaf 1-1-1-1'
+                      },
+                      {
+                        title: 'leaf 1-1-2-1'
+                      }
+                    ]
+                  },
+                  {
+                    title: 'leaf 1-1-2'
+                  }
+                ]
+              },
+              {
+                title: '相关角色',
+                expand: true,
+                children: [
+                  {
+                    title: 'leaf 1-2-1'
+                  },
+                  {
+                    title: 'leaf 1-2-1'
+                  }
+                ]
+              }
+            ]
+          }
       ]
       }
     },
