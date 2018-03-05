@@ -13,4 +13,6 @@ import java.util.Map;
 
 public interface UserProjectRoleService {
     List<Map<String,Object>> parProject(Long sysUserId);
+
+    List<Long> getUserRoleId(Long projectId,Long userId);
 }

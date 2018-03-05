@@ -18,5 +18,5 @@ public interface DomainService {
     //    查询数据库中是否已经存在该领域名称
     boolean noExist(String name);
 
-    Domain getByName(String name);
+    Domain selectByName(String name);
 }

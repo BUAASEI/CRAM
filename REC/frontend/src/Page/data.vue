@@ -17,9 +17,9 @@
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in BusinessData" :key=item.id>
+              <div class="detail-item" v-for="item in userDatas" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
+                <div class="col-roles">{{ item.description }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
                   <!--<span @click="editScenario(item.id)">设置</span>-->
@@ -38,9 +38,9 @@
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in UsageData" :key=item.id>
+              <div class="detail-item" v-for="item in listDatas" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
+                <div class="col-roles">{{ item.description }}</div>
                 <div class="col-datas">{{ item.datas }}</div>
                 <div class="col-operate">
                   <!--<span @click="editUsecase(item.id)">设置</span>-->
@@ -169,8 +169,8 @@
   export default{
     data () {
       return {
-        BusinessData: a1,
-        UsageData: a2
+        userDatas: [],
+        listDatas: []
       }
     },
     components: {
@@ -178,7 +178,24 @@
       Nav,
       Button
     },
+    mounted() {
+      this.getDatas(3,3);
+    },
     methods: {
+
+      getDatas:function (projectId,userId) {
+        let info={
+          projectId:projectId,
+          userId:userId
+        };
+        this.$http.post('project/data',info)
+          .then((response) => {
+            this.listDatas = response.data.listDatas;
+
+            this.userDatas=response.data.userDatas;
+
+          })
+      },
       editScenario: function (id) {
         // do something
         // 路由跳转

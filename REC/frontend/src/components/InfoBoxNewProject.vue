@@ -19,14 +19,15 @@
       <div class="thead">选择所属领域</div>
       <div class="box-body">
         <div class="box-head">
-          <div class="col-id">ID</div>
+          <!--<div class="col-id">ID</div>-->
           <div class="col-name">名称</div>
         </div>
         <div class="box-context">
           <div class="info-item" >
-            <CheckboxGroup v-model="vertical" vertical>
+            <CheckboxGroup v-model="vertical" >
               <div v-for="(item, index) in infos" :key="index">
-                <Checkbox size="large" :label=item.id ></Checkbox>
+              <!--  <Checkbox size="large" :label=item.id ></Checkbox>-->
+                <input id="boxId" type="checkbox" v-bind:value="item.id" />
                 <span class="col-name">{{ item.name }}</span>
               </div>
             </CheckboxGroup>
@@ -36,7 +37,7 @@
     </div>
     <div class="box3">
       <Button @click="reset">重置</Button>
-      <Button>确定</Button>
+      <Button @click="submit">确定</Button>
     </div>
   </div>
 </template>
@@ -143,10 +144,14 @@
         let body = {
           ProjectName: this.name,
           Description: this.discribe,
-          DomainId: this.vertical,
+          DomainId: 1,
           CreatorId: 1/*登陆时获得*/
-        }
+        };
         /*ajax*/
+        this.$http.post('sysuser/crepro',body)
+          .then((response) => {
+            confirm(response.data.Msg);
+          })
       },
       close () {
         this.$emit('closeIbox', 3)

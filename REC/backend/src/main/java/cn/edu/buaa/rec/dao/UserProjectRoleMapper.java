@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.UserProjectRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface UserProjectRoleMapper {
      */
     int insertSelective(UserProjectRole record);
     List<UserProjectRole> selectBySysUserId(Long sysUserId);
+
+    List<Long> selectByProjectIdAndUserId(@Param("projectId")Long projectId,@Param("userId") Long userId);
 }

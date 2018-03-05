@@ -29,7 +29,7 @@
     </div>
     <div class="box3">
       <Button @click="reset">重置</Button>
-      <Button>确定</Button>
+      <Button @click="submit">确定</Button>
     </div>
   </div>
 </template>
@@ -137,13 +137,17 @@
       submit () {
         let body = {
           UserId: this.userid,
-          Name: this.name,
+          UserName: this.name,
           Phone: this.phone,
           Email: this.mail,
           Password: this.pw,
-          CreatorId: 1/*登陆时获得*/
-        }
+
+        };
         /*ajax*/
+        this.$http.post('sysuser/modinfo',body)
+          .then((response) => {
+              confirm(response.data.Msg);
+          })
       },
       close () {
         this.$emit('closeIbox', 1)

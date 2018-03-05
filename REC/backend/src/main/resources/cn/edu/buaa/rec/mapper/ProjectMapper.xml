@@ -14,7 +14,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
     <result column="domain_id" jdbcType="BIGINT" property="domainId" />
-    <result column="dom_id" jdbcType="BIGINT" property="domId" />
   </resultMap>
 
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.edu.buaa.rec.model.Project">
@@ -41,11 +40,11 @@
     -->
     insert into project (id, name, description, 
       build_time, update_time, creator_id, 
-      domain_id, dom_id, function
+      domain_id,  function
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{buildTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, 
-      #{domainId,jdbcType=BIGINT}, #{domId,jdbcType=BIGINT}, #{function,jdbcType=LONGVARCHAR}
+      #{domainId,jdbcType=BIGINT}, #{function,jdbcType=LONGVARCHAR}
       )
   </insert>
 

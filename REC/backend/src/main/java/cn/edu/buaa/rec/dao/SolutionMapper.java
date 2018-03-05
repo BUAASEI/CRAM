@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.Solution;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface SolutionMapper {
     int insertSelective(Solution record);
 
     List<Solution> selectByProjectId(Long id);
+
+    List<Solution> selectByProjectIdAndUserId(@Param("projectId")Long projectId,@Param("userId") Long userId);
 }

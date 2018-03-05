@@ -104,4 +104,18 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectByName" parameterType="String" resultType="cn.edu.buaa.rec.model.Domain">
+    SELECT *
+    FROM domain
+    WHERE NAME = #{name}
+    LIMIT 1
+  </select>
+
+  <!-- 查找现有记录的最大id -->
+  <!-- max后面不能有空格 -->
+  <select id="selectMaxId" resultType="Long">
+    SELECT max(id)
+    FROM sys_user
+  </select>
 </mapper>
