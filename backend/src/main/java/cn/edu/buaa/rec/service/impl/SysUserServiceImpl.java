@@ -1,6 +1,9 @@
 package cn.edu.buaa.rec.service.impl;
 
+import cn.edu.buaa.rec.dao.ProjectMapper;
 import cn.edu.buaa.rec.dao.SysUserMapper;
+import cn.edu.buaa.rec.dao.UserProjectMapper;
+import cn.edu.buaa.rec.model.Project;
 import cn.edu.buaa.rec.model.SysUser;
 import cn.edu.buaa.rec.service.SysUserService;
 import org.slf4j.Logger;
@@ -8,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description:
@@ -25,6 +27,10 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private UserProjectMapper userProjectMapper;
+    @Autowired
+    private ProjectMapper projectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
@@ -74,6 +80,22 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser selectById(Long sysUserId) {
         return sysUserMapper.selectById(sysUserId);
+    }
+
+//    根据user_id去user_project表中查询
+    @Override
+    public List<String> participateProjectsInfo(Long userId) {
+        List<String> re = new ArrayList<>();
+        List<Long> projectsId = userProjectMapper.selectByUserId(userId);
+        for (Long projectId : projectsId
+             ) {
+            System.out.println(projectId);
+            Project projectInfo = projectMapper.selectById(projectId);
+            System.out.println(projectInfo.getName());
+            re.add(projectInfo.getName());
+        }
+
+        return re;
     }
 
     //    检查该用户名是否已经存在于数据库中

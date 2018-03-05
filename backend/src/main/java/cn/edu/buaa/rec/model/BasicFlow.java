@@ -11,6 +11,10 @@ import java.util.Map;
  * Created by menghan on 2018/2/27.
  */
 public class BasicFlow extends Flow{
+
+    public BasicFlow() {
+    }
+
     public BasicFlow(JSONObject object){
         JSONArray bfSteps = object.getJSONArray("Steps");
         this.steps = new ArrayList<>();

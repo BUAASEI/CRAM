@@ -49,6 +49,9 @@ public class SysUser {
      */
     private String projectexp;
 
+    public SysUser() {
+    }
+
     public SysUser(String sysUserName, String phone, String email, String password) {
         this.name = sysUserName;
         this.phone = phone;

@@ -27,4 +27,6 @@ public class Flow {
 
     protected String postCondition;
 
+    public Flow() {
+    }
 }

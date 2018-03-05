@@ -1,13 +1,9 @@
 package main;
 
-import cn.edu.buaa.rec.dao.SolutionMapper;
-import cn.edu.buaa.rec.dao.UsecaseMapper;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

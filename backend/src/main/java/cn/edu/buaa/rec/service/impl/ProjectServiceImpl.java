@@ -27,9 +27,9 @@ public class ProjectServiceImpl implements ProjectService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private DomainMapper domainMapper;
+//    @Autowired
+//    private ScenarioMapper scenarioMapper;
     @Autowired
-    private ScenarioMapper scenarioMapper;
-        @Autowired
     private UsecaseMapper usecaseMapper;
     @Autowired
     private RoleMapper roleMapper;
