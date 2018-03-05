@@ -1,7 +1,6 @@
 package cn.edu.buaa.rec.service;
 
-import cn.edu.buaa.rec.model.Project;
-import cn.edu.buaa.rec.model.Role;
+import cn.edu.buaa.rec.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -33,9 +32,13 @@ public interface ProjectService {
 
     List<Role> getRole(Long projectId);
 
-    String getData(String projectName);
+    List<Data> getData(Long projectId);
 
-    String getQuestion(String projectName);
+    List<Data> getUserDatas(Long projectId,Long userId);
 
-    String getSolution(String projectName);
+    List<Question> getQuestion(Long projectId);
+
+    List<Solution> getSolution(Long projectId);
+
+    List<Solution> getUserSolution(Long projectId, Long userId);
 }

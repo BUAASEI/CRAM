@@ -1,5 +1,6 @@
 package main;
 
+import cn.edu.buaa.rec.dao.SolutionMapper;
 import cn.edu.buaa.rec.dao.UsecaseMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.BeanFactoryUtils;
@@ -47,10 +48,11 @@ public class RECApplication {
     public static void main(String[] args){
 
         SpringApplication.run(RECApplication.class);
-
+//
 //        ApplicationContext context = SpringApplication.run(RECApplication.class);
-//        UsecaseMapper mapper = (UsecaseMapper)BeanFactoryUtils.beanOfTypeIncludingAncestors(context,UsecaseMapper.class);
-//        System.out.println(mapper.selectUseCases(1L));
+//        SolutionMapper mapper = (SolutionMapper) BeanFactoryUtils.beanOfTypeIncludingAncestors(context,SolutionMapper.class);
+//        System.out.println(mapper.selectByProjectId(3L));
+
 
     }
     @Bean

@@ -14,6 +14,7 @@
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
     <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="flag" jdbcType="INTEGER" property="flag" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.edu.buaa.rec.model.Solution">
     <!--
@@ -105,10 +106,17 @@
     </trim>
   </insert>
 
-  <select id="selectByProjectId" parameterType="Long" resultType="cn.edu.buaa.rec.model.Solution">
+  <select id="selectByProjectId" parameterType="Long" resultMap="BaseResultMap">
 
     SELECT *
     from solution
     where project_id=#{id}
+  </select>
+
+  <select id="selectByProjectIdAndUserId"  resultType="cn.edu.buaa.rec.model.Solution">
+
+    SELECT *
+    from solution
+    where project_id=#{projectId} AND creator_id=#{userId}
   </select>
 </mapper>

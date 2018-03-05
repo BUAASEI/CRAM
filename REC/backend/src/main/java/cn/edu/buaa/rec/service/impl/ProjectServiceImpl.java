@@ -195,28 +195,62 @@ public class ProjectServiceImpl implements ProjectService {
     //    展示Project中涉及的Role的界面信息
     @Override
     public  List<Role> getRole(Long projectId) {
+        if (projectId==null){
+            return null;
+        }
         List<Role> roleList = roleMapper.selectByProjectId(projectId);
         return roleList;
     }
 
     //    展示Project中涉及的Data的界面信息
     @Override
-    public String getData(String projectName) {
-        List<Data> dataList = dataMapper.selectByProjectId(getProject(projectName).getId());
-        return JSON.toJSONString(dataList);
+    public List<Data> getData(Long projectId) {
+        if (projectId==null){
+            return null;
+        }
+        List<Data> listDatas = dataMapper.selectByProjectId(projectId);
+        return listDatas;
     }
 
     @Override
-    public String getQuestion(String projectName) {
-        List<Question> questionList = questionMapper.selectByProjectId(getProject(projectName).getId());
-        return JSON.toJSONString(questionList);
+    public List<Data> getUserDatas(Long projectId, Long userId) {
+        if (projectId==null || userId == null){
+            return null;
+        }
+
+        List<Data> userDatas = dataMapper.selectByProjectIdAndUserId(projectId, userId);
+        return userDatas;
     }
 
     @Override
-    public String getSolution(String projectName) {
+    public List<Question> getQuestion(Long projectId) {
+        if (projectId==null){
+            return null;
+        }
+        List<Question> listQuestion = questionMapper.selectByProjectId(projectId);
 
-        List<Solution> solutionList = solutionMapper.selectByProjectId(getProject(projectName).getId());
-        return JSON.toJSONString(solutionList);
+        return listQuestion;
+    }
+
+    @Override
+    public List<Solution> getSolution(Long projectId) {
+
+        if (projectId==null){
+            return null;
+        }
+        System.out.println(projectId);
+        List<Solution> listSolutions = solutionMapper.selectByProjectId(projectId);
+        return listSolutions;
+    }
+
+    @Override
+    public List<Solution> getUserSolution(Long projectId, Long userId) {
+        if (projectId==null || userId == null){
+            return null;
+        }
+
+        List<Solution> userSolutions = solutionMapper.selectByProjectIdAndUserId(projectId,userId);
+        return userSolutions;
     }
 
     private Project getProject(String name){

@@ -34,7 +34,7 @@
             <div class="detail-head">
               <div class="col-name">角色名称</div>
               <div class="col-roles">角色描述</div>
-              <div class="col-datas">所属场景</div>
+              <!--<div class="col-datas">所属场景</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context" id="role">

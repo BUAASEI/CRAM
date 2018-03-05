@@ -109,4 +109,10 @@
     FROM DATA
     where project_id=#{id}
   </select>
+
+  <select id="selectByProjectIdAndUserId"  resultType="cn.edu.buaa.rec.model.Data">
+    SELECT *
+    FROM DATA
+    where project_id=#{projectId} AND creator_id=#{userId}
+  </select>
 </mapper>
