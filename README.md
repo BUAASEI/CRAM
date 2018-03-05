@@ -1,2 +1,2 @@
-# REC
-Requirement Elicitation Card ( to acquire project‘s requirement ) 
+# CRAM
+a tool to acquire and model project's requirement based on multi-view cards
