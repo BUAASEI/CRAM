@@ -58,7 +58,6 @@ public class ProjectController {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long projectId = jsonObject.getLong("projectId");
         Long userId = jsonObject.getLong("userId");
-        Map<String,Object> m = new HashMap<String,Object>();
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
         List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
 
