@@ -57,20 +57,22 @@ public class SysUserController {
     private MailServiceImpl mailService;
 
     //    跳转到个人中心界面，默认显示其参与的项目
+    //    还没写完全，这只是scene的，应该还加上项目上方的其它信息：用户名
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     @ResponseBody
-    public List<Map<String, Object>> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
+    public Map<String, Object> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
         //      返回的是参与的项目的简介界面
         //        添加 user_project表
         System.out.println("已进入 /sysuser/home 接口");
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
         System.out.println("UserId： " + jsonObject.getLong("UserId"));
-        return sysUserService.participateProjectsInfo(jsonObject.getLong("UserId"));
+        Map<String, Object> m = new HashMap<>();
+        m.put("Msg", sysUserService.selectById(jsonObject.getLong("UserId")).getName());
+        return m;
     }
 
     //    修改用户信息
-    //    目前只根据id进行修改
-    //    不能修改用户名
+    //    目前只根据id进行修改，不能修改用户名
     @RequestMapping(value = "/modinfo", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> modifyInformation(@Valid @RequestBody Map<String, Object> sysUserInfo) {
@@ -84,9 +86,8 @@ public class SysUserController {
     }
 
     /*
-        新建领域，信息包括：
-        1）领域名称; 2）领域描述; 3）创建者id
-        Name\Description\CreatorId
+        新建领域
+        信息包括：1）领域名称; 2）领域描述; 3）创建者id
     */
     @RequestMapping(value = "/credom", method = RequestMethod.POST)
     @ResponseBody
@@ -106,28 +107,24 @@ public class SysUserController {
     }
 
     /*
-        新建项目，信息包括：
-        1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
-        Name\Description\DomainId\CreatorId
+        新建项目
+        信息包括：1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
     */
     @RequestMapping("/crepro")
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
-//        关系改变，重新写
         Project project = new Project(jsonObject.getString("ProjectName"), jsonObject.getString("Description"),
                 jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
 
-
         System.out.println(project.toString());
 
-
         return projectService.newProject(project);
-//        return null;
     }
 
     /*
         站内信
+        查看所管理的项目的项目管理员和角色申请
     */
     @RequestMapping(value = "/mail", method = RequestMethod.POST)
     @ResponseBody
@@ -141,30 +138,33 @@ public class SysUserController {
     }
 
     /*
-        查看管理的项目，传入参数：SysUserId
-        展示信息包括：
-        1）项目名称； 2）项目创建人名称；
+        查看管理的项目
+        传入参数：SysUserId，展示信息包括：1）项目名称； 2）项目简介； 3）所属领域
     */
     @RequestMapping("/proman")
     @ResponseBody
     public List<Map<String, Object>> projectManagedInfo(@Valid @RequestBody Map<String, Object> projectManagedInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectManagedInfo);
-        Long sysUserId = jsonObject.getLong("SysUserId");
-        return userProjectManService.manProject(sysUserId);
+        Long userId = jsonObject.getLong("UserId");
+        return userProjectManService.manProject(userId);
     }
 
     /*
-        查看参与的项目，展示信息包括：
-        1）项目名称； 2）项目创建人名称；
+        查看参与的项目
+        展示信息包括：1）项目名称； 2）项目简介；  3）所属领域
     */
     @RequestMapping("/propar")
     @ResponseBody
     public List<Map<String, Object>> projectParticipateInfo(@Valid @RequestBody Map<String, Object> projectParticipateInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectParticipateInfo);
-        Long sysUserId = jsonObject.getLong("SysUserId");
-        return userProjectRoleService.parProject(sysUserId);
+        Long userId = jsonObject.getLong("UserId");
+        return userProjectRoleService.parProject(userId);
     }
 
+    /*
+    *   查看其余项目
+    *   展示信息包括：1）项目名称； 2）项目简介；  3）所属领域
+    * */
     @RequestMapping("/proall")
     @ResponseBody
     public List<Map<String, Object>> projectAllInfo(Model model) {

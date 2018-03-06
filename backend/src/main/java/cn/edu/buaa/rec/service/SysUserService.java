@@ -25,5 +25,4 @@ public interface SysUserService {
 
     SysUser selectById(Long sysUserId);
 
-    List<Map<String, Object>> participateProjectsInfo(Long userId);
 }
