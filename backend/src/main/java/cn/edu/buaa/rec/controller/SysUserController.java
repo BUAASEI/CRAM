@@ -54,12 +54,12 @@ public class SysUserController {
     //    跳转到个人中心界面，默认显示其参与的项目
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     @ResponseBody
-    public List<String> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
+    public List<Map<String, Object>> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
         //      返回的是参与的项目的简介界面
         //        添加 user_project表
-        System.out.println("hah");
+        System.out.println("已进入 /sysuser/home 接口");
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
-        System.out.println(jsonObject.getLong("UserId"));
+        System.out.println("UserId： " + jsonObject.getLong("UserId"));
         return sysUserService.participateProjectsInfo(jsonObject.getLong("UserId"));
     }
 
@@ -124,7 +124,6 @@ public class SysUserController {
         查看管理的项目，传入参数：SysUserId
         展示信息包括：
         1）项目名称； 2）项目创建人名称；
-
     */
     @RequestMapping("/proman")
     @ResponseBody

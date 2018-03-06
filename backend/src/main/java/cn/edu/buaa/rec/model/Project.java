@@ -1,6 +1,6 @@
 package cn.edu.buaa.rec.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Project {
     /**
@@ -86,7 +86,6 @@ public class Project {
     }
 
     public Project(String name, String description, Long domainId, Long creatorId) {
-        System.out.println(2);
         this.name = name;
         this.description = description;
         this.domainId = domainId;
@@ -94,19 +93,6 @@ public class Project {
     }
 
     public Project(Long id, String name, String description, Date buildTime, Date updateTime, Long creatorId, Long domainId, String function) {
-        System.out.println(3);
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.buildTime = buildTime;
-        this.updateTime = updateTime;
-        this.creatorId = creatorId;
-        this.domainId = domainId;
-        this.function = function;
-    }
-
-    public Project(Long id, String name, String description, java.sql.Date buildTime, java.sql.Date updateTime, Long creatorId, Long domainId, String function) {
-        System.out.println(4);
         this.id = id;
         this.name = name;
         this.description = description;

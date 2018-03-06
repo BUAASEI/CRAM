@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -82,17 +85,28 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.selectById(sysUserId);
     }
 
-//    根据user_id去user_project表中查询
+    //    根据user_id去user_project表中查询
     @Override
-    public List<String> participateProjectsInfo(Long userId) {
-        List<String> re = new ArrayList<>();
+    public List<Map<String, Object>> participateProjectsInfo(Long userId) {
+        List<Map<String, Object>> re = new ArrayList<>();
         List<Long> projectsId = userProjectMapper.selectByUserId(userId);
-        for (Long projectId : projectsId
-             ) {
-            System.out.println(projectId);
+
+        if (projectsId == null) {
+            return null;
+        }
+
+        for (Long projectId : projectsId) {
+            System.out.println("projectId： " + projectId);
             Project projectInfo = projectMapper.selectById(projectId);
-            System.out.println(projectInfo.getName());
-            re.add(projectInfo.getName());
+
+            if(projectInfo == null){
+                return null;
+            }
+            System.out.println(projectInfo.toString());
+            Map<String, Object> temp = new HashMap<>();
+            temp.put("ProjectId", projectInfo.getId());
+            temp.put("ProjectName", projectInfo.getName());
+            re.add(temp);
         }
 
         return re;

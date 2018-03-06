@@ -84,8 +84,8 @@ public class ProjectController {
     @ResponseBody
     public Map<String, Object> showRole(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("projectId");
-        Long userId = jsonObject.getLong("userId");
+        Long projectId = jsonObject.getLong("ProjectId");
+        Long userId = jsonObject.getLong("UserId");
         Map<String, Object> m = new HashMap<String, Object>();
         List<Role> roles = projectService.getRole(projectId);
 
@@ -110,6 +110,7 @@ public class ProjectController {
         return m;
     }
 
+    //    项目中心的数据展示接口
     @RequestMapping(value = "/data", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showData(@Valid @RequestBody Map<String, Object> info) {
@@ -162,7 +163,7 @@ public class ProjectController {
         return map;
     }
 
-//    展示项目中未处理的解决方案
+    //    展示项目中未处理的解决方案
     @RequestMapping(value = "/solution", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showSolution(@Valid @RequestBody Map<String, Object> info) {
