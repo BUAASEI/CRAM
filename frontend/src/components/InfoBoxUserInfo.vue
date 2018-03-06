@@ -23,6 +23,14 @@
         <label for="pw">密码:</label>
         <input v-model="pw" class="xlevel" type="password" id="pw">
       </div>
+      <div class="ylevel">
+        <label for="familiarDomain">领域:</label>
+        <input v-model="familiarDomain" class="xlevel"  id="familiarDomain">
+      </div>
+      <div class="ylevel">
+        <label for="projectExp">项目经验:</label>
+        <textarea v-model="projectExp" class="xlevel text" id="projectExp" rows="4"></textarea>
+      </div>
     </div>
     <div class="box3">
       <Button @click="reset">重置</Button>
@@ -72,27 +80,27 @@
   .text {
     height: 150px;
   }
-  .box2 {
-    min-height: 100px;
-    max-height: 220px;
-    text-align: left;
-    color: gray;
-    overflow: auto;
-  }
-  .box-head, .info-item {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 10px;
-  }
-  .box-body {
-    padding-top: 10px;
-  }
-  .col-id {
-    margin-left: 20px;
-  }
-  .col-name {
-    margin-left: 50px;
-  }
+  /*.box2 {*/
+    /*min-height: 100px;*/
+    /*max-height: 220px;*/
+    /*text-align: left;*/
+    /*color: gray;*/
+    /*overflow: auto;*/
+  /*}*/
+  /*.box-head, .info-item {*/
+    /*display: flex;*/
+    /*justify-content: flex-start;*/
+    /*padding-left: 10px;*/
+  /*}*/
+  /*.box-body {*/
+    /*padding-top: 10px;*/
+  /*}*/
+  /*.col-id {*/
+    /*margin-left: 20px;*/
+  /*}*/
+  /*.col-name {*/
+    /*margin-left: 50px;*/
+  /*}*/
   .box3 {
     padding-bottom: 20px;
   }
@@ -103,17 +111,13 @@
   export default{
     data () {
       return {
-        infos: [/*后台获取*/
-          {
-            id: 1,
-            name: 's'
-          },
-          {
-            id: 2,
-            name: 'x'
-          }
-        ],
-        name: null,
+        id:'',
+       name:'',
+        phone:'',
+        mail:'',
+        password:'',
+        familiarDomain:'',
+        projectExp:'',
       }
     },
     components: {
@@ -122,6 +126,20 @@
       Button
     },
     methods: {
+      initData(){
+        var userId = localStorage.getItem("id");
+        this.$http.post('sysuser/getuser',{"userId":userId})
+          .then((response) => {
+            var user = response.data;
+            this.id = user.id;
+            this.name = user.name;
+            this.phone = user.phone;
+            this.mail = user.email;
+            this.pw = user.password;
+            this.familiarDomain = user.familiarDomain;
+            this.projectExp = user.projectExp;
+          })
+      },
       reset () {
         this.userid = null
         this.name = null
@@ -131,12 +149,13 @@
       },
       submit () {
         let body = {
-          UserId: this.userid,
-          UserName: this.name,
+          Id: this.userid,
+          Name: this.name,
           Phone: this.phone,
           Email: this.mail,
           Password: this.pw,
-          CreatorId : 1
+          FamiliarDomain:this.familiarDomain,
+          ProjectExp:this.projectExp
         };
         /*ajax*/
         this.$http.post('sysuser/modinfo',body)

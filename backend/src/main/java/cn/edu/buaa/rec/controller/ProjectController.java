@@ -5,6 +5,7 @@ import cn.edu.buaa.rec.service.ProjectService;
 import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.UsecaseRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
+import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -51,9 +52,6 @@ public class ProjectController {
     @Autowired
     @Qualifier("MailService")
     private MailServiceImpl mailService;
-
-    @Qualifier("UsecaseRoleDataService")
-    private UsecaseRoleDataServiceImpl usecaseRoleDataService;
 
 //    项目详情的初始化界面（显示business和usease表格）
     @RequestMapping("/home")

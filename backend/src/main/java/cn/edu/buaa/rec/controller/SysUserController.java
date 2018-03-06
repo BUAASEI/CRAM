@@ -56,6 +56,7 @@ public class SysUserController {
     @Qualifier("MailService")
     private MailServiceImpl mailService;
 
+
     //    跳转到个人中心界面，默认显示其参与的项目
     //    还没写完全，这只是scene的，应该还加上项目上方的其它信息：用户名
     @RequestMapping(value = "/home", method = RequestMethod.POST)
@@ -79,8 +80,8 @@ public class SysUserController {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
         Long sysUserId = jsonObject.getLong("UserId");
-        String sysUserName = jsonObject.getString("UserName");
-        SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
+        String sysUserName = jsonObject.getString("Name");
+        SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"), jsonObject.getString("FamiliarDomain"), jsonObject.getString("ProjectExp"));
         System.out.println(sysUser.getEmail());
         return sysUserService.modSysUserInfo(sysUser);
     }
@@ -169,5 +170,19 @@ public class SysUserController {
     @ResponseBody
     public List<Map<String, Object>> projectAllInfo(Model model) {
         return projectService.allProject();
+    }
+
+    //查看个人信息，用于修改个人信息初始化页面
+    @RequestMapping(value="/getuser", method = RequestMethod.POST)
+    @ResponseBody
+    public SysUser getUserById(@Valid @RequestBody Map<String,Object> info){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long userId = jsonObject.getLong("userId");
+        if(userId==null){
+            return null;
+        }
+        SysUser user = sysUserService.selectById(userId);
+
+        return user;
     }
 }
