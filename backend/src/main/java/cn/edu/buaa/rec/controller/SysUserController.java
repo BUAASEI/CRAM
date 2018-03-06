@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -57,15 +56,14 @@ public class SysUserController {
     private MailServiceImpl mailService;
 
     //    跳转到个人中心界面，默认显示其参与的项目
-    //    还没写完全，这只是scene的，应该还加上项目上方的其它信息：用户名
+    //    这只是项目上方的其它信息：用户名
+    //    预加载的时候，还应该加载参与的项目中的接口返回数据【前端ajax实现】
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
         //      返回的是参与的项目的简介界面
         //        添加 user_project表
-        System.out.println("已进入 /sysuser/home 接口");
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
-        System.out.println("UserId： " + jsonObject.getLong("UserId"));
         Map<String, Object> m = new HashMap<>();
         m.put("Msg", sysUserService.selectById(jsonObject.getLong("UserId")).getName());
         return m;
@@ -110,7 +108,7 @@ public class SysUserController {
         新建项目
         信息包括：1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
     */
-    @RequestMapping("/crepro")
+    @RequestMapping(value = "/crepro", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
@@ -141,7 +139,7 @@ public class SysUserController {
         查看管理的项目
         传入参数：SysUserId，展示信息包括：1）项目名称； 2）项目简介； 3）所属领域
     */
-    @RequestMapping("/proman")
+    @RequestMapping(value = "/proman", method = RequestMethod.POST)
     @ResponseBody
     public List<Map<String, Object>> projectManagedInfo(@Valid @RequestBody Map<String, Object> projectManagedInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectManagedInfo);
@@ -153,7 +151,7 @@ public class SysUserController {
         查看参与的项目
         展示信息包括：1）项目名称； 2）项目简介；  3）所属领域
     */
-    @RequestMapping("/propar")
+    @RequestMapping(value = "/propar", method = RequestMethod.POST)
     @ResponseBody
     public List<Map<String, Object>> projectParticipateInfo(@Valid @RequestBody Map<String, Object> projectParticipateInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectParticipateInfo);
@@ -162,12 +160,14 @@ public class SysUserController {
     }
 
     /*
-    *   查看其余项目
-    *   展示信息包括：1）项目名称； 2）项目简介；  3）所属领域
-    * */
-    @RequestMapping("/proall")
+     *   查看其余项目
+     *   展示信息包括：1）项目名称； 2）项目简介；  3）所属领域
+     * */
+    @RequestMapping(value = "/proother", method = RequestMethod.POST)
     @ResponseBody
-    public List<Map<String, Object>> projectAllInfo(Model model) {
-        return projectService.allProject();
+    public List<Map<String, Object>> projectOtherInfo(@Valid @RequestBody Map<String, Object> projectOtherInfo) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectOtherInfo);
+        Long userId = jsonObject.getLong("UserId");
+        return projectService.otherProject(userId);
     }
 }
