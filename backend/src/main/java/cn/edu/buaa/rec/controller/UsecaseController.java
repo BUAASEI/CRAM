@@ -2,6 +2,8 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.Usecase;
 import cn.edu.buaa.rec.service.UseCaseService;
+import cn.edu.buaa.rec.service.impl.MailServiceImpl;
+import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,19 +31,30 @@ public class UsecaseController {
     @Autowired
     @Qualifier("UsecaseService")
     private UseCaseService usecaseService;
+    @Autowired
+    @Qualifier("RuleCheckService")
+    private RuleCheckImpl ruleCheckService;
+
     //获取用例信息初始化用例修改界面
     @RequestMapping(value = "/getusecase", method = RequestMethod.POST)
     @ResponseBody
     public Usecase getUsecase(@Valid @RequestBody Map<String, Object> info) {
 
-       JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-       Long uId = jsonObject.getLong("usecaseId");
-        if (uId == null){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long uId = jsonObject.getLong("usecaseId");
+        if (uId == null) {
             return null;
         }
         Usecase usecase = usecaseService.getUsecaseById(uId);
         return usecase;
+    }
 
+    //    检测缺陷
+    @RequestMapping(value = "/detect", method = RequestMethod.POST)
+    @ResponseBody
+    public String showCheckResult(@Valid @RequestBody String rucmModel) {
+        String result = ruleCheckService.ruleCheckResult(rucmModel);
+        return result;
     }
 
 }

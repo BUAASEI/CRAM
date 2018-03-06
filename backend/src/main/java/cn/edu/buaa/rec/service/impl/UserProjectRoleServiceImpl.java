@@ -21,7 +21,7 @@ import java.util.*;
  */
 
 @Service("UserProjectRoleService")
-public class UserProjectRoleServiceImpl implements UserProjectRoleService{
+public class UserProjectRoleServiceImpl implements UserProjectRoleService {
 
     @Autowired
     private UserProjectRoleMapper userProjectRoleMapper;
@@ -56,13 +56,13 @@ public class UserProjectRoleServiceImpl implements UserProjectRoleService{
     }
 
     @Override
-    public List<Long> getUserRoleId(Long projectId, Long userId){
-    //根据用户Id和项目Id查寻角色Id
-        if (projectId == 0 || userId == 0){
+    public List<Long> getUserRoleId(Long projectId, Long userId) {
+        //根据用户Id和项目Id查寻角色Id
+        if (projectId == 0 || userId == 0) {
             return null;
         }
 
-        List<Long> list = userProjectRoleMapper.selectByProjectIdAndUserId(projectId,userId);
+        List<Long> list = userProjectRoleMapper.selectByProjectIdAndUserId(projectId, userId);
         return list;
     }
 }

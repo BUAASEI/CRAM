@@ -1,4 +1,5 @@
-<!--窗口组件-->
+<!-- 窗口组件 -->
+<!-- 修改个人信息 -->
 <template>
   <div class="view">
     <div class="thead">
@@ -6,10 +7,6 @@
       <div @click="close" class="thead-right">X</div>
     </div>
     <div class="box1">
-      <div class="ylevel">
-        <label for="userid">用户ID:</label>
-        <input v-model="userid" class="xlevel" id="userid">
-      </div>
       <div class="ylevel">
         <label for="name">用户名:</label>
         <input v-model="name" class="xlevel" id="name">
@@ -117,8 +114,6 @@
           }
         ],
         name: null,
-        discribe: null,
-        vertical: []
       }
     },
     components: {

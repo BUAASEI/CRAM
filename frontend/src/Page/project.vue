@@ -139,52 +139,7 @@ export default{
     return {
       BusinessData:[],
       UsageData:[]
-
     }
-      // stage: [
-      //   {
-      //     projectId: 1,
-      //     projectName: '预选课'
-      //   },
-      //   {
-      //     projectId: 2,
-      //     projectName: '选课'
-      //   },
-      //   {
-      //     projectId: 3,
-      //     projectName: '四六级考试报名'
-      //   }
-      // ],
-      // BusinessData: [
-      //   {
-      //     id: 1,
-      //     name: '预选课',
-      //     roles: '校教务部，院系教务',
-      //     datas: '课程信息，学生选课结果'
-      //   },
-      //   {
-      //     id: 2,
-      //     name: '选课',
-      //     roles: '校教务部，院系教务',
-      //     datas: '学生选课结果'
-      //   }
-      // ],
-      // UsageData: [
-      //   {
-      //     id: 1,
-      //     name: '提交选课申请',
-      //     roles: '学生，校教务部，院系教务',
-      //     datas: '学生选课信息'
-      //   },
-      //   {
-      //     id: 2,
-      //     name: '选课结束',
-      //     roles: '学生，开课老师，计算中心',
-      //     datas: '学生选课结果'
-      //   }
-      // ],
-      // showStage: false
-    // }
   },
   components: {
     Top,

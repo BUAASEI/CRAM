@@ -1,15 +1,8 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
-import cn.edu.buaa.rec.model.Data;
-import cn.edu.buaa.rec.model.Question;
-import cn.edu.buaa.rec.model.Role;
-import cn.edu.buaa.rec.model.Solution;
 import cn.edu.buaa.rec.service.ProjectService;
-import cn.edu.buaa.rec.service.UsecaseRoleDataService;
 import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
-import cn.edu.buaa.rec.service.impl.MailServiceImpl;
-import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import cn.edu.buaa.rec.service.impl.UsecaseRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
 import com.alibaba.fastjson.JSONObject;
@@ -44,10 +37,6 @@ public class ProjectController {
     private ProjectService projectService;
 
     @Autowired
-    @Qualifier("RuleCheckService")
-    private RuleCheckImpl ruleCheckService;
-
-    @Autowired
     @Qualifier("UserProjectRoleService")
     private UserProjectRoleServiceImpl userProjectRoleService;
 
@@ -55,50 +44,46 @@ public class ProjectController {
     @Qualifier("BusinessRoleDataService")
     private BusinessRoleDataServiceImpl businessRoleDataService;
 
-    @Autowired
-<<<<<<< HEAD
-    @Qualifier("MailService")
-    private MailServiceImpl mailService;
-=======
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataServiceImpl usecaseRoleDataService;
->>>>>>> front
 
+    //  项目中心，暂时默认显示场景
     @RequestMapping("/home")
     @ResponseBody
-    public Map<String,Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
+    public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long projectId = jsonObject.getLong("ProjectId");
         Long userId = jsonObject.getLong("UserId");
-        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
         System.out.println(roleIds.toString());
-        if (roleIds==null && roleIds.size()==0){
+        if (roleIds == null && roleIds.size() == 0) {
             return null;
         }
         List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
-        if (businessRoleData==null){
+        if (businessRoleData == null) {
             return null;
         }
-        List<Map<String,Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        List<Map<String, Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
         List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
-        if (usecaseRoleData==null){
+        if (usecaseRoleData == null) {
             return null;
         }
-        List<Map<String,Object>> usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
+        List<Map<String, Object>> usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
 
-        Map<String,Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 //        result.put("businessForms",businessForms);
-        result.put("usecaseForms",usecaseForms);
+        result.put("usecaseForms", usecaseForms);
 
         return result;
     }
 
+//    申请角色
     @RequestMapping("/roleapply")
     @ResponseBody
     public Map<String, Object> applyRole(@Valid @RequestBody Map<String, Object> applyRoleInfo) {
         return projectService.applyRole(applyRoleInfo);
     }
-
+//  申请管理员
     @RequestMapping("/manapply")
     @ResponseBody
     public Map<String, Object> applyManager(@Valid @RequestBody Map<String, Object> applyManagerInfo) {
@@ -113,24 +98,6 @@ public class ProjectController {
         return null;
     }
 
-    @RequestMapping(value = "/uc/new", method = RequestMethod.POST)
-    @ResponseBody
-    public String showCheckResult(@Valid @RequestBody String rucmModel) {
-        String result = ruleCheckService.ruleCheckResult(rucmModel);
-        return result;
-    }
-
-    @RequestMapping(value = "/uc/test", method = RequestMethod.POST)
-    @ResponseBody
-    public void showResult(@Valid @RequestBody Map<String,Object> userIdMap){
-        String userIdS = (String)userIdMap.get("userId");
-        Long userId = Long.parseLong(userIdS);
-        Map<String, Object> map = mailService.getProApplyName(userId);
-        for(String key:map.keySet())
-            System.out.println(key);
-        System.out.println(map);
-    }
-
     //    显示项目中心的角色项
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     @ResponseBody
@@ -142,7 +109,6 @@ public class ProjectController {
         Map<String, Object> m = new HashMap<String, Object>();
 
         List<Role> roles = projectService.getRole(projectId);
-
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
         List<Role> userRoles = new LinkedList<Role>();
         List<Role> listRoles = new LinkedList<Role>();

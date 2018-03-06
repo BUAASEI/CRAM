@@ -18,7 +18,7 @@
 
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.SysUser">
         insert into sys_user (id, name, phone,
-        email, password, projectExp)
+        email, password, familiarDomain, projectExp)
         values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
         #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{familiardomain,jdbcType=LONGVARCHAR}, #{projectexp,jdbcType=LONGVARCHAR})
     </insert>

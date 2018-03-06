@@ -4,6 +4,7 @@ import cn.edu.buaa.rec.model.Domain;
 import cn.edu.buaa.rec.model.Project;
 import cn.edu.buaa.rec.model.SysUser;
 import cn.edu.buaa.rec.service.*;
+import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +52,9 @@ public class SysUserController {
     @Autowired
     @Qualifier("UserProjectRoleService")
     private UserProjectRoleService userProjectRoleService;
+    @Autowired
+    @Qualifier("MailService")
+    private MailServiceImpl mailService;
 
     //    跳转到个人中心界面，默认显示其参与的项目
     @RequestMapping(value = "/home", method = RequestMethod.POST)
@@ -91,6 +96,12 @@ public class SysUserController {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(domainInfo);
         Domain domain = new Domain(jsonObject.getString("DomainName"), jsonObject.getString("Description"), jsonObject.getLong("CreatorId"));
 
+        if (domain.getName() == null) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("Msg", "领域名不可为空");
+            return error;
+        }
+
         return domainService.newDomain(domain);
     }
 
@@ -117,8 +128,17 @@ public class SysUserController {
 
     /*
         站内信
-        暂时不做
     */
+    @RequestMapping(value = "/mail", method = RequestMethod.POST)
+    @ResponseBody
+    public void showResult(@Valid @RequestBody Map<String, Object> userIdMap) {
+        String userIdS = (String) userIdMap.get("userId");
+        Long userId = Long.parseLong(userIdS);
+        Map<String, Object> map = mailService.getProApplyName(userId);
+        for (String key : map.keySet())
+            System.out.println(key);
+        System.out.println(map);
+    }
 
     /*
         查看管理的项目，传入参数：SysUserId

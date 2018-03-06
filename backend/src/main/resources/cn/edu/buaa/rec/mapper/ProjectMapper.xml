@@ -43,6 +43,13 @@
     FROM project
   </select>
 
+  <!--      Project selectByName(String name);  -->
+  <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
+    SELECT *
+    FROM project
+    WHERE id = #{name}
+  </select>
+
   <select id="selectNameByIds" resultType="String" parameterType="java.util.List">
     SELECT name
     FROM project

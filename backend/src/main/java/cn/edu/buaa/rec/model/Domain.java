@@ -74,12 +74,12 @@ public class Domain {
         return "Domain{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", creatorId=" + creatorId +
                 ", buildTime=" + buildTime +
                 ", updateTime=" + updateTime +
                 ", useState='" + useState + '\'' +
                 ", isapproved=" + isapproved +
-                ", description='" + description + '\'' +
                 ", typicalData='" + typicalData + '\'' +
                 ", typicalRole='" + typicalRole + '\'' +
                 ", typicalScenario='" + typicalScenario + '\'' +
