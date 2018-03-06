@@ -5,7 +5,7 @@ import SysUser from '@/Page/sysUser'
 import Home from '@/Page/home'
 import ProManage from '@/Page/proManage'
 import ProParticipate from '@/Page/proParticipate'
-import ProAll from '@/Page/proAll'
+import ProOther from '@/Page/proOther'
 import Project from '@/Page/project'
 import Role from '@/Page/role'
 import Data from '@/Page/data'
@@ -47,9 +47,9 @@ export default new Router({
       component: ProParticipate
     },
     {
-      path: '/sysuser/proall',
-      name: 'proall',
-      component: ProAll
+      path: '/sysuser/proother',
+      name: 'proother',
+      component: ProOther
     },
     {
       path: '/project/home',

@@ -20,38 +20,14 @@
         <div class="col-operate">
         <input  id="boxId" type="checkBox" v-bind:value="item.id"/>
         </div>
-      </divcalss>
+      </div>
     </div>
       <div class="box3">
       <Button @click="reset">重置</Button>
       <Button>确定</Button>
       </div>
-    <!--<div class="box1">-->
-      <!--<div class="ylevel">-->
-        <!--<label for="applyid">申请用户:</label>-->
-        <!--<input v-model="applyid" class="xlevel" id="applyid">-->
-      <!--</div>-->
-      <!--<div class="ylevel">-->
-        <!--<label for="projectname">项目名称:</label>-->
-        <!--<input v-model="projectname" class="xlevel" id="projectname">-->
-      <!--</div>-->
-      <!--<div class="ylevel">-->
-        <!--<label for="projectrole">项目角色:</label>-->
-        <!--<input v-model="projectrole" class="xlevel" id="projectrole">-->
-      <!--</div>-->
-      <!--<div class="ylevel">-->
-        <!--<label for="name">用户名:</label>-->
-        <!--<input v-model="name" class="xlevel" id="name">-->
-      <!--</div>-->
-      <!--<div class="ylevel">-->
-        <!--<label for="projectexp">项目经验:</label>-->
-        <!--<textarea v-model="projectexp" class="xlevel text" id="projectexp" rows="4"></textarea>-->
-      <!--</div>-->
-      <!--<div class="ylevel">-->
-        <!--<label for="familiardomain">熟悉领域:</label>-->
-        <!--<textarea v-model="familiardomain" class="xlevel text" id="familiardomain" rows="4"></textarea>-->
-      <!--</div>-->
-    <!--</div>-->
+    </div>
+  </div>
 
 </template>
 <style scoped>
