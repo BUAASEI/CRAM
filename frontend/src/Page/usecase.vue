@@ -133,13 +133,14 @@ export default{
     return {
       type: '',
       name: '',
+      id:'',
       infos: [
         {
           role: '查找某些数据',
           system: '展示该课程详细信息'
         }
       ],
-      colums1: ['Use Case Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization','Input','OutPut','DataDictionary'],
+      colums1:['Usecase Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization','Input','OutPut','DataDictionary'],
       datas1: [],
       colums2: [1],
       datas2: [''],
@@ -171,9 +172,25 @@ export default{
   },
   beforeMount: function () {
     this.type = this.$route.params.type
-    this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
+    this.id = this.$route.params.id
+    alert(this.id);
+    this.initData(this.id);
+    // this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
   },
   methods: {
+    initData: function(id){
+      this.$http.post('usecase/getusecase',{"usecaseId":id})
+        .then((response) => {
+          var usecase = response.data;
+          var name = usecase.name;
+          var description = usecase.description;
+          var input = usecase.input;
+          var output = usecase.output;
+          var data_dictionary = usecase.dataDictionary;
+          this.data1 =[] ;
+            alert(this.data1);
+        })
+    },
     del: function (index) {
       // do something
       this.infos.splice(index, 1)

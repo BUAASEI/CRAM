@@ -31,21 +31,24 @@ public class BusinessRoleDataServiceImpl implements BusinessRoleDataService{
 
     @Override
     public List<BusinessRoleData> getBusinessRoleDataByRoleIds(List<Long> rIds) {
-        if (rIds==null){
+        if (rIds==null && rIds.size()==0){
             return null;
         }
 
-        List<BusinessRoleData> listBRD = new LinkedList<>();
-        for (Long rId : rIds){
-            List<BusinessRoleData> bus= businessRoleDataMapper.selectBusinessRoleDataByRoleId(rId);
-            listBRD.addAll(bus);
-        }
+//        List<BusinessRoleData> listBRD = new LinkedList<>();
+//        for (Long rId : rIds){
+//            List<BusinessRoleData> bus= businessRoleDataMapper.selectBusinessRoleDataByRoleId(rId);
+//            listBRD.addAll(bus);
+//        }
+//
+
+        List<BusinessRoleData> listBRD = businessRoleDataMapper.selectBusinessRoleDataByRoleIds(rIds);
         return listBRD;
     }
 
     @Override
     public List<Map<String, Object>> getBusinessForm(List<BusinessRoleData> bRDId) {
-        if (bRDId == null){
+        if (bRDId == null ||bRDId.size()==0){
             return null;
         }
 

@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.edu.buaa.rec.dao.BusinessRoleDataMapper" >
-  <resultMap id="BaseResultMap" type="cn.edu.buaa.rec.model.BusinessRoleData" >
-    <result column="id" property="id" jdbcType="BIGINT" />
-    <result column="business_id" property="businessId" jdbcType="BIGINT" />
-    <result column="role_id" property="roleId" jdbcType="BIGINT" />
-    <result column="data_id" property="dataId" jdbcType="BIGINT" />
-  </resultMap>
-  <insert id="insert" parameterType="cn.edu.buaa.rec.model.BusinessRoleData" >
+<mapper namespace="cn.edu.buaa.rec.dao.BusinessRoleDataMapper">
+    <resultMap id="BaseResultMap" type="cn.edu.buaa.rec.model.BusinessRoleData">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="business_id" property="businessId" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="data_id" property="dataId" jdbcType="BIGINT"/>
+    </resultMap>
+    <insert id="insert" parameterType="cn.edu.buaa.rec.model.BusinessRoleData">
 
     insert into business_role_data (id, business_id, role_id, 
       data_id)
     values (#{id,jdbcType=BIGINT}, #{businessId,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, 
       #{dataId,jdbcType=BIGINT})
   </insert>
-  <!--<select id="selectBusinessRoleDataByRoleIds" resultType="cn.edu.buaa.rec.model.BusinessRoleData">-->
-    <!--SELECT *-->
-    <!--from business_role_data-->
-    <!--where role_id IN-->
-    <!--<foreach collection="rIds" item="role_id" open="(" close=")"-->
-             <!--separator=",">-->
-      <!--#{role_id}-->
-    <!--</foreach>-->
-  <!--</select>-->
+    <!-- 循环查，效率高 -->
+    <select id="selectBusinessRoleDataByRoleIds" resultMap="BaseResultMap">
+    SELECT *
+    from business_role_data
+    where role_id IN
+    <foreach collection="rIds" item="rId" index="index" separator=",">
+        ( #{rId})
+    </foreach>
+    </select>
 
-  <select id="selectBusinessRoleDataByRoleId" parameterType="Long" resultMap="BaseResultMap">
+    <!-- 效率低，有延迟 -->
+    <select id="selectBusinessRoleDataByRoleId" parameterType="Long" resultMap="BaseResultMap">
   SELECT *
   from business_role_data
   where role_id = #{rId}
