@@ -56,13 +56,11 @@ public class ProjectController {
     private BusinessRoleDataServiceImpl businessRoleDataService;
 
     @Autowired
-<<<<<<< HEAD
     @Qualifier("MailService")
     private MailServiceImpl mailService;
-=======
+
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataServiceImpl usecaseRoleDataService;
->>>>>>> front
 
     @RequestMapping("/home")
     @ResponseBody
