@@ -10,9 +10,9 @@
     <div class="table">
       <div class="tag">
         <span>{{ tag }}</span>
-        <input v-if="tag === 'RFS'">
+        <input v-model="RFS" v-if="tag === 'RFS'">
       </div>
-      <Table :colums = "colums" :datas = "datas" addAble></Table>
+      <Table ref="table" @tableData="tableData" :data = "targets" addAble></Table>
       <div class="flex">
         <div class="item">PostCondition</div>
         <div class="text"><input v-model="postCondition"></div>
@@ -75,18 +75,12 @@
   export default{
     data () {
       return {
-        postCondition: ''
+        targets: {},
+        PostCondition: '',
+        RFS: ''
       }
     },
     props: {
-      colums: {
-        type: Array,
-        default: []
-      },
-      datas: {
-        type: Array,
-        default: []
-      },
       title: {
         type: String,
         default: ''
@@ -98,11 +92,28 @@
       pos: {
         type: Number,
         default: 0
+      },
+      data: {
+        type: Object,
+        default: function() {
+          return {};
+        }
+      }
+    },
+    created () {
+      this.targets = {
+        colum: this.data.colum,
+        data: this.data.data
+      }
+      if (this.tag === 'RFS') {
+        this.RFS = this.data.RFS
+        this.PostCondition = this.data.PostCondition
       }
     },
     components: {
       Table
     },
+
     methods: {
       addSpec () {
         let obj = {
@@ -117,6 +128,20 @@
           pos: this.pos
         }
         this.$emit('del', obj)
+      },
+      sends () {
+        this.$refs.table.sends()
+      },
+      tableData (obj) {
+        let data = {
+          colum: this.colums,
+          data: this.datas
+        }
+        if (this.tag === 'RFS') {
+          obj['RFS'] = this.RFS,
+            obj['PostCondition'] = this.PostCondition
+        }
+        this.$emit('otherData', obj, this.title, this.pos)
       }
     }
   }

@@ -62,6 +62,7 @@ public class ProjectController {
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataServiceImpl usecaseRoleDataService;
 
+//    项目详情的初始化界面（显示business和usease表格）
     @RequestMapping("/home")
     @ResponseBody
     public Map<String,Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
