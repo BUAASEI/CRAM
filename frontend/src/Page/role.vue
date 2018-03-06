@@ -136,12 +136,16 @@
 
     data() {
       return {
+        userId:'',
+        projectId:'',
         userRoles:[],
         listRoles:[]
       }
     },
     mounted() {
-      this.getRoles(1,3);
+      this.userId = $route.params.userId;
+      this.projectId = $route.params.projectId;
+      this.getRoles(projectId,userId);
     },
     methods:{
 

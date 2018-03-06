@@ -9,26 +9,26 @@
         <button>缺陷检测</button>
       </div>
       <div>
-        <button>保存</button>
+        <button @click="saveData">保存</button>
         <button>取消</button>
       </div>
     </div>
     <div class="box1 scroll">
       <div class="rucm-head">Use Case Specitication for CRAM</div>
       <div class="flow rucm-basic-info">
-        <Table :colums="colums1" :datas="datas1"></Table>
+        <Table ref="table" @tableData="tableData" :data="brief"></Table>
       </div>
       <div class="flow rucm-basicflow">
-        <SpecialTable title="Basic Flow" tag="Step" :colums="colums2" :datas="datas2"></SpecialTable>
+        <SpecialTable ref="bflow"  @otherData="otherData" title="Basic Flow" tag="Step" :data="basicFlow"></SpecialTable>
       </div>
       <div class=" flow rucm-boundedflow"v-for = "(item,index) in specData1">
-        <SpecialTable @add="add" @del="del" title="Bounded Alternative Flow" tag="RFS"  :pos="index" :colums="item.colum" :datas="item.data"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Bounded Alternative Flow" tag="RFS"  :pos="index" :data="item"></SpecialTable>
       </div>
       <div class="flow rucm-specificflow" v-for = "(item,index) in specData2">
-        <SpecialTable @add="add" @del="del" title="Specific Alternative Flow" tag="RFS" :pos="index" :colums="item.colum" :datas="item.data"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Specific Alternative Flow" tag="RFS" :pos="index" :data="item"></SpecialTable>
       </div>
       <div class=" flow rucm-Globalflow" v-for = "(item,index) in specData3">
-        <SpecialTable @add="add" @del="del" title="Global Alternative Flow" tag="RFS"  :pos="index" :colums="item.colum" :datas="item.data"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="Global Alternative Flow" tag="RFS"  :pos="index" :data="item"></SpecialTable>
       </div>
     </div>
     <div class="box3">
@@ -124,95 +124,134 @@
   }
 </style>
 <script>
-import TopMirror from '@/components/TopMirror'
-import Table from '@/components/Table'
-import SpecialTable from '@/components/SpecialTable'
-import {Button} from 'iview'
-export default{
-  data () {
-    return {
-      type: '',
-      name: '',
-      id:'',
-      infos: [
-        {
-          role: '查找某些数据',
-          system: '展示该课程详细信息'
-        }
-      ],
-      colums1:['Usecase Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization','Input','OutPut','DataDictionary'],
-      datas1: [],
-      colums2: [1],
-      datas2: [''],
-      specData1: [
-        {
+  import TopMirror from '@/components/TopMirror'
+  import Table from '@/components/Table'
+  import SpecialTable from '@/components/SpecialTable'
+  import {Button} from 'iview'
+  export default{
+
+    data () {
+      return {
+        fr: '1',
+        type: '',
+        name: '',
+        id:'',
+
+        brief: {
+          colum:['Usecase Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization','Input','OutPut','DataDictionary'],
+          data: [],
+        },
+        basicFlow: {
           colum: [1],
-          data: []
-        }
-      ],
-      specData2: [
-        {
-          colum: [1],
-          data: []
-        }
-      ],
-      specData3: [
-        {
-          colum: [1],
-          data: []
-        }
-      ]
-    }
-  },
-  components: {
-    TopMirror,
-    Button,
-    Table,
-    SpecialTable
-  },
-  beforeMount: function () {
-    this.type = this.$route.params.type
-    this.id = this.$route.params.id
-    alert(this.id);
-    this.initData(this.id);
-    // this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
-  },
-  methods: {
-    initData: function(id){
-      this.$http.post('usecase/getusecase',{"usecaseId":id})
-        .then((response) => {
-          var usecase = response.data;
-          var name = usecase.name;
-          var description = usecase.description;
-          var input = usecase.input;
-          var output = usecase.output;
-          var data_dictionary = usecase.dataDictionary;
-          this.data1 =[] ;
-            alert(this.data1);
-        })
-    },
-    del: function (index) {
-      // do something
-      this.infos.splice(index, 1)
-    },
-    add (obj) {
-      if (obj.title === 'Bounded Alternative Flow') {
-        this.specData1.splice(obj.pos+1, 0, {colum: [1],data: ['']})
-      } else if (obj.title === 'Specific Alternative Flow') {
-        this.specData2.splice(obj.pos+1, 0, {colum: [1],data: ['']})
-      } else {
-        this.specData3.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+          data: ['']
+        },
+        specData1: [
+          {
+            colum: [1],
+            data: []
+          }
+        ],
+        specData2: [
+          {
+            colum: [1],
+            data: []
+          }
+        ],
+        specData3: [
+          {
+            colum: [1],
+            data: []
+          }
+        ],
+        dict: [],
+        cases: {
+          Brief: {},
+          BasicFlow: {},
+          BoundedAlternativeFlows: [],
+          SpecificAlternativeFlows: [],
+          GlobalAlternativeFlows: [],
+          DictDictionary: []
+        },
+        count: 0
       }
     },
-    del (obj) {
-      if (obj.title === 'Bounded Alternative Flow') {
-        this.specData1.splice(obj.pos, 1)
-      } else if (obj.title === 'Specific Alternative Flow') {
-        this.specData2.splice(obj.pos, 1)
-      } else {
-        this.specData3.splice(obj.pos, 1)
+    components: {
+      TopMirror,
+      Button,
+      Table,
+      SpecialTable
+    },
+    beforeMount: function () {
+      this.type = this.$route.params.type
+      this.id = this.$route.params.id
+      alert(this.id);
+      this.initData(this.id);
+      // this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
+    },
+    methods: {
+      initData: function(id){
+        this.$http.post('usecase/getusecase',{"usecaseId":id})
+          .then((response) => {
+            // var usecase = response.data;
+            // var name = usecase.name;
+            // var description = usecase.description;
+            // var input = usecase.input;
+            // var output = usecase.output;
+            // var data_dictionary = usecase.dataDictionary;
+            // this.data1 =[] ;
+            // alert(this.data1);
+          })
+      },
+      add (obj) {
+        if (obj.title === 'Bounded Alternative Flow') {
+          this.specData1.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+        } else if (obj.title === 'Specific Alternative Flow') {
+          this.specData2.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+        } else {
+          this.specData3.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+        }
+      },
+      del (obj) {
+        if (obj.title === 'Bounded Alternative Flow') {
+          this.specData1.splice(obj.pos, 1)
+        } else if (obj.title === 'Specific Alternative Flow') {
+          this.specData2.splice(obj.pos, 1)
+        } else {
+          this.specData3.splice(obj.pos, 1)
+        }
+      },
+      saveData () {
+        this.$refs.table.sends()
+        this.$refs.bflow.sends()
+        console.log(this.$refs.flow)
+        this.$refs.flow.forEach(item => {
+          item.sends()
+        })
+      },
+      tableData (data) {
+        this.cases.Brief = data
+        this.count++
+        if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
+          // ajax
+
+        }
+      },
+      otherData (data, title, pos) {
+        if (title === 'Basic Flow') {
+          this.cases.BasicFlow = data
+        } else if (title === 'Bounded Alternative Flow') {
+          this.cases.BoundedAlternativeFlows[pos] = data
+        } else if (title === 'Specific Alternative Flow') {
+          this.cases.SpecificAlternativeFlows[pos] = data
+        } else {
+          this.cases.GlobalAlternativeFlows[pos] = data
+        }
+        this.count++
+        if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
+          // ajax
+
+        }
       }
     }
   }
-}
 </script>

@@ -6,7 +6,7 @@
     <div class="table-data">
       <div class="row" v-for="(item,index) in datas" :key='index'>
         <input v-model="datas[index]">
-        <div class="btn" v-if="addAble && index=== datas.length-1">
+        <div class="btn" v-if="addAble && index=== datas.length - 1">
           <span @click="addRow">+</span>
           <span v-if="addAble && index !== 0" @click="delRow">-</span>
         </div>
@@ -54,16 +54,16 @@
   export default{
     data () {
       return {
+        colums: [],
+        datas: []
       }
     },
     props: {
-      colums: {
-        type: Array,
-        default: [1]
-      },
-      datas: {
-        type: Array,
-        default: []
+      data: {
+        type: Object,
+        default: function() {
+          return {};
+        }
       },
       addAble: {
         type: Boolean,
@@ -71,7 +71,12 @@
       }
     },
     created () {
+      this.colums = this.data.colum
+      this.datas = this.data.data
       let len = this.colums.length
+      if (len === 0) {
+        this.columns.push(1)
+      }
       while (this.datas.length < len) {
         this.datas.push('')
       }
@@ -87,6 +92,9 @@
       delRow () {
         this.colums.splice(-1)
         this.datas.splice(-1)
+      },
+      sends () {
+        this.$emit('tableData',{ colum: this.colums, data: this.datas})
       }
     }
   }
