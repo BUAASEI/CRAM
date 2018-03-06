@@ -24,4 +24,10 @@ public interface UserProjectRoleMapper {
     List<UserProjectRole> selectBySysUserId(Long sysUserId);
 
     List<Long> selectByProjectIdAndUserId(@Param("projectId")Long projectId,@Param("userId") Long userId);
+
+    List<Long> selectUserByProjectId(@Param("projectIds") List<Long> projectid);
+
+    List<Long> selectProjectByUserIdWithNoApproved(@Param("userId") Long userId);
+
+    int updateApproved(@Param("id") Long id);
 }

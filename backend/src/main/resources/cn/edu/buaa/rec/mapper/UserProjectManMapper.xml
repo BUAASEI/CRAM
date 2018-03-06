@@ -24,6 +24,33 @@
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
       #{isMan,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER})
   </insert>
+  
+  <select id="selectProjectByUserId" resultType="Long" parameterType="Long">
+     SELECT project_id
+     FROM user_project_man
+     WHERE user_id = #{userId} and isApproved=1
+  </select>
+
+  <select id="selectProjectByUserIdWithNoApproved" resultType="Long" parameterType="Long">
+    SELECT project_id
+    FROM user_project_man
+    WHERE user_id = #{userId}
+  </select>
+  <update id="updateApproved" parameterType="Long">
+    UPDATE user_project_man
+    SET isApproved=1
+    WHERE id=#{id}
+  </update>
+
+  <select id="selectUserByProjectId" resultType="Long" parameterType="java.util.List">
+    SELECT user_id
+    FROM user_project_man
+    WHERE isApproved=0 AND project_id IN
+    <foreach collection="projectIds" item="projectId" index="index" open="(" close=")"
+             separator=",">
+      #{projectId}
+    </foreach>
+  </select>
   <insert id="insertSelective" parameterType="cn.edu.buaa.rec.model.UserProjectMan">
     <!--
       WARNING - @mbggenerated

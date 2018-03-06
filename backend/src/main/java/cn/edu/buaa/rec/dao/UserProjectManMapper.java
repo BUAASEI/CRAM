@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.UserProjectMan;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,5 +21,15 @@ public interface UserProjectManMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(UserProjectMan record);
+
     List<UserProjectMan> selectBySysUserId(Long sysUserId);
+
+    List<Long> selectProjectByUserId(@Param("userId") Long userId);
+
+    List<Long> selectUserByProjectId(@Param("projectIds") List<Long> projectIds);
+
+    List<Long> selectProjectByUserIdWithNoApproved(@Param("userId") Long userId);
+
+    int updateApproved(@Param("id") Long id);
+
 }

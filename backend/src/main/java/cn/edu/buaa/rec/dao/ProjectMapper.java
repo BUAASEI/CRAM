@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.Project;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface ProjectMapper {
     List<Project> selectAll();
 
     Project selectById(Long id);
+
+    List<String> selectNameByIds(@Param("ids")List<Long> ids);
 }
