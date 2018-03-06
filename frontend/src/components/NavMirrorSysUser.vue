@@ -8,7 +8,7 @@
       <router-link to="/sysuser/propar">参与的项目</router-link>
     </div>
     <div>
-      <router-link to="/sysuser/proall">所有项目</router-link>
+      <router-link to="/sysuser/proother">其余项目</router-link>
     </div>
   </div>
 </template>

@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
+import cn.edu.buaa.rec.service.MailService;
 import cn.edu.buaa.rec.service.ProjectService;
 import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.UsecaseRoleDataServiceImpl;
@@ -47,13 +48,13 @@ public class ProjectController {
 
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataServiceImpl usecaseRoleDataService;
-
     //  项目中心，暂时默认显示场景
     @Autowired
     @Qualifier("MailService")
-    private MailServiceImpl mailService;
+    private MailService mailService;
 
-//    项目详情的初始化界面（显示business和usease表格）
+
+    //    项目详情的初始化界面（显示business和usease表格）
     @RequestMapping("/home")
     @ResponseBody
     public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info) {
@@ -83,13 +84,14 @@ public class ProjectController {
         return result;
     }
 
-//    申请角色
+    //    申请角色
     @RequestMapping("/roleapply")
     @ResponseBody
     public Map<String, Object> applyRole(@Valid @RequestBody Map<String, Object> applyRoleInfo) {
         return projectService.applyRole(applyRoleInfo);
     }
-//  申请管理员
+
+    //  申请管理员
     @RequestMapping("/manapply")
     @ResponseBody
     public Map<String, Object> applyManager(@Valid @RequestBody Map<String, Object> applyManagerInfo) {

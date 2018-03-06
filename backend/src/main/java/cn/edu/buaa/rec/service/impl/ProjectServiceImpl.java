@@ -3,7 +3,6 @@ package cn.edu.buaa.rec.service.impl;
 import cn.edu.buaa.rec.dao.*;
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.ProjectService;
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +18,12 @@ import java.util.*;
 
 @Service("ProjectService")
 public class ProjectServiceImpl implements ProjectService {
-
-
     @Autowired
     private ProjectMapper projectMapper;
     @Autowired
     private SysUserMapper sysUserMapper;
     @Autowired
     private DomainMapper domainMapper;
-//    @Autowired
-//    private ScenarioMapper scenarioMapper;
     @Autowired
     private UsecaseMapper usecaseMapper;
     @Autowired
@@ -43,10 +38,12 @@ public class ProjectServiceImpl implements ProjectService {
     private SolutionMapper solutionMapper;
     @Autowired
     private BusinessMapper businessMapper;
+    @Autowired
+    private UserProjectMapper userProjectMapper;
 
     @Override
     public Map<String, Object> newProject(Project project) {
-//        需要重新写
+    //        需要重新写
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
         String projectName = project.getName();
@@ -72,7 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Map<String, Object>> allProject() {
-        List<Project> projects = projectMapper.selectAll();
+        List<Project> projects = projectMapper.selectAllProjects();
         List<Map<String, Object>> m = new LinkedList<>();
 
 //        前后端交互，List中使用的Map格式
@@ -88,6 +85,32 @@ public class ProjectServiceImpl implements ProjectService {
             temp.put("CreatorName", sysUser.getName());
 
             m.add(temp);
+        }
+        return m;
+    }
+
+//    查询没有参与的项目
+//    思路：
+//    1）查询所有项目id
+//    2）对于每个id，查询user_project表，如果不存在，则放进来
+    @Override
+    public List<Map<String, Object>> otherProject(Long userId) {
+        List<Project> allProjects = projectMapper.selectAllProjects();
+        List<Map<String, Object>> m = new LinkedList<>();
+
+        for (Project projectInfo : allProjects
+                ) {
+            Long projectId = projectInfo.getId();
+
+//            如果在user_project关系表中，查不到user和相关项目的对应记录，返回0
+//            对于这种项目，应该加入返回结果
+            if(userProjectMapper.selectExistOrNot(projectId, userId) == 0){
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("ProjectId", projectInfo.getId());
+                temp.put("ProjectName", projectInfo.getName());
+                temp.put("ProjectDescription", projectInfo.getDescription());
+                m.add(temp);
+            }
         }
         return m;
     }
@@ -196,8 +219,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     //    展示Project中涉及的Role的界面信息
     @Override
-    public  List<Role> getRole(Long projectId) {
-        if (projectId==null){
+    public List<Role> getRole(Long projectId) {
+        if (projectId == null) {
             return null;
         }
         List<Role> roleList = roleMapper.selectByProjectId(projectId);
@@ -207,7 +230,7 @@ public class ProjectServiceImpl implements ProjectService {
     //    展示Project中涉及的Data的界面信息
     @Override
     public List<Data> getData(Long projectId) {
-        if (projectId==null){
+        if (projectId == null) {
             return null;
         }
         System.out.println(projectId);
@@ -217,7 +240,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Data> getUserDatas(Long projectId, Long userId) {
-        if (projectId==null || userId == null){
+        if (projectId == null || userId == null) {
             return null;
         }
 
@@ -227,7 +250,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Question> getQuestion(Long projectId) {
-        if (projectId==null){
+        if (projectId == null) {
             return null;
         }
         return questionMapper.selectByProjectId(projectId);
@@ -236,7 +259,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Solution> getSolution(Long projectId) {
 
-        if (projectId==null){
+        if (projectId == null) {
             return null;
         }
         System.out.println(projectId);
@@ -246,17 +269,17 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Solution> getUserSolution(Long projectId, Long userId) {
-        if (projectId==null || userId == null){
+        if (projectId == null || userId == null) {
             return null;
         }
 
-        List<Solution> userSolutions = solutionMapper.selectByProjectIdAndUserId(projectId,userId);
+        List<Solution> userSolutions = solutionMapper.selectByProjectIdAndUserId(projectId, userId);
         return userSolutions;
     }
 
-    private Project getProject(String name){
+    private Project getProject(String name) {
         System.out.println("name:" + name);
-        Project pro =  projectMapper.selectByName(name);
+        Project pro = projectMapper.selectByName(name);
         System.out.println(pro.toString());
         return pro;
     }

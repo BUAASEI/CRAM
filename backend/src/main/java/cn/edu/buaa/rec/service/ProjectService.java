@@ -21,6 +21,7 @@ public interface ProjectService {
     boolean noExist(String name);
 
     List<Map<String,Object>> allProject();
+    List<Map<String,Object>> otherProject(Long userId);
 
     Map<String,Object> getProjectInfo(String projectName);
 

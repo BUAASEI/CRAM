@@ -37,8 +37,8 @@
     LIMIT 1
   </select>
 
-  <!-- List<Project> selectAll(); -->
-  <select id="selectAll" resultMap="BaseResultMap">
+  <!-- List<Project> selectAllProjects(); -->
+  <select id="selectAllProjects" resultMap="BaseResultMap">
     SELECT *
     FROM project
   </select>
