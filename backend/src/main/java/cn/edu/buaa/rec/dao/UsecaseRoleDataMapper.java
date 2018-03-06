@@ -1,6 +1,9 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.UsecaseRoleData;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UsecaseRoleDataMapper {
     /**
@@ -18,4 +21,6 @@ public interface UsecaseRoleDataMapper {
      * @mbggenerated Mon Mar 05 23:15:02 CST 2018
      */
     int insertSelective(UsecaseRoleData record);
+
+    List<UsecaseRoleData> selectUsecaseRoleDataByRoleIds(@Param("rIds") List<Long> rIds);
 }

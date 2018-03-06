@@ -6,9 +6,11 @@ import cn.edu.buaa.rec.model.Question;
 import cn.edu.buaa.rec.model.Role;
 import cn.edu.buaa.rec.model.Solution;
 import cn.edu.buaa.rec.service.ProjectService;
+import cn.edu.buaa.rec.service.UsecaseRoleDataService;
 import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
+import cn.edu.buaa.rec.service.impl.UsecaseRoleDataServiceImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,20 +56,41 @@ public class ProjectController {
     private BusinessRoleDataServiceImpl businessRoleDataService;
 
     @Autowired
+<<<<<<< HEAD
     @Qualifier("MailService")
     private MailServiceImpl mailService;
+=======
+    @Qualifier("UsecaseRoleDataService")
+    private UsecaseRoleDataServiceImpl usecaseRoleDataService;
+>>>>>>> front
 
     @RequestMapping("/home")
     @ResponseBody
-    public List<Map<String,Object>> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
+    public Map<String,Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("projectId");
-        Long userId = jsonObject.getLong("userId");
+        Long projectId = jsonObject.getLong("ProjectId");
+        Long userId = jsonObject.getLong("UserId");
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
+        System.out.println(roleIds.toString());
+        if (roleIds==null && roleIds.size()==0){
+            return null;
+        }
         List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
+        if (businessRoleData==null){
+            return null;
+        }
+        List<Map<String,Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
+        if (usecaseRoleData==null){
+            return null;
+        }
+        List<Map<String,Object>> usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
 
-       List<Map<String,Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
-        return businessForms;
+        Map<String,Object> result = new HashMap<>();
+//        result.put("businessForms",businessForms);
+        result.put("usecaseForms",usecaseForms);
+
+        return result;
     }
 
     @RequestMapping("/roleapply")
@@ -113,9 +136,11 @@ public class ProjectController {
     @ResponseBody
     public Map<String, Object> showRole(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+
         Long projectId = jsonObject.getLong("ProjectId");
         Long userId = jsonObject.getLong("UserId");
         Map<String, Object> m = new HashMap<String, Object>();
+
         List<Role> roles = projectService.getRole(projectId);
 
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);

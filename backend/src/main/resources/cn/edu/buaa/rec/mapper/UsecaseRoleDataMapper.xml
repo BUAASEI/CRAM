@@ -59,4 +59,12 @@
       </if>
     </trim>
   </insert>
+  <select id="selectUsecaseRoleDataByRoleIds" resultMap="BaseResultMap">
+    SELECT *
+    FROM usecase_role_data
+    WHERE role_id IN
+    <foreach collection="rIds" item="rId" index="index" separator=",">
+      (#{rId})
+    </foreach>
+  </select>
 </mapper>

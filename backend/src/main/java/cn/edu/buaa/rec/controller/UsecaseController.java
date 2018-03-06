@@ -1,7 +1,18 @@
 package cn.edu.buaa.rec.controller;
 
+import cn.edu.buaa.rec.model.Usecase;
+import cn.edu.buaa.rec.service.UseCaseService;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
+import java.util.Map;
 
 /**
  * @Description:
@@ -14,4 +25,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/usecase")
 public class UsecaseController {
+
+    @Autowired
+    @Qualifier("UsecaseService")
+    private UseCaseService usecaseService;
+    //获取用例信息初始化用例修改界面
+    @RequestMapping(value = "/getusecase", method = RequestMethod.POST)
+    @ResponseBody
+    public Usecase getUsecase(@Valid @RequestBody Map<String, Object> info) {
+
+       JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+       Long uId = jsonObject.getLong("usecaseId");
+        if (uId == null){
+            return null;
+        }
+        Usecase usecase = usecaseService.getUsecaseById(uId);
+        return usecase;
+
+    }
+
 }
