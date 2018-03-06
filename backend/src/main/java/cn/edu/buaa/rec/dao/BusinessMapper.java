@@ -20,4 +20,7 @@ public interface BusinessMapper {
     int insertSelective(Business record);
 
     Business selectBusiness(Long businessId);
+
+
+
 }

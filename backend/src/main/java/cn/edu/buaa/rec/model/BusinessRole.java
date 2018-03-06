@@ -99,4 +99,6 @@ public class BusinessRole {
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
+
+
 }

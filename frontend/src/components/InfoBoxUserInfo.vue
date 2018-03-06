@@ -141,7 +141,7 @@
           Phone: this.phone,
           Email: this.mail,
           Password: this.pw,
-
+          CreatorId : 1
         };
         /*ajax*/
         this.$http.post('sysuser/modinfo',body)

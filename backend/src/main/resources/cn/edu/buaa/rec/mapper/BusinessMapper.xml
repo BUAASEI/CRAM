@@ -36,4 +36,5 @@
       #{description,jdbcType=LONGVARCHAR}, #{flow,jdbcType=LONGVARCHAR},
       #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{dataDictionary,jdbcType=LONGVARCHAR}, #{roles,jdbcType=LONGVARCHAR})
   </insert>
+
 </mapper>

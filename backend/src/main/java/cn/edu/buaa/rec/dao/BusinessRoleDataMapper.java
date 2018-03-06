@@ -1,6 +1,10 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.BusinessRoleData;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface BusinessRoleDataMapper {
     /**
@@ -18,4 +22,13 @@ public interface BusinessRoleDataMapper {
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     int insertSelective(BusinessRoleData record);
+
+//    List<BusinessRoleData> selectBusinessRoleDataByRoleIds(@Param("rIds") List<Long> rIds);
+      List<BusinessRoleData> selectBusinessRoleDataByRoleId(@Param("rId") Long rId);
+
+//    Map<String, Object> selectBusinessName(List<Long> bIds);
+//
+//    Map<String,Object> selectRoleName(List<Long> rIds);
+//
+//    Map<String, Object> selectBusinessForm(List<BusinessRoleData> bRDIds);
 }

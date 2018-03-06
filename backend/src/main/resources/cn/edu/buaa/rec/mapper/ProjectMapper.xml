@@ -43,4 +43,13 @@
     FROM project
   </select>
 
+  <select id="selectNameByIds" resultType="String" parameterType="java.util.List">
+    SELECT name
+    FROM project
+    WHERE id in
+    <foreach collection="ids" item="id" separator="," open="(" close=")">
+      #{id}
+    </foreach>
+  </select>
+
 </mapper>

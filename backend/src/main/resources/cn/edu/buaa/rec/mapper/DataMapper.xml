@@ -36,6 +36,12 @@
     where project_id=#{id}
   </select>
 
+    <select id="selectById" parameterType="Long" resultType="cn.edu.buaa.rec.model.Data">
+    SELECT *
+    FROM DATA
+    where id=#{id}
+  </select>
+
     <select id="selectByProjectIdAndUserId" resultMap="BaseResultMap">
     SELECT *
     FROM DATA

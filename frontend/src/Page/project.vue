@@ -19,8 +19,8 @@
             <div class="detail-context">
               <div class="detail-item" v-for="item in BusinessData" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
-                <div class="col-datas">{{ item.datas }}</div>
+                <div class="col-roles">{{ item.roleName }}</div>
+                <div class="col-datas">{{ item.dataNanme }}</div>
                 <div class="col-operate">
                   <span>查看</span>
                   <span @click="editScenario(item.id)">修改</span>
@@ -42,8 +42,8 @@
             <div class="detail-context">
               <div class="detail-item" v-for="item in UsageData" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
-                <div class="col-roles">{{ item.roles }}</div>
-                <div class="col-datas">{{ item.datas }}</div>
+                <div class="col-description">{{ item.roleName }}</div>
+                <div class="col-datas">{{ item.dataName }}</div>
                 <div class="col-operate">
                   <span>查看</span>
                   <span @click="editUsecase(item.id)">修改</span>
@@ -187,6 +187,9 @@ export default{
     Nav,
     Button
   },
+  mounted() {
+    this.reqInfo(3,3);
+  },
   methods: {
     editScenario: function (id) {
       // do something
@@ -198,46 +201,17 @@ export default{
       // 路由跳转
       this.$router.push({ name: 'usecase', params: {type: 'edit'} })
     },
-    reqInfo: function (id) {
-      //ajax请求
-      let a1 = [
-        {
-          id: 1,
-          name: '毕业选课结果',
-          roles: '校教务部，院系教务',
-          datas: '学生选课结果'
-        },
-        {
-          id: 2,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
-        },
-        {
-          id: 3,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
-        }
-      ]
-      let a2 = [
-        {
-          id: 1,
-          name: '毕业选课结果',
-          roles: '校教务部，院系教务',
-          datas: '学生选课结果'
-        },
-        {
-          id: 2,
-          name: '选课结束',
-          roles: '学生，开课老师，计算中心',
-          datas: '学生选课结果'
-        }
-      ]
-      this. BusinessData = a1
-      this.UsageData = a2
-      // this.showStage = true
+    reqInfo: function (projectId,userId) {
+      let info={
+          projectId:projectId,
+          userId:userId
+      };
+      this.$http.post('project/question',info)
+       .then((response) => {
+         this. BusinessData = response.data.listBusiness;
+         this.UsageData =response.data.listUserCase;
+         })
+      }
     }
-  }
 }
 </script>

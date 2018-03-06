@@ -1,10 +1,13 @@
 package cn.edu.buaa.rec.controller;
 
+import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.model.Data;
 import cn.edu.buaa.rec.model.Question;
 import cn.edu.buaa.rec.model.Role;
 import cn.edu.buaa.rec.model.Solution;
 import cn.edu.buaa.rec.service.ProjectService;
+import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
+import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
 import com.alibaba.fastjson.JSONObject;
@@ -46,10 +49,25 @@ public class ProjectController {
     @Qualifier("UserProjectRoleService")
     private UserProjectRoleServiceImpl userProjectRoleService;
 
+    @Autowired
+    @Qualifier("BusinessRoleDataService")
+    private BusinessRoleDataServiceImpl businessRoleDataService;
+
+    @Autowired
+    @Qualifier("MailService")
+    private MailServiceImpl mailService;
+
     @RequestMapping("/home")
     @ResponseBody
-    public Map<String, Object> ProjectHomePage(@Valid @RequestBody String projectName) {
-        return projectService.getProjectInfo(projectName);
+    public List<Map<String,Object>> ProjectHomePage(@Valid @RequestBody Map<String, Object> info){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long projectId = jsonObject.getLong("projectId");
+        Long userId = jsonObject.getLong("userId");
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId,userId);
+        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
+
+       List<Map<String,Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        return businessForms;
     }
 
     @RequestMapping("/roleapply")
@@ -77,6 +95,17 @@ public class ProjectController {
     public String showCheckResult(@Valid @RequestBody String rucmModel) {
         String result = ruleCheckService.ruleCheckResult(rucmModel);
         return result;
+    }
+
+    @RequestMapping(value = "/uc/test", method = RequestMethod.POST)
+    @ResponseBody
+    public void showResult(@Valid @RequestBody Map<String,Object> userIdMap){
+        String userIdS = (String)userIdMap.get("userId");
+        Long userId = Long.parseLong(userIdS);
+        Map<String, Object> map = mailService.getProApplyName(userId);
+        for(String key:map.keySet())
+            System.out.println(key);
+        System.out.println(map);
     }
 
     //    显示项目中心的角色项

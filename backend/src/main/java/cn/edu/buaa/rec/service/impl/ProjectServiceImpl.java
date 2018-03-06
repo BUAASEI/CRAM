@@ -41,6 +41,8 @@ public class ProjectServiceImpl implements ProjectService {
     private QuestionMapper questionMapper;
     @Autowired
     private SolutionMapper solutionMapper;
+    @Autowired
+    private BusinessMapper businessMapper;
 
     @Override
     public Map<String, Object> newProject(Project project) {
@@ -263,4 +265,13 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getScenes(String projectName) {
         return null;
     }
+
+//    @Override
+//    public List<Business> getBusinessByIds(List<Long> bIds) {
+//        if (bIds == null){
+//            return null;
+//        }
+//        List<Business> listBusiness = businessMapper.selectBusinessByIds(bIds);
+//        return listBusiness;
+//    }
 }
