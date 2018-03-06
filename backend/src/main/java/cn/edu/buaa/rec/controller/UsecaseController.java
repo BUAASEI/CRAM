@@ -2,7 +2,6 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.Usecase;
 import cn.edu.buaa.rec.service.UseCaseService;
-import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class UsecaseController {
         return usecase;
     }
 
-    //    检测缺陷
+    //检测缺陷
     @RequestMapping(value = "/detect", method = RequestMethod.POST)
     @ResponseBody
     public String showCheckResult(@Valid @RequestBody String rucmModel) {

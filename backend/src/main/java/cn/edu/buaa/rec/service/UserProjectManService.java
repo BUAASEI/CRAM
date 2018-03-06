@@ -13,5 +13,5 @@ import java.util.Map;
 
 public interface UserProjectManService {
 
-    List<Map<String,Object>> manProject(Long sysUserId);
+    List<Map<String,Object>> manProject(Long userId);
 }

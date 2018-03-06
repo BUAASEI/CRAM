@@ -85,33 +85,6 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.selectById(sysUserId);
     }
 
-    //    根据user_id去user_project表中查询
-    @Override
-    public List<Map<String, Object>> participateProjectsInfo(Long userId) {
-        List<Map<String, Object>> re = new ArrayList<>();
-        List<Long> projectsId = userProjectMapper.selectByUserId(userId);
-
-        if (projectsId == null) {
-            return null;
-        }
-
-        for (Long projectId : projectsId) {
-            System.out.println("projectId： " + projectId);
-            Project projectInfo = projectMapper.selectById(projectId);
-
-            if(projectInfo == null){
-                return null;
-            }
-            System.out.println(projectInfo.toString());
-            Map<String, Object> temp = new HashMap<>();
-            temp.put("ProjectId", projectInfo.getId());
-            temp.put("ProjectName", projectInfo.getName());
-            re.add(temp);
-        }
-
-        return re;
-    }
-
     //    检查该用户名是否已经存在于数据库中
     @Override
     public boolean noExist(String name) {
