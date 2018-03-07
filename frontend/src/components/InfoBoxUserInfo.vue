@@ -9,7 +9,7 @@
     <div class="box1">
       <div class="ylevel">
         <label for="name">用户名:</label>
-        <input v-model="name" class="xlevel" id="name">
+        <input v-model="name" class="xlevel" id="name" disabled="disabled">
       </div>
       <div class="ylevel">
         <label for="phone">电话:</label>
@@ -40,10 +40,11 @@
 </template>
 <style scoped>
   .view {
-    width: 80%;
+    width: 60%;
     margin: 80px auto;
     background-color: wheat;
     z-index: 1;
+    overflow: auto;
   }
   .thead {
     display: flex;
@@ -52,6 +53,7 @@
     font-size: 16px;
     text-align: center;
     border-bottom: 1px solid gray;
+    overflow: auto;
   }
   .thead-left {
     color: blue;
@@ -65,6 +67,7 @@
     margin: 20px 0;
     height: 200px;
     text-align: left;
+    overflow: auto;
   }
   .ylevel {
     padding: 10px;
@@ -103,6 +106,7 @@
     /*margin-left: 50px;*/
   /*}*/
   .box3 {
+    position: relative;
     padding-bottom: 20px;
   }
 
@@ -140,17 +144,16 @@
             this.phone = user.phone;
             this.mail = user.email;
             this.pw = user.password;
-            this.familiarDomain = user.familiarDomain;
-            this.projectExp = user.projectExp;
+            this.familiarDomain = user.familiardomain;
+            this.projectExp = user.projectexp;
           })
       },
       reset () {
-        this.name = null
         this.phone = null
         this.pw = null
         this.mail = null
-        this.familiarDomain = user.familiarDomain;
-        this.projectExp = user.projectExp;
+        this.familiarDomain =null;
+        this.projectExp = null;
       },
       submit () {
         let body = {
