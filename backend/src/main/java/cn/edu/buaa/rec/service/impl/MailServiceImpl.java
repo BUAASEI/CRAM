@@ -5,10 +5,10 @@ import cn.edu.buaa.rec.dao.SysUserMapper;
 import cn.edu.buaa.rec.dao.UserProjectManMapper;
 import cn.edu.buaa.rec.dao.UserProjectRoleMapper;
 import cn.edu.buaa.rec.model.SysUser;
+import cn.edu.buaa.rec.model.UserProjectMan;
 import cn.edu.buaa.rec.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,4 +97,12 @@ public class MailServiceImpl implements MailService {
         return map;
     }
 
+    @Override
+    public List<Long> getManProjectId(Long userId) {
+        return null;
+    }
+
+    public List<UserProjectMan> getManApplyDetail(List<Long> manProjectId) {
+        return null;
+    }
 }

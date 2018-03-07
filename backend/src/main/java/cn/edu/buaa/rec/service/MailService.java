@@ -1,5 +1,8 @@
 package cn.edu.buaa.rec.service;
 
+import cn.edu.buaa.rec.model.UserProjectMan;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,4 +15,7 @@ public interface MailService {
 
     public Map<String,Object> refuseRequest(Long id,String chartName);
 
+    List<Long> getManProjectId(Long userId);
+
+    List<UserProjectMan> getManApplyDetail(List<Long> manProjectId);
 }

@@ -1,44 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.buaa.rec.dao.UserProjectManMapper">
-  <resultMap id="BaseResultMap" type="cn.edu.buaa.rec.model.UserProjectMan">
-    <result column="id" jdbcType="BIGINT" property="id" />
-    <result column="user_id" jdbcType="BIGINT" property="userId" />
-    <result column="project_id" jdbcType="BIGINT" property="projectId" />
-    <result column="is_man" jdbcType="INTEGER" property="isMan" />
-    <result column="isApproved" jdbcType="INTEGER" property="isapproved" />
-  </resultMap>
-  <insert id="insert" parameterType="cn.edu.buaa.rec.model.UserProjectMan">
+    <resultMap id="BaseResultMap" type="cn.edu.buaa.rec.model.UserProjectMan">
+        <result column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="project_id" jdbcType="BIGINT" property="projectId"/>
+        <result column="is_man" jdbcType="INTEGER" property="isMan"/>
+        <result column="isApproved" jdbcType="INTEGER" property="isapproved"/>
+    </resultMap>
+    <insert id="insert" parameterType="cn.edu.buaa.rec.model.UserProjectMan">
     insert into user_project_man (id, user_id, project_id, 
       is_man, isApproved)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
       #{isMan,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER})
   </insert>
-  
-  <select id="selectProjectByUserId" resultType="Long" parameterType="Long">
+
+    <select id="selectProjectByUserId" resultType="Long" parameterType="Long">
      SELECT project_id
      FROM user_project_man
      WHERE user_id = #{userId} and isApproved=1
   </select>
 
-  <select id="selectProjectByUserIdWithNoApproved" resultType="Long" parameterType="Long">
+    <select id="selectProjectByUserIdWithNoApproved" resultType="Long" parameterType="Long">
     SELECT project_id
     FROM user_project_man
     WHERE user_id = #{userId}
   </select>
-  <update id="updateApproved" parameterType="Long">
+    <update id="updateApproved" parameterType="Long">
     UPDATE user_project_man
     SET isApproved=1
     WHERE id=#{id}
   </update>
 
-  <select id="selectUserByProjectId" resultType="Long" parameterType="java.util.List">
-    SELECT user_id
+    <select id="selectUserByProjectId" resultType="Long" parameterType="java.util.List">
+        SELECT user_id
+        FROM user_project_man
+        WHERE isApproved=0 AND project_id IN
+        <foreach collection="projectIds" item="projectId" index="index" open="(" close=")"
+                 separator=",">
+            #{projectId}
+        </foreach>
+    </select>
+
+    <!--List<Long> selectManProjectId(Long userId);-->
+    <!-- 通过userId，拿到其所管理的项目的id-->
+    <select id="selectManProjectId" resultType="Long" parameterType="Long">
+    SELECT project_id
     FROM user_project_man
-    WHERE isApproved=0 AND project_id IN
-    <foreach collection="projectIds" item="projectId" index="index" open="(" close=")"
-             separator=",">
-      #{projectId}
-    </foreach>
+    WHERE user_id = #{userId} AND isApproved=1
   </select>
+
+    <!--List<UserProjectMan> selectManApply(List<Long> manProjectId);-->
+    <!-- 通过其管理的项目的id，查询其中申请项目管理员，即isApproved==0的记录 -->
+    <select id="selectManApply" resultMap="BaseResultMap" parameterType="java.util.List">
+        SELECT user_id
+        FROM user_project_man
+        WHERE isApproved=0 AND project_id IN
+        <foreach collection="manProjectIds" item="projectId" index="index" open="(" close=")"
+                 separator=",">
+            #{projectId}
+        </foreach>
+    </select>
+
+
 </mapper>
