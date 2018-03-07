@@ -13,12 +13,19 @@
       <div class="col-operate">是否同意</div>
     </div>
     <div class="detail-context">
-      <div class="detail-item" v-for="item in Message" :key=item.id>
+      <div class="detail-item" v-for="item in Message1" :key=item.id>
         <div class="col-users">{{ item.userName }}</div>
         <div class="col-projects">{{ item.projectName }}</div>
         <div class="col-roles">{{ item.roleName }}</div>
         <div class="col-operate">
-        <input  id="boxId" type="checkBox" v-bind:value="item.id"/>
+          <div class = "col-agree">
+            <input  id="boxId1" type="checkBox" v-bind:value="item.agree"/>
+            <span class="col-name">Y</span>
+          </div>
+          <div class="col-disagree">
+            <input  id="boxId2" type="checkBox" v-bind:value="item.disagree"/>
+            <span class="col-name">N</span>
+          </div>
         </div>
       </div>
     </div>
@@ -156,6 +163,10 @@
     width: 25%;
   }
 
+  .col-disagree{
+    width:12%;
+  }
+
 </style>
 <script>
   import {CheckboxGroup, Checkbox, Button} from 'iview'
@@ -173,7 +184,8 @@
 
       data () {
       return {
-        Message:a1
+        Message1:[],
+        Message2:[]
       }
     },
     components: {
@@ -181,7 +193,7 @@
       Checkbox,
       Button
     },
-    mounted:{
+    mounted(){
       // this.initData();
     },
     methods: {
@@ -189,26 +201,39 @@
         var userId = localStorage.getItem('id');
         $http.post('', info)
           .then((response) => {
-            this.Message = respone.data;
+            var applyRole = response.data.applyRole;
+            //需要加上Id，怎樣處理checkbox
+            for(var i=0;i<applyRole.length;i++){
+              var role = apllyRole[i].split(',');
+
+              this.Message1.userName = role[0];
+              this.Message1.roleName = role[1];
+              this.Message1.projectName = role[2];
+            }
+
+            var applyMan = response.data.applyMan;
+            for(var i=0;i<applyMan.length;i++){
+              var man = apllyMan[i].split(',');
+              this.Message2.userName = man[0];
+              this.Message2.Manager = man[1];
+              this.Message2.projectName = man[2];
+            }
           })
       },
       reset () {
-        this.userid = null
-        this.name = null
-        this.phone = null
-        this.pw = null
-        this.mail = null
+
+
       },
       submit () {
         let body = {
-          UserId: this.userid,
-          Name: this.name,
-          Phone: this.phone,
-          Email: this.mail,
-          Password: this.pw,
-          CreatorId: 1/*登陆时获得*/
+
         }
         /*ajax*/
+        this.$http.post('sysuser/',body)
+          .then((response) => {
+            confirm(response.data.Msg);
+          })
+
       },
       close () {
         this.$emit('closeIbox', 4)
