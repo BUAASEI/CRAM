@@ -46,7 +46,7 @@ public class UserProjectManServiceImpl implements UserProjectManService {
             temp.put("ProjectName", project.getName());
             temp.put("ProjectDescription", project.getName());
 
-            //将 该项目的信息，加入返回的List中
+            //将该项目的信息，加入返回的List中
             m.add(temp);
         }
         return m;

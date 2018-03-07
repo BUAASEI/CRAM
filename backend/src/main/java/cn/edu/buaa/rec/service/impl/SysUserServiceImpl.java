@@ -1,17 +1,15 @@
 package cn.edu.buaa.rec.service.impl;
 
-import cn.edu.buaa.rec.dao.ProjectMapper;
-import cn.edu.buaa.rec.dao.SysUserMapper;
-import cn.edu.buaa.rec.dao.UserProjectMapper;
-import cn.edu.buaa.rec.model.Project;
+import cn.edu.buaa.rec.dao.*;
 import cn.edu.buaa.rec.model.SysUser;
+import cn.edu.buaa.rec.model.UserProjectMan;
+import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,9 +29,15 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     private SysUserMapper sysUserMapper;
     @Autowired
+    private RoleMapper roleMapper;
+    @Autowired
     private UserProjectMapper userProjectMapper;
     @Autowired
     private ProjectMapper projectMapper;
+    @Autowired
+    private UserProjectManMapper userProjectManMapper;
+    @Autowired
+    private UserProjectRoleMapper userProjectRoleMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
@@ -63,18 +67,12 @@ public class SysUserServiceImpl implements SysUserService {
 
     //    修改系统用户信息
     @Override
-    public Map<String, Object> modSysUserInfo(SysUser sysUserInfo) {
+    public Map<String, Object> modSysUserInfo(SysUser userInfo) {
         Map<String, Object> m = new HashMap<>();
-        String sysUserName = sysUserInfo.getName();
-        if (noExist(sysUserName)) {
-            m.put("Msg", "不存在这个用户诶 @_@ ");
-
+        if (sysUserMapper.updateById(userInfo) != 1) {
+            m.put("Msg", "请检查输入数据格式");
         } else {
-            if (sysUserMapper.updateByName(sysUserInfo) != 1) {
-                m.put("Msg", "请检查输入数据格式");
-            } else {
-                m.put("Msg", "用户信息更新成功 @^@ ");
-            }
+            m.put("Msg", "用户信息更新成功 @^@ ");
         }
         return m;
     }
@@ -83,6 +81,42 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser selectById(Long sysUserId) {
         return sysUserMapper.selectById(sysUserId);
+    }
+
+    //    查询该用户所管理的项目中涉及的管理员和角色申请
+    @Override
+    public Map<String, String> getApply(Long userId) {
+
+        Map<String, String> result = new HashMap<>();
+
+//        检索出该用户管理的project的id
+        List<Long> manProjectIds = userProjectManMapper.selectManProjectId(userId);
+
+//        检索出申请该用户管理的项目的项目管理员的UserProjectMan关系记录
+        List<UserProjectMan> manApplyDetail = userProjectManMapper.selectManApply(manProjectIds);
+        for (UserProjectMan userProjectMan : manApplyDetail
+                ) {
+//            拿到申请用户的个人信息：名字、擅长领域和项目经验
+            SysUser applyUser = sysUserMapper.selectById(userProjectMan.getUserId());
+            String applyUserInfo = applyUser.getName() + "," + applyUser.getFamiliardomain() + "," + applyUser.getProjectexp();
+//            拿到申请的项目名称
+            String applyProName = projectMapper.selectById(userProjectMan.getProjectId()).getName();
+            result.put("Man", applyUserInfo + "," + applyProName);
+        }
+
+        List<UserProjectRole> roleApplyDetail = userProjectRoleMapper.selectRoleApply(manProjectIds);
+        for (UserProjectRole userProjectRole : roleApplyDetail
+                ) {
+//            拿到申请角色的个人信息：名字、擅长领域和项目经验，还有所申请的角色的名字
+            SysUser applyUser = sysUserMapper.selectById(userProjectRole.getUserId());
+            String applyUserInfo = applyUser.getName() + "," + applyUser.getFamiliardomain() + "," + applyUser.getProjectexp();
+//            拿到申请的项目名称
+            String applyProName = projectMapper.selectById(userProjectRole.getProjectId()).getName();
+            String applyRoleName = roleMapper.selectById(userProjectRole.getProjectId()).getName();
+            result.put("Role", applyUserInfo + "," + applyProName + "," + applyRoleName);
+        }
+
+        return result;
     }
 
     //    检查该用户名是否已经存在于数据库中

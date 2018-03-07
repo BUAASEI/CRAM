@@ -3,6 +3,7 @@ package cn.edu.buaa.rec.controller;
 import cn.edu.buaa.rec.model.Domain;
 import cn.edu.buaa.rec.model.Project;
 import cn.edu.buaa.rec.model.SysUser;
+import cn.edu.buaa.rec.model.UserProjectMan;
 import cn.edu.buaa.rec.service.*;
 import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import com.alibaba.fastjson.JSONObject;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,12 +55,14 @@ public class SysUserController {
     private UserProjectRoleService userProjectRoleService;
     @Autowired
     @Qualifier("MailService")
-    private MailServiceImpl mailService;
+    private MailService mailService;
 
 
-    //    跳转到个人中心界面，默认显示其参与的项目
-    //    这只是项目上方的其它信息：用户名
-    //    预加载的时候，还应该加载参与的项目中的接口返回数据【前端ajax实现】
+    /*
+        跳转到个人中心界面，默认显示其参与的项目
+        这只是项目上方的其它信息：用户名
+        预加载的时候，还应该加载参与的项目中的接口返回数据【前端ajax实现】
+    */
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
@@ -70,8 +74,10 @@ public class SysUserController {
         return m;
     }
 
-    //    修改用户信息
-    //    目前只根据id进行修改，不能修改用户名
+    /*
+        修改用户信息
+        目前只根据id进行修改，不能修改用户名
+    */
     @RequestMapping(value = "/modinfo", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> modifyInformation(@Valid @RequestBody Map<String, Object> sysUserInfo) {
@@ -127,13 +133,11 @@ public class SysUserController {
     */
     @RequestMapping(value = "/mail", method = RequestMethod.POST)
     @ResponseBody
-    public void showResult(@Valid @RequestBody Map<String, Object> userIdMap) {
-        String userIdS = (String) userIdMap.get("userId");
-        Long userId = Long.parseLong(userIdS);
-        Map<String, Object> map = mailService.getProApplyName(userId);
-        for (String key : map.keySet())
-            System.out.println(key);
-        System.out.println(map);
+    public Map<String, String> getApplication(@Valid @RequestBody Map<String, Object> userIdInfo) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userIdInfo);
+        Long userId = jsonObject.getLong("UserId");
+
+        return sysUserService.getApply(userId);
     }
 
     /*

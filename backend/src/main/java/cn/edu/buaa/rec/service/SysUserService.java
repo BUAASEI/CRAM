@@ -25,4 +25,5 @@ public interface SysUserService {
 
     SysUser selectById(Long sysUserId);
 
+    Map<String,String> getApply(Long userId);
 }

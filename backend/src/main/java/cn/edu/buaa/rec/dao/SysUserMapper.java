@@ -15,4 +15,6 @@ public interface SysUserMapper {
     int updateByName(SysUser sysUserInfo);
 
     SysUser selectById(Long id);
+
+    int updateById(SysUser sysUserInfo);
 }

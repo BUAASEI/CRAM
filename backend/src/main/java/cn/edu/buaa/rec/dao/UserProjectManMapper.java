@@ -22,4 +22,7 @@ public interface UserProjectManMapper {
 
     int updateApproved(@Param("id") Long id);
 
+    List<Long> selectManProjectId(Long userId);
+
+    List<UserProjectMan> selectManApply(@Param("manProjectIds") List<Long> manProjectIds);
 }
