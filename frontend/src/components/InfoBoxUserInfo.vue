@@ -29,7 +29,7 @@
       </div>
       <div class="ylevel">
         <label for="projectExp">项目经验:</label>
-        <textarea v-model="projectExp" class="xlevel text" id="projectExp" rows="4"></textarea>
+        <textarea v-model="projectExp" class="xlevel text" id="projectExp" rows="2"></textarea>
       </div>
     </div>
     <div class="box3">
@@ -40,7 +40,7 @@
 </template>
 <style scoped>
   .view {
-    width: 60%;
+    width: 80%;
     margin: 80px auto;
     background-color: wheat;
     z-index: 1;
@@ -79,6 +79,7 @@
   }
   .text {
     height: 150px;
+    overflow: auto;
   }
   /*.box2 {*/
     /*min-height: 100px;*/
@@ -125,6 +126,9 @@
       Checkbox,
       Button
     },
+    mounted() {
+      this.initData();
+    },
     methods: {
       initData(){
         var userId = localStorage.getItem("id");
@@ -141,11 +145,12 @@
           })
       },
       reset () {
-        this.userid = null
         this.name = null
         this.phone = null
         this.pw = null
         this.mail = null
+        this.familiarDomain = user.familiarDomain;
+        this.projectExp = user.projectExp;
       },
       submit () {
         let body = {
