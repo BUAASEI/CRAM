@@ -19,11 +19,13 @@ public interface SysUserService {
 
     boolean noExist(String name);
 
-    Map<String,Object> newSysUser(SysUser sysUser);
+    Map<String, Object> newSysUser(SysUser sysUser);
 
-    Map<String,Object> modSysUserInfo(SysUser sysUserInfo);
+    Map<String, Object> modSysUserInfo(SysUser sysUserInfo);
 
     SysUser selectById(Long sysUserId);
 
-    Map<String,String> getApply(Long userId);
+    Map<String, List<Map<String, Object>>> getApply(Long projectId);
+
+    Map<Long, String> getManProjectId(Long userId);
 }

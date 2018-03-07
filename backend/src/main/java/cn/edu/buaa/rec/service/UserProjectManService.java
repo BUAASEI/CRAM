@@ -14,4 +14,6 @@ import java.util.Map;
 public interface UserProjectManService {
 
     List<Map<String,Object>> manProject(Long userId);
+
+    int updateByApprove(Long id, Integer isapproved);
 }

@@ -1,15 +1,14 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.*;
-import cn.edu.buaa.rec.model.SysUser;
-import cn.edu.buaa.rec.model.UserProjectMan;
-import cn.edu.buaa.rec.model.UserProjectRole;
+import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,35 +84,62 @@ public class SysUserServiceImpl implements SysUserService {
 
     //    查询该用户所管理的项目中涉及的管理员和角色申请
     @Override
-    public Map<String, String> getApply(Long userId) {
+    public Map<String, List<Map<String, Object>>> getApply(Long projectId) {
 
-        Map<String, String> result = new HashMap<>();
+        Map<String, List<Map<String, Object>>> result = new HashMap<>();
 
-//        检索出该用户管理的project的id
-        List<Long> manProjectIds = userProjectManMapper.selectManProjectId(userId);
-
+        List<Map<String, Object>> manApplyInfo = new ArrayList<>();
 //        检索出申请该用户管理的项目的项目管理员的UserProjectMan关系记录
-        List<UserProjectMan> manApplyDetail = userProjectManMapper.selectManApply(manProjectIds);
-        for (UserProjectMan userProjectMan : manApplyDetail
+        List<UserProjectMan> userProjectMans = userProjectManMapper.selectManApplyByProjectId(projectId);
+        for (UserProjectMan userProjectMan : userProjectMans
                 ) {
 //            拿到申请用户的个人信息：名字、擅长领域和项目经验
             SysUser applyUser = sysUserMapper.selectById(userProjectMan.getUserId());
-            String applyUserInfo = applyUser.getName() + "," + applyUser.getFamiliardomain() + "," + applyUser.getProjectexp();
-//            拿到申请的项目名称
-            String applyProName = projectMapper.selectById(userProjectMan.getProjectId()).getName();
-            result.put("Man", applyUserInfo + "," + applyProName);
+            Map<String, Object> manApplyEachInfo = new HashMap<>();
+            manApplyEachInfo.put("applyId", userProjectMan.getId());
+            manApplyEachInfo.put("roleName", "项目管理员");
+            manApplyEachInfo.put("userName", applyUser.getName());
+            manApplyEachInfo.put("familiarDomain", applyUser.getFamiliardomain());
+            manApplyEachInfo.put("projectExp", applyUser.getProjectexp());
+
+            manApplyInfo.add(manApplyEachInfo);
         }
 
-        List<UserProjectRole> roleApplyDetail = userProjectRoleMapper.selectRoleApply(manProjectIds);
-        for (UserProjectRole userProjectRole : roleApplyDetail
+        List<Map<String, Object>> roleApplyInfo = new ArrayList<>();
+        List<UserProjectRole> roleApplyUserInfos = userProjectRoleMapper.selectRoleApplyByProjectId(projectId);
+        for (UserProjectRole userProjectRole : roleApplyUserInfos
                 ) {
 //            拿到申请角色的个人信息：名字、擅长领域和项目经验，还有所申请的角色的名字
             SysUser applyUser = sysUserMapper.selectById(userProjectRole.getUserId());
-            String applyUserInfo = applyUser.getName() + "," + applyUser.getFamiliardomain() + "," + applyUser.getProjectexp();
-//            拿到申请的项目名称
-            String applyProName = projectMapper.selectById(userProjectRole.getProjectId()).getName();
-            String applyRoleName = roleMapper.selectById(userProjectRole.getProjectId()).getName();
-            result.put("Role", applyUserInfo + "," + applyProName + "," + applyRoleName);
+            Map<String, Object> roleApplyEachInfo = new HashMap<>();
+            roleApplyEachInfo.put("applyId", userProjectRole.getId());
+            roleApplyEachInfo.put("roleName", roleMapper.selectById(userProjectRole.getRoleId()).getName());
+            roleApplyEachInfo.put("userName", applyUser.getName());
+            roleApplyEachInfo.put("familiarDomain", applyUser.getFamiliardomain());
+            roleApplyEachInfo.put("projectExp", applyUser.getProjectexp());
+
+            roleApplyInfo.add(roleApplyEachInfo);
+        }
+
+        result.put("Man", manApplyInfo);
+        result.put("Role", roleApplyInfo);
+
+        return result;
+    }
+
+    @Override
+    public Map<Long, String>
+    getManProjectId(Long userId) {
+
+        Map<Long, String> result = new HashMap<>();
+
+//        检索出该用户管理的project的id
+        List<Long> manProjectIds = userProjectManMapper.selectProjectByUserId(userId);
+
+        for (Long projectId : manProjectIds
+                ) {
+            Project manProjects = projectMapper.selectById(projectId);
+            result.put(manProjects.getId(), manProjects.getName());
         }
 
         return result;

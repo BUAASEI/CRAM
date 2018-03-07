@@ -68,4 +68,9 @@ public class UserProjectRoleServiceImpl implements UserProjectRoleService {
         List<Long> list = userProjectRoleMapper.selectByProjectIdAndUserId(projectId, userId);
         return list;
     }
+
+    @Override
+    public int updateByApprove(Long id, Integer isapproved) {
+        return userProjectRoleMapper.updateApprovedById(id, isapproved);
+    }
 }
