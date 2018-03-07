@@ -3,9 +3,7 @@ package cn.edu.buaa.rec.controller;
 import cn.edu.buaa.rec.model.Domain;
 import cn.edu.buaa.rec.model.Project;
 import cn.edu.buaa.rec.model.SysUser;
-import cn.edu.buaa.rec.model.UserProjectMan;
 import cn.edu.buaa.rec.service.*;
-import cn.edu.buaa.rec.service.impl.MailServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,15 +126,67 @@ public class SysUserController {
 
     /*
         站内信
+        分两部分：这部分的接口为预加载，返回管理的projectId
         查看所管理的项目的项目管理员和角色申请
     */
-    @RequestMapping(value = "/mail", method = RequestMethod.POST)
+    @RequestMapping(value = "/mail/manproinfo", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, String> getApplication(@Valid @RequestBody Map<String, Object> userIdInfo) {
+    public Map<Long, String> getManProjectInfo(@Valid @RequestBody Map<String, Object> userIdInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userIdInfo);
         Long userId = jsonObject.getLong("UserId");
 
-        return sysUserService.getApply(userId);
+        return sysUserService.getManProjectId(userId);
+    }
+
+    //    加载每个项目中的申请：管理员、角色
+    @RequestMapping(value = "/mail/applyinfo", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, List<Map<String, Object>>> getApplication(@Valid @RequestBody Map<String, Object> projectIdInfo) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectIdInfo);
+        Long projectId = jsonObject.getLong("projectId");
+
+        return sysUserService.getApply(projectId);
+    }
+
+    //    根据管理员和角色的审批结果，修改数据库相应记录
+    @RequestMapping(value = "/mail/approve")
+    @ResponseBody
+    public Map<String, Object> updateApproveResult(@Valid @RequestBody Map<String, Object> approveInfo) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(approveInfo);
+        Map<String, Object> result = new HashMap<>();
+
+        List<Map<String, Object>> manApprovedResults = (List) jsonObject.get("Man");
+
+        System.out.println("manApprovedResults" + manApprovedResults.toString());
+        int manUpdateResult = 0;
+        for (Map<String, Object> manApprovedResult : manApprovedResults
+                ) {
+            //  o是申请中，1是同意，2是拒绝
+
+            //  如果前端传过来的是不带L的，默认转化成Integer
+            //  一定要注意这个问题
+            Long applyId = Long.parseLong(manApprovedResult.get("applyId").toString());
+            Integer isApproved = Integer.parseInt(manApprovedResult.get("isApproved").toString());
+            manUpdateResult = userProjectManService.updateByApprove(applyId, isApproved);
+        }
+
+        List<Map<String, Object>> roleApprovedResults = (List) jsonObject.get("Role");
+        int roleUpdateResult = 0;
+        for (Map<String, Object> roleApprovedResult : roleApprovedResults
+                ) {
+            //        o是申请中，1是同意，2是拒绝
+            Long applyId = Long.parseLong(roleApprovedResult.get("applyId").toString());
+            Integer isApproved = Integer.parseInt(roleApprovedResult.get("isApproved").toString());
+            roleUpdateResult = userProjectRoleService.updateByApprove(applyId, isApproved);
+        }
+
+        if (manUpdateResult == 1 && roleUpdateResult == 1) {
+            result.put("Msg", "Success");
+        } else {
+            result.put("Msg", "Error");
+        }
+
+        return result;
     }
 
     /*
@@ -177,17 +226,16 @@ public class SysUserController {
     }
 
     //查看个人信息，用于修改个人信息初始化页面
-    @RequestMapping(value="/getuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/getuser", method = RequestMethod.POST)
     @ResponseBody
-    public SysUser getUserById(@Valid @RequestBody Map<String,Object> info){
+    public SysUser getUserById(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long userId = jsonObject.getLong("userId");
-        System.out.println("userId:"+userId);
-        if(userId==null){
+        if (userId == null) {
             return null;
         }
         SysUser user = sysUserService.selectById(userId);
-        System.out.println("user:"+user.toString());
+        System.out.println("user:" + user.toString());
         return user;
     }
 }

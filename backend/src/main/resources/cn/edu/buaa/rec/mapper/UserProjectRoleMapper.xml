@@ -38,21 +38,25 @@
     FROM user_project_role
     WHERE user_id = #{userId}
   </select>
-    <update id="updateApproved" parameterType="Long">
-    UPDATE user_project_role
-    SET isApproved=1
-    WHERE id=#{id}
-  </update>
 
     <!--List<UserProjectRole> selectRoleApply(@Param("manProjectIds") List<Long> manProjectIds);-->
     <!-- 根据用户管理的projects，去查查找这些项目中，需要审批的角色申请-->
-    <select id="selectRoleApply" resultMap="BaseResultMap" parameterType="java.util.List">
+    <select id="selectRoleApplyByProjectId" resultMap="BaseResultMap" parameterType="Long">
         SELECT *
         FROM user_project_role
-        WHERE isApproved=0 AND project_id IN
-        <foreach collection="manProjectIds" item="projectId" index="index" open="(" close=")"
-                 separator=",">
-            #{projectId}
-        </foreach>
+        WHERE project_id=#{projectId} AND isApproved=0
     </select>
+
+    <update id="updateApproved" parameterType="Long">
+        UPDATE user_project_role
+        SET isApproved=1
+        WHERE id=#{id}
+    </update>
+    <!--int updateIsApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);-->
+    <update id="updateApprovedById">
+        UPDATE user_project_role
+        SET isApproved=#{isapproved}
+        WHERE id=#{id}
+    </update>
+
 </mapper>

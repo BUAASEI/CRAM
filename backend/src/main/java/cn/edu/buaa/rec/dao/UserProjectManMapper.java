@@ -22,7 +22,8 @@ public interface UserProjectManMapper {
 
     int updateApproved(@Param("id") Long id);
 
-    List<Long> selectManProjectId(Long userId);
+    List<UserProjectMan> selectManApplyByProjectId(@Param("projectId") Long projectId);
 
-    List<UserProjectMan> selectManApply(@Param("manProjectIds") List<Long> manProjectIds);
+    // 根据Id修改项目管理员申请的审批状态
+    int updateApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);
 }

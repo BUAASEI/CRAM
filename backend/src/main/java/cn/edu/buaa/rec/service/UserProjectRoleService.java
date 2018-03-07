@@ -15,4 +15,6 @@ public interface UserProjectRoleService {
     List<Map<String,Object>> parProject(Long userId);
 
     List<Long> getUserRoleId(Long projectId,Long userId);
+
+    int updateByApprove(Long id, Integer isapproved);
 }
