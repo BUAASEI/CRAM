@@ -203,7 +203,7 @@
           .then((response) => {
             var applyRole = response.data.applyRole;
             //需要加上Id，怎樣處理checkbox
-            for(int i=0;i<applyRole.length;i++){
+            for(var i=0;i<applyRole.length;i++){
               var role = apllyRole[i].split(',');
 
               this.Message1.userName = role[0];
@@ -212,7 +212,7 @@
             }
 
             var applyMan = response.data.applyMan;
-            for(int i=0;i<applyMan.length;i++){
+            for(var i=0;i<applyMan.length;i++){
               var man = apllyMan[i].split(',');
               this.Message2.userName = man[0];
               this.Message2.Manager = man[1];
