@@ -119,10 +119,11 @@
         this.discribe = null
       },
       submit () {
+        var creatorId = localStorage.getItem('id');
         let body = {
           DomainName: this.name,
           Description: this.discribe,
-          CreatorId: 1/*登陆时获得*/
+          CreatorId: creatorId/*登陆时获得*/
         };
         /*ajax*/
         this.$http.post('sysuser/credom',body)

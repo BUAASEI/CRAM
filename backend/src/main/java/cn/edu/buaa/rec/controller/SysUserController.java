@@ -182,12 +182,12 @@ public class SysUserController {
     public SysUser getUserById(@Valid @RequestBody Map<String,Object> info){
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long userId = jsonObject.getLong("userId");
-        System.out.println(userId);
+        System.out.println("userId:"+userId);
         if(userId==null){
             return null;
         }
         SysUser user = sysUserService.selectById(userId);
-
+        System.out.println("user:"+user.toString());
         return user;
     }
 }
