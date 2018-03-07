@@ -135,6 +135,14 @@
       Button
     },
     methods: {
+      initData(){
+        this.$http.post('sysuser/getdomain')
+          .then((response)=>
+        {
+          //     var domain = response.data;
+          //
+        })
+      },
       reset () {
         this.name = null
         this.discribe = null

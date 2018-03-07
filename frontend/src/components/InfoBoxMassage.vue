@@ -3,29 +3,31 @@
   <div class="view">
     <div class="thead">
       <div class="thead-left">站内信</div>
+      <div class="thead-middle">项目名称</div>
+      <select v-model="project" class="thead-button">
+        <option v-for="item in Projects" v-bind:value="item.id" @selectProject="selectProject" :data="item.id">{{item.name}}</option>
+      </select>
       <div @click="close" class="thead-right">X</div>
     </div>
     <div class="detail-body">
     <div class="detail-head">
       <div class="col-users">用户名</div>
-      <div class="col-projects">项目名</div>
       <div class="col-roles">申请角色</div>
+      <!--<div class="col-domain">熟悉领域</div>-->
+      <!--<div class="col-exp">项目经验</div>-->
       <div class="col-operate">是否同意</div>
-    </div>
     <div class="detail-context">
       <div class="detail-item" v-for="item in Message1" :key=item.id>
         <div class="col-users">{{ item.userName }}</div>
-        <div class="col-projects">{{ item.projectName }}</div>
         <div class="col-roles">{{ item.roleName }}</div>
+        <!--<div class="col-domain">{{item.familiarDomain}}</div>-->
+        <!--<div class="col-exp">{{item.projectExp}}</div>-->
         <div class="col-operate">
-          <div class = "col-agree">
             <input  id="boxId1" type="checkBox" v-bind:value="item.agree"/>
             <span class="col-name">Y</span>
-          </div>
-          <div class="col-disagree">
             <input  id="boxId2" type="checkBox" v-bind:value="item.disagree"/>
             <span class="col-name">N</span>
-          </div>
+          <!--</div>-->
         </div>
       </div>
     </div>
@@ -35,7 +37,7 @@
       </div>
     </div>
   </div>
-
+  </div>
 </template>
 <style scoped>
   .view {
@@ -47,79 +49,35 @@
   .thead {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 5px;
     font-size: 16px;
     text-align: center;
     border-bottom: 1px solid gray;
+    overflow: auto;
   }
   .thead-left {
     color: blue;
+  }
+  .thead-middle{
+    color:blue;
   }
   .thead-right {
     cursor: pointer;
     color: red;
   }
-  .box1 {
-    position: relative;
-    margin: 20px 0;
-    height: 300px;
-    text-align: left;
-  }
-  .ylevel {
-    padding: 10px;
-  }
-  .ylevel label {
-    color: gray;
-  }
-  .xlevel {
-    position: absolute;
-    left: 100px;
-    width: 400px;
-  }
-  .text {
-    height: 150px;
-  }
-  .box2 {
-    min-height: 50px;
-    max-height: 200px;
-    text-align: left;
-    color: gray;
-    overflow: auto;
-  }
-  .box-head, .info-item {
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 10px;
-  }
-  .box-body {
-    padding-top: 10px;
-  }
-  .col-id {
-    margin-left: 20px;
-  }
-  .col-name {
-    margin-left: 50px;
-  }
-  .box3 {
-    padding-bottom: 20px;
+  .thead-button{
+    margin:5px;
   }
 
-  .context-title {
-    width: 15%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  .col-name {
+    margin-left: 5px;
+  }
+  .box3 {
+    position: relative;
+    padding-bottom: 10px;
   }
   .context-title>div {
     margin-top: 10px;
-  }
-  .context-detail {
-    flex-grow: 1;
-  }
-  .detail {
-    padding-top: 10px;
-    text-align: left;
-    height: 300px;
   }
   .detail-body {
     margin-top: 20px;
@@ -151,20 +109,20 @@
     border-left: 1px solid lightgray;
   }
   .col-users {
-    width: 25%;
+    width: 30%;
   }
   .col-roles {
-    width: 25%;
-  }
-  .col-projects {
-    width: 15%;
+    width: 30%;
   }
   .col-operate {
-    width: 25%;
+    width: 40%;
   }
 
-  .col-disagree{
-    width:12%;
+  .col-domain{
+    width: 20%;
+  }
+  .col-exp{
+    width:20%;
   }
 
 </style>
@@ -175,7 +133,7 @@
       userName:'asd',
       projectName: '预选课',
       roleName:'zxc',
-      id:'2'
+      id:2
 
     }
 
@@ -184,7 +142,13 @@
 
       data () {
       return {
-        Message1:[],
+        Projects:[
+          {
+            id:'',
+            name:'',
+
+        }],
+        Message1:a1,
         Message2:[]
       }
     },
@@ -199,26 +163,38 @@
     methods: {
       initData()  {
         var userId = localStorage.getItem('id');
-        $http.post('', info)
+        this.$http.post('', info)
           .then((response) => {
-            var applyRole = response.data.applyRole;
-            //需要加上Id，怎樣處理checkbox
-            for(var i=0;i<applyRole.length;i++){
-              var role = apllyRole[i].split(',');
 
-              this.Message1.userName = role[0];
-              this.Message1.roleName = role[1];
-              this.Message1.projectName = role[2];
-            }
-
-            var applyMan = response.data.applyMan;
-            for(var i=0;i<applyMan.length;i++){
-              var man = apllyMan[i].split(',');
-              this.Message2.userName = man[0];
-              this.Message2.Manager = man[1];
-              this.Message2.projectName = man[2];
-            }
+            this.Projects = response.data;
+            // var applyRole = response.data.applyRole;
+            // //需要加上Id，怎樣處理checkbox
+            // for(var i=0;i<applyRole.length;i++){
+            //   var role = apllyRole[i].split(',');
+            //
+            //   this.Message1.userName = role[0];
+            //   this.Message1.roleName = role[1];
+            //   this.Message1.projectName = role[2];
+            // }
+            //
+            // var applyMan = response.data.applyMan;
+            // for(var i=0;i<applyMan.length;i++){
+            //   var man = apllyMan[i].split(',');
+            //   this.Message2.userName = man[0];
+            //   this.Message2.Manager = man[1];
+            //   this.Message2.projectName = man[2];
+            // }
           })
+      },
+      selectProject(data){
+
+        this.$http.post('sysuser/mail/applyinfo', {projectId:data})
+          .then((response) => {
+              this.Message1 = response.data.Role;
+              this.Message2 = response.data.Man;
+
+          })
+
       },
       reset () {
 

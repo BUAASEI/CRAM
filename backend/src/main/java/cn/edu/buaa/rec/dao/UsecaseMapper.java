@@ -11,4 +11,8 @@ public interface UsecaseMapper {
     List<Long> selectUseCases(Long businessId);
 
     String selectRucmSpecByUseCase(Long useCaseId);
+
+    Long selectMaxId();
+
+    int updateById(Usecase usecase);
 }

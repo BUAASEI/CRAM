@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,5 +53,10 @@ public class DomainServiceImpl implements DomainService {
     @Override
     public Domain selectByName(String name) {
         return domainMapper.selectByName(name);
+    }
+
+    @Override
+    public List<Domain> getDomain() {
+        return domainMapper.selectDomain();
     }
 }

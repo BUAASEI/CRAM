@@ -20,9 +20,22 @@ public class Usecase {
 
     private String rucmSpec;
 
+    private Long projectId;
     private String input;
     private String output;
 
+    public Usecase(Long id, String name,Long projectId, String description,String rucmSpec ){
+        this.id = id;
+        this.name = name;
+        this.projectId = projectId;
+        this.description = description;
+        this.rucmSpec = rucmSpec;
+    }
+
+    public Usecase(Long id,String rucmSpec){
+        this.id = id;
+        this.rucmSpec = rucmSpec;
+    }
     public String getInput() {
         return input;
     }
@@ -144,4 +157,11 @@ public class Usecase {
 //
 //    private String rucmSpec;
 
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
 }

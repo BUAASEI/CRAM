@@ -28,7 +28,7 @@ public class UsecaseRoleDataServiceImpl implements UsecaseRoleDataService {
 
     @Override
     public List<UsecaseRoleData> getUsecaseRoleDataByRoleIds(List<Long> rIds) {
-        if (rIds == null){
+        if (rIds == null&& rIds.size()==0){
             return null;
         }
         List<UsecaseRoleData> uRDList = usecaseRoleDataMapper.selectUsecaseRoleDataByRoleIds(rIds);

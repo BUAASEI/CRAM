@@ -137,6 +137,7 @@ import {Button} from 'iview'
 export default{
   data () {
     return {
+      projectId:'',
       BusinessData:[],
       UsageData:[]
     }
@@ -147,6 +148,10 @@ export default{
     Button
   },
   mounted() {
+
+    // this.projectId = this.$route.params.projectId;
+    // var userId = localStorage.getItem("id");
+    // this.reqInfo(projectId,userId);
     this.reqInfo(1,3);
   },
   methods: {
@@ -158,6 +163,7 @@ export default{
     editUsecase: function (id) {
       // do something
       // 路由跳转
+      alert(id);
       this.$router.push({ name: 'usecase', params: {type: 'edit',id: id} })
     },
     reqInfo: function (projectId,userId) {
