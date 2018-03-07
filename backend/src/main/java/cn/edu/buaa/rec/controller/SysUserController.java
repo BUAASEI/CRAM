@@ -86,7 +86,7 @@ public class SysUserController {
         Long sysUserId = jsonObject.getLong("UserId");
         String sysUserName = jsonObject.getString("Name");
         SysUser sysUser = new SysUser(sysUserId, sysUserName, jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"), jsonObject.getString("FamiliarDomain"), jsonObject.getString("ProjectExp"));
-        System.out.println(sysUser.getEmail());
+//        System.out.println("modinfo"+sysUser.toString());
         return sysUserService.modSysUserInfo(sysUser);
     }
 
@@ -189,5 +189,11 @@ public class SysUserController {
         SysUser user = sysUserService.selectById(userId);
         System.out.println("user:"+user.toString());
         return user;
+    }
+
+    @RequestMapping(value="/getdomain",method= RequestMethod.POST)
+    @ResponseBody
+    public List<Domain> getDomain(){
+        return domainService.getDomain();
     }
 }

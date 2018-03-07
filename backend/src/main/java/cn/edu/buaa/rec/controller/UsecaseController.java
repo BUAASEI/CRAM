@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,8 +46,26 @@ public class UsecaseController {
             return null;
         }
         Usecase usecase = usecaseService.getUsecaseById(uId);
+        System.out.println(usecase.toString());
         return usecase;
     }
+
+    //修改用例信息,
+    @RequestMapping(value="/updateusecase",method=RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> updateUsecase(@Valid @RequestBody Map<String, Object> info){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long usecaseId = jsonObject.getLong("id");
+        Usecase usecase = new Usecase(usecaseId,jsonObject.getString("rucmSpec"));
+        System.out.println("usecase:"+usecase);
+        Map<String,Object> m = usecaseService.updateUsecase(usecase);
+
+        System.out.println("m:" +m.toString());
+        return m ;
+
+    }
+
+
 
     //检测缺陷
     @RequestMapping(value = "/detect", method = RequestMethod.POST)

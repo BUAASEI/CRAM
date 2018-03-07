@@ -7,6 +7,7 @@
       <div @click="close" class="thead-right">X</div>
     </div>
     <div class="box1">
+        <input v-model="id" id="id" type="hidden">
       <div class="ylevel">
         <label for="name">用户名:</label>
         <input v-model="name" class="xlevel" id="name" disabled="disabled">
@@ -117,7 +118,7 @@
     data () {
       return {
         id:'',
-       name:'',
+        name:'',
         phone:'',
         mail:'',
         password:'',
@@ -135,7 +136,7 @@
     },
     methods: {
       initData(){
-        var userId = localStorage.getItem("id");
+         var userId = localStorage.getItem("id");
         this.$http.post('sysuser/getuser',{"userId":userId})
           .then((response) => {
             var user = response.data;
@@ -157,7 +158,7 @@
       },
       submit () {
         let body = {
-          Id: this.userid,
+          UserId: this.id,
           Name: this.name,
           Phone: this.phone,
           Email: this.mail,
@@ -169,6 +170,7 @@
         this.$http.post('sysuser/modinfo',body)
           .then((response) => {
               confirm(response.data.Msg);
+
           })
       },
       close () {

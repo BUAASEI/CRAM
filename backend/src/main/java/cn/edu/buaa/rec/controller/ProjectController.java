@@ -3,10 +3,10 @@ package cn.edu.buaa.rec.controller;
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.MailService;
 import cn.edu.buaa.rec.service.ProjectService;
-import cn.edu.buaa.rec.service.impl.BusinessRoleDataServiceImpl;
-import cn.edu.buaa.rec.service.impl.UsecaseRoleDataServiceImpl;
-import cn.edu.buaa.rec.service.impl.UserProjectRoleServiceImpl;
-import cn.edu.buaa.rec.service.impl.MailServiceImpl;
+import cn.edu.buaa.rec.service.BusinessRoleDataService;
+import cn.edu.buaa.rec.service.UsecaseRoleDataService;
+import cn.edu.buaa.rec.service.UserProjectRoleService;
+import cn.edu.buaa.rec.service.MailService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,21 +40,22 @@ public class ProjectController {
 
     @Autowired
     @Qualifier("UserProjectRoleService")
-    private UserProjectRoleServiceImpl userProjectRoleService;
+    private UserProjectRoleService userProjectRoleService;
 
     @Autowired
     @Qualifier("BusinessRoleDataService")
-    private BusinessRoleDataServiceImpl businessRoleDataService;
+    private BusinessRoleDataService businessRoleDataService;
 
+    @Autowired
     @Qualifier("UsecaseRoleDataService")
-    private UsecaseRoleDataServiceImpl usecaseRoleDataService;
-    //  项目中心，暂时默认显示场景
+    private UsecaseRoleDataService usecaseRoleDataService;
+
     @Autowired
     @Qualifier("MailService")
     private MailService mailService;
 
 
-    //    项目详情的初始化界面（显示business和usease表格）
+    //项目中心，暂时默认显示场景
     @RequestMapping("/home")
     @ResponseBody
     public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info) {
@@ -66,21 +67,19 @@ public class ProjectController {
         if (roleIds == null && roleIds.size() == 0) {
             return null;
         }
-        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
-        if (businessRoleData == null) {
-            return null;
-        }
-        List<Map<String, Object>> businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
-        List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
-        if (usecaseRoleData == null) {
-            return null;
-        }
-        List<Map<String, Object>> usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
-
         Map<String, Object> result = new HashMap<>();
-//        result.put("businessForms",businessForms);
+        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
+        List<Map<String, Object>> businessForms = new LinkedList<>();
+        if (businessRoleData != null) {
+            businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        }
+        result.put("businessForms", businessForms);
+        List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
+        List<Map<String, Object>> usecaseForms = new LinkedList<>();
+        if (usecaseRoleData != null) {
+            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
+        }
         result.put("usecaseForms", usecaseForms);
-
         return result;
     }
 

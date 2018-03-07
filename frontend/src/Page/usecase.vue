@@ -16,7 +16,7 @@
     <div class="box1 scroll">
       <div class="rucm-head">Use Case Specitication for CRAM</div>
       <div class="flow rucm-basic-info">
-        <Table ref="table" @tableData="tableData" :data="brief"></Table>
+        <Table v-model="brief" ref="table" @tableData="tableData" :data="brief"></Table>
       </div>
       <div class="flow rucm-basicflow">
         <SpecialTable ref="bflow"  @otherData="otherData" title="Basic Flow" tag="Step" :data="basicFlow"></SpecialTable>
@@ -143,24 +143,28 @@
         },
         basicFlow: {
           colum: [1],
-          data: ['']
+          data: [''],
+          PostCondition:''
         },
         specData1: [
           {
             colum: [1],
-            data: []
+            data: [],
+            PostCondition:''
           }
         ],
         specData2: [
           {
             colum: [1],
-            data: []
+            data: [],
+            PostCondition:''
           }
         ],
         specData3: [
           {
             colum: [1],
-            data: []
+            data: [],
+            PostCondition:''
           }
         ],
         dict: [],
@@ -170,7 +174,7 @@
           BoundedAlternativeFlows: [],
           SpecificAlternativeFlows: [],
           GlobalAlternativeFlows: [],
-          DictDictionary: []
+          DataDictionary: []
         },
         count: 0
       }
@@ -181,34 +185,47 @@
       Table,
       SpecialTable
     },
-    beforeMount: function () {
-      this.type = this.$route.params.type
-      this.id = this.$route.params.id
-      alert(this.id);
+    mounted(){
+      this.type = this.$route.params.type;
+      this.id = this.$route.params.id;
+      // alert(this.id);
       this.initData(this.id);
-      // this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
     },
+    // beforeMount: function () {
+    //
+    //   // this.initData(this.id);
+    //   // this.name = this.type === 'new' ? '新增课程信息' : '更新课程信息'
+    // },
     methods: {
       initData: function(id){
         this.$http.post('usecase/getusecase',{"usecaseId":id})
           .then((response) => {
-            // var usecase = response.data;
-            // var name = usecase.name;
-            // var description = usecase.description;
-            // var input = usecase.input;
-            // var output = usecase.output;
-            // var data_dictionary = usecase.dataDictionary;
-            // this.data1 =[] ;
-            // alert(this.data1);
+            var usecase = response.data;
+            if(usecase!=null){
+              this.id = usecase.id;
+              alert("iddddd:"+id);
+              var rucmJson = usecase.rucmSpec;
+               alert(rucmJson);
+              // var rucmJson = JSON.parse(rucmSpec);
+
+              this.basicFlow = rucmJson.basicFlow;
+              this.specData1 = rucmJson.specData1;
+              this.specData2 = rucmJson.specData2;
+              this.specData3 = rucmJson.specData3;
+              this.dict = rucmJson.DataDictionary;
+              this.cases = rucmJson.cases;
+              this.brief = rucmJson.brief;
+              alert("brief:"+this.brief.toString());
+            }
           })
       },
       add (obj) {
         if (obj.title === 'Bounded Alternative Flow') {
-          this.specData1.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+          this.specData1.splice(obj.pos+1, 0, {colum: [1],data: [''],postCondition:''})
         } else if (obj.title === 'Specific Alternative Flow') {
-          this.specData2.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+          this.specData2.splice(obj.pos+1, 0, {colum: [1],data: [''],postCondition:''})
         } else {
-          this.specData3.splice(obj.pos+1, 0, {colum: [1],data: ['']})
+          this.specData3.splice(obj.pos+1, 0, {colum: [1],data: [''],postCondition:''})
         }
       },
       del (obj) {
@@ -221,12 +238,31 @@
         }
       },
       saveData () {
+
         this.$refs.table.sends()
         this.$refs.bflow.sends()
         console.log(this.$refs.flow)
         this.$refs.flow.forEach(item => {
           item.sends()
         })
+        let rucmSpec={
+          brief:this.brief,
+          basicFlow : this.basicFlow,
+          specData1 : this.specData1,
+          specData2 : this.specData2,
+          specData3 : this.specData3,
+          cases: this.cases
+        }
+         alert("this.brief save:"+this.brief);
+        // var rucmSpec = JSON.stringify(rucm);
+        let usecase={
+          id: this.id,
+          rucmSpec:rucmSpec
+        };
+        this.$http.post('usecase/updateusecase',usecase)
+          .then((response) => {
+            confirm(response.data.Msg);
+          })
       },
       tableData (data) {
         this.cases.Brief = data
@@ -239,6 +275,7 @@
       otherData (data, title, pos) {
         if (title === 'Basic Flow') {
           this.cases.BasicFlow = data
+
         } else if (title === 'Bounded Alternative Flow') {
           this.cases.BoundedAlternativeFlows[pos] = data
         } else if (title === 'Specific Alternative Flow') {

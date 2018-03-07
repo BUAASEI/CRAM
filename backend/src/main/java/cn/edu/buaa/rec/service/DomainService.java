@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.service;
 
 import cn.edu.buaa.rec.model.Domain;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,4 +20,7 @@ public interface DomainService {
     boolean noExist(String name);
 
     Domain selectByName(String name);
+
+    List<Domain> getDomain();
+
 }

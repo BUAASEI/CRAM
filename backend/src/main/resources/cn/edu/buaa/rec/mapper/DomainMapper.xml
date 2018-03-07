@@ -25,6 +25,12 @@
       #{isapproved,jdbcType=INTEGER}, #{typicalData,jdbcType=LONGVARCHAR}, #{typicalRole,jdbcType=LONGVARCHAR}, #{typicalScenario,jdbcType=LONGVARCHAR})
   </insert>
 
+  <!-- 查找现有领域 -->
+  <select id="selectDomain" resultMap="BaseResultMap">
+    SELECT *
+    FROM Domain
+  </select>
+
   <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
     SELECT *
     FROM domain
