@@ -22,15 +22,16 @@ public class RucmModel {
     private BasicFlow basicFlow;
     private List<AlternativeFlow> alternativeFlows;
     public RucmModel(String text){
-        JSONObject jsonObject = JSONObject.parseObject(text);
-        JSONObject rucmSpecification = jsonObject.getJSONObject("UseCaseSpecification");
-        setBriefDescription((String)rucmSpecification.get("BriefDescription"));
-        setUseCaseName((String)rucmSpecification.get("UseCaseName"));
-        setPreCondition((String)rucmSpecification.get("Precondition"));
-        setPrimaryActor((String)rucmSpecification.get("PrimaryActor"));
-        setSecondaryActors((String)rucmSpecification.get("SecondaryActors"));
-        setDependency((String)rucmSpecification.get("Dependency"));
-        setGeneralization((String)rucmSpecification.get("Generalization"));
+        JSONObject rucmSpecification = JSONObject.parseObject(text);
+        JSONObject basicSection = rucmSpecification.getJSONObject("Brief");
+        JSONArray basicInfo = basicSection.getJSONArray("data");
+        setBriefDescription((String)basicInfo.get(0));
+        setUseCaseName((String)basicInfo.get(1));
+        setPreCondition((String)basicInfo.get(2));
+        setPrimaryActor((String)basicInfo.get(3));
+        setSecondaryActors((String)basicInfo.get(4));
+        setDependency((String)basicInfo.get(5));
+        setGeneralization((String)basicInfo.get(6));
         basicFlow = new BasicFlow(rucmSpecification.getJSONObject("BasicFlow"));
         alternativeFlows = new ArrayList<>();
         JSONArray specificFlows = rucmSpecification.getJSONArray("SpecificAlternativeFlows");

@@ -46,11 +46,9 @@ public class AlternativeFlow extends Flow{
     public AlternativeFlow(JSONObject flow,String name){
         this.name = name;
         this.steps = new ArrayList<>();
-        System.out.println(name);
-        System.out.println(flow.toJSONString());
-        JSONArray rucmSteps = flow.getJSONObject(name).getJSONArray("Steps");
+        JSONArray rucmSteps = flow.getJSONArray("data");
         for(int i =0 ; i<rucmSteps.size();i++){
-            steps.add((String)rucmSteps.getJSONObject(i).get("StepContent"));
+            steps.add((String)rucmSteps.get(i));
         }
         if(name.equals("SpecificAlternativeFlow")||name.equals("BoundedAlternativeFlow")){
             this.setRfs((String)flow.get("RFS"));
