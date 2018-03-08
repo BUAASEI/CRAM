@@ -17,15 +17,28 @@
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.Role">
     insert into role (id, name, description, 
       build_time, update_time, creator_id, 
-      project_id, type, authority, 
-      use_frequency, use_platform, language, 
-      interact_mode, input, output, 
+      project_id, input, output,behavior,
       use_state)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{buildTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, 
       #{projectId,jdbcType=BIGINT}, #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR},
       #{behavior,jdbcType=LONGVARCHAR}, #{useState,jdbcType=VARCHAR})
   </insert>
+
+    <!-- 查找现有记录的最大id -->
+    <!-- max后面不能有空格 -->
+    <select id="selectMaxId" resultType="Long">
+        SELECT max(id)
+        FROM role
+    </select>
+
+    <!-- 根据roleName 和 projectId，查找该项目角色是否存在 -->
+    <select id="checkByNameAndProjectId"  resultType="Integer">
+        SELECT count(*)
+        FROM role
+        WHERE name = #{name} AND project_id = #{projectId}
+    </select>
+
     <select id="selectByProjectId" parameterType="Long" resultType="cn.edu.buaa.rec.model.Role">
     SELECT *
     from role

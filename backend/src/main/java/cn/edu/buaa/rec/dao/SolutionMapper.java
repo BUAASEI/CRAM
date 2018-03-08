@@ -25,4 +25,8 @@ public interface SolutionMapper {
     List<Solution> selectByProjectId(Long id);
 
     List<Solution> selectByProjectIdAndUserId(@Param("projectId")Long projectId,@Param("userId") Long userId);
+
+    Long selectMaxId();
+
+    int checkByTitleAndProjectId(@Param("title")String title,@Param("projectId")Long projectid);
 }

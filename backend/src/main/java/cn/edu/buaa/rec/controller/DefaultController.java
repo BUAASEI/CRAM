@@ -53,6 +53,7 @@ public class DefaultController {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(sysUserInfo);
 
+
         SysUser sysUser = new SysUser(jsonObject.getString("UserName"), jsonObject.getString("Phone"), jsonObject.getString("Email"), jsonObject.getString("Password"));
 
         return sysUserService.newSysUser(sysUser);

@@ -2,6 +2,8 @@ package cn.edu.buaa.rec.service;
 
 import cn.edu.buaa.rec.model.Question;
 
+import java.util.Map;
+
 /**
  * @Description:
  * @Author: suruo
@@ -11,5 +13,5 @@ import cn.edu.buaa.rec.model.Question;
  */
 
 public interface QuestionService {
-    boolean newQuestion(Question question);
+    Map<String,Object> newQuestion(Question question);
 }

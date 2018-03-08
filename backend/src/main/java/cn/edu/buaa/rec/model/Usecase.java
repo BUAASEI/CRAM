@@ -31,6 +31,16 @@ public class Usecase {
         this.description = description;
         this.rucmSpec = rucmSpec;
     }
+    public Usecase(String name ,String description , Long creatorId , Long projectId , String input , String output , String useState ){
+        this.name = name;
+        this.description = description;
+        this.creatorId = creatorId;
+        this.projectId = projectId;
+        this.input = input;
+        this.output = output;
+        this.usestate = useState;
+    }
+
 
     public Usecase(Long id,String rucmSpec){
         this.id = id;

@@ -1,13 +1,17 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.Question;
+import cn.edu.buaa.rec.model.Role;
 import cn.edu.buaa.rec.service.QuestionService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @Description:
@@ -35,25 +39,20 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @RequestMapping("/new")
+    @RequestMapping(value="/new",method = RequestMethod.POST)
     @ResponseBody
-    public boolean newQuestion() {
-//        Question question = new Question();
-//        question.setId(2L);
-//        question.setBuildTime(new Date());
-//        question.setCreatorId(1L);
-//        question.setProjectId(1L);
-//        question.setDescription("hello world");
-//        question.setTitle("linux");
-//        question.setType(1);
-//        question.setUpdateTime(new Date());
-//        return questionService.newQuestion(question);
-        return false;
+    public Map<String, Object> newQuestion(@Valid @RequestBody Map<String, Object> info) {
+
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Question question = new Question(jsonObject.getString("title"), jsonObject.getString("content"), jsonObject.getLong("creatorId"),jsonObject.getLong("projectId"),jsonObject.getInteger("type"));
+
+        System.out.println(question.toString());
+        return questionService.newQuestion(question);
     }
 
     @RequestMapping(value = "/add", method = {RequestMethod.GET})
     @ResponseBody
-    public boolean newQuestion1(@RequestParam("id") long questionId) {
+    public Map<String, Object> newQuestion1(@RequestParam("id") long questionId) {
 
         Question question = new Question();
         question.setId(questionId);

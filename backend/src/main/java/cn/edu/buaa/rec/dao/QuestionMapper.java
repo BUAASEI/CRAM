@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.Question;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,9 @@ public interface QuestionMapper {
      */
     int insertSelective(Question record);
     List<Question> selectByProjectId(Long projectId);
+
+    Long selectMaxId();
+
+    int checkByTitleAndProjectId(@Param("title")String title, @Param("projectId")Long projectid);
+
 }

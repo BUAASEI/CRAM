@@ -7,6 +7,7 @@
     <result column="build_time" jdbcType="TIMESTAMP" property="buildTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="usestate" jdbcType="VARCHAR" property="usestate" />
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
     <result column="rucm_spec" jdbcType="LONGVARCHAR" property="rucmSpec" />
@@ -37,14 +38,21 @@
     FROM usecase
   </select>
 
+  <!-- 根据name 和 projectId，查找该usecase是否存在 -->
+  <select id="checkByNameAndProjectId"  resultType="Integer">
+    SELECT count(*)
+    FROM usecase
+    WHERE name = #{name} AND project_id = #{projectId}
+  </select>
+
+
   <insert id="insert" parameterType="cn.edu.buaa.rec.model.Usecase">
-    insert into usecase (id, name, build_time, 
-      update_time, creator_id, detection_id, 
-      usestate, description, rucm_spec)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{buildTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT},
-      #{usestate,jdbcType=VARCHAR}, #{description,jdbcType=LONGVARCHAR}, #{rucmSpec,jdbcType=LONGVARCHAR},
-      #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{dataDictionary,jdbcType=VARCHAR})
+    insert into usecase (id, name, description,build_time,
+      update_time, creator_id,rucm_spec,usestate,project_Id
+        )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},#{description,jdbcType=LONGVARCHAR}, #{buildTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT},#{rucmSpec,jdbcType=LONGVARCHAR},
+      #{usestate,jdbcType=VARCHAR},  #{projectId,jdbcType=BIGINT})
   </insert>
 
   <!-- 通过id更新用例信息 -->
