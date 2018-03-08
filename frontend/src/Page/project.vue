@@ -1,7 +1,7 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <TopProject name="北航学生选课系统" @showIbox="showIbox"></TopProject>
+    <TopProject name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
     <div class="context">
       <div class="context-nav">
         <NavProject target="st"></NavProject>
@@ -57,7 +57,7 @@
     </div>
     <div  v-if="show" class="box">
       <div class="subWindow" v-if="showThree">
-        <InfoBoxNewProject @closeIbox(1)="close"></InfoBoxNewProject>
+        <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
       </div>
     </div>
   </div>
@@ -145,7 +145,9 @@ export default{
     return {
       projectId:'1',
       BusinessData:[1],
-      UsageData:[1]
+      UsageData:[1],
+      show: false,
+      showThree: false
     }
   },
   components: {
@@ -160,7 +162,7 @@ export default{
     // var userId = localStorage.getItem("id");
     // this.reqInfo(projectId,userId);
     this.reqInfo(1,3);
-    this.close()
+    // this.close()
   },
   methods: {
     editScenario: function (id) {
@@ -171,7 +173,6 @@ export default{
     editUsecase: function (id) {
       // do something
       // 路由跳转
-      alert(id);
       this.$router.push({ name: 'usecase', params: {type: 'edit',id: id} })
     },
     reqInfo: function (projectId,userId) {
@@ -187,16 +188,17 @@ export default{
          })
       }
     },
-    showIbox (idx) {
+    showIboxs (idx) {
+      console.log(1)
         this.show = true
         if (idx === 1) {
-          this.showOne = true
+          this.showThree = true
         }
-      },
-      close (idx) {
+    },
+    close (idx) {
         this.show = false
         if (idx === 1) {
-          this.showOne = false
+          this.showThree = false
         }
       }
 }

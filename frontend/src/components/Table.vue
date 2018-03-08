@@ -74,13 +74,15 @@
       this.colums = this.data.colum
       this.datas = this.data.data
       let len = this.colums.length
+      console.log(this.colums, len)
       if (len === 0) {
-        this.columns.push(1)
+        this.colums.push(1)
       }
       while (this.datas.length < len) {
         this.datas.push('')
       }
     },
+
     components: {
     },
     methods: {

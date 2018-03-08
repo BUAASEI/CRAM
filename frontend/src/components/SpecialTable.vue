@@ -10,12 +10,12 @@
     <div class="table">
       <div class="tag">
         <span>{{ tag }}</span>
-        <input v-model="RFS" v-if="tag === 'RFS'">
+        <input v-model="RFS" v-if="tag !== 'Step'">
       </div>
       <Table ref="table" @tableData="tableData" :data = "targets" addAble></Table>
       <div class="flex">
         <div class="item">后置条件</div>
-        <div class="text"><input v-model="postCondition"></div>
+        <div class="text"><input v-model="PostCondition"></div>
       </div>
     </div>
   </div>
@@ -106,6 +106,9 @@
         data: this.data.data
       }
       if (this.tag === 'RFS') {
+        this.RFS = this.data.RFS
+        this.PostCondition = this.data.PostCondition
+      } else if(this.tagh === 'Guaid') {
         this.RFS = this.data.RFS
         this.PostCondition = this.data.PostCondition
       }
