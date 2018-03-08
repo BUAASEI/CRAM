@@ -16,10 +16,10 @@ public class BasicFlow extends Flow{
     }
 
     public BasicFlow(JSONObject object){
-        JSONArray bfSteps = object.getJSONArray("Steps");
+        JSONArray bfSteps = object.getJSONArray("data");
         this.steps = new ArrayList<>();
         for(int i=0;i<bfSteps.size();i++){
-            steps.add((String)bfSteps.getJSONObject(i).get("StepContent"));
+            steps.add((String)bfSteps.get(i));
         }
         this.setPostCondition((String)object.get("PostCondition"));
     }
