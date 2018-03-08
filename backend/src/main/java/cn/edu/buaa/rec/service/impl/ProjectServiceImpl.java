@@ -4,6 +4,7 @@ import cn.edu.buaa.rec.dao.*;
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -89,10 +90,12 @@ public class ProjectServiceImpl implements ProjectService {
         return m;
     }
 
-//    查询没有参与的项目
-//    思路：
-//    1）查询所有项目id
-//    2）对于每个id，查询user_project表，如果不存在，则放进来
+    /**
+     * 查询没有参与的项目
+     * 思路:
+     * 1）查询所有项目id
+     * 2）对于每个id，查询user_project表，如果不存在，则放进来
+     * */
     @Override
     public List<Map<String, Object>> otherProject(Long userId) {
         List<Project> allProjects = projectMapper.selectAllProjects();

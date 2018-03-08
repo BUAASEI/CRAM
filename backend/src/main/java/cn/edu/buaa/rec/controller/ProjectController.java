@@ -1,11 +1,7 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
-import cn.edu.buaa.rec.service.MailService;
-import cn.edu.buaa.rec.service.ProjectService;
-import cn.edu.buaa.rec.service.BusinessRoleDataService;
-import cn.edu.buaa.rec.service.UsecaseRoleDataService;
-import cn.edu.buaa.rec.service.UserProjectRoleService;
+import cn.edu.buaa.rec.service.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,6 +49,9 @@ public class ProjectController {
     @Qualifier("MailService")
     private MailService mailService;
 
+    @Autowired
+    @Qualifier("UserProjectService")
+    private UserProjectService userProjectService;
 
     //项目中心，暂时默认显示场景
     @RequestMapping("/home")
@@ -96,6 +95,25 @@ public class ProjectController {
         return projectService.applyManager(applyManagerInfo);
     }
 
+    /**
+     * 申请加入项目
+     */
+    @RequestMapping("/join")
+    @ResponseBody
+    public Map<String, Object> applyProject(@Valid @RequestBody Map<String, Object> applyProjectInfo) {
+
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(applyProjectInfo);
+        Long userId = jsonObject.getLong("userId");
+        Long projectId = jsonObject.getLong("projectId");
+
+        return userProjectService.applyProject(userId, projectId);
+    }
+
+
+    /**
+     *
+     *
+     * */
     @RequestMapping("/scenes")
     @ResponseBody
     public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName) {

@@ -56,7 +56,7 @@ public class SysUserController {
 
 
     /*
-        跳转到个人中心界面，默认显示其参与的项目
+        跳转到个人中心界面，本接口只返回用户的名称默认显示其参与的项目
         这只是项目上方的其它信息：用户名
         预加载的时候，还应该加载参与的项目中的接口返回数据【前端ajax实现】
     */
@@ -65,6 +65,7 @@ public class SysUserController {
     public Map<String, Object> homePage(@Valid @RequestBody Map<String, Object> userInfo) {
         //      返回的是参与的项目的简介界面
         //        添加 user_project表
+//        应该使用user_project_man表
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfo);
         Map<String, Object> m = new HashMap<>();
         m.put("Msg", sysUserService.selectById(jsonObject.getLong("UserId")).getName());
@@ -112,6 +113,15 @@ public class SysUserController {
         新建项目
         信息包括：1）项目名称； 2）项目描述； 3）项目所属领域; 4）创建者
     */
+
+    // 预加载，拿到所有领域信息
+    @RequestMapping(value = "/getdomain", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Domain> getDomain() {
+        return domainService.getDomain();
+    }
+
+    //    处理新建请求
     @RequestMapping(value = "/crepro", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> createProject(@Valid @RequestBody Map<String, Object> projectInfo) {
@@ -122,71 +132,6 @@ public class SysUserController {
         System.out.println(project.toString());
 
         return projectService.newProject(project);
-    }
-
-    /*
-        站内信
-        分两部分：这部分的接口为预加载，返回管理的projectId
-        查看所管理的项目的项目管理员和角色申请
-    */
-    @RequestMapping(value = "/mail/manproinfo", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<Long, String> getManProjectInfo(@Valid @RequestBody Map<String, Object> userIdInfo) {
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userIdInfo);
-        Long userId = jsonObject.getLong("UserId");
-
-        return sysUserService.getManProjectId(userId);
-    }
-
-    //    加载每个项目中的申请：管理员、角色
-    @RequestMapping(value = "/mail/applyinfo", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, List<Map<String, Object>>> getApplication(@Valid @RequestBody Map<String, Object> projectIdInfo) {
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectIdInfo);
-        Long projectId = jsonObject.getLong("projectId");
-
-        return sysUserService.getApply(projectId);
-    }
-
-    //    根据管理员和角色的审批结果，修改数据库相应记录
-    @RequestMapping(value = "/mail/approve")
-    @ResponseBody
-    public Map<String, Object> updateApproveResult(@Valid @RequestBody Map<String, Object> approveInfo) {
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(approveInfo);
-        Map<String, Object> result = new HashMap<>();
-
-        List<Map<String, Object>> manApprovedResults = (List) jsonObject.get("Man");
-
-        System.out.println("manApprovedResults" + manApprovedResults.toString());
-        int manUpdateResult = 0;
-        for (Map<String, Object> manApprovedResult : manApprovedResults
-                ) {
-            //  o是申请中，1是同意，2是拒绝
-
-            //  如果前端传过来的是不带L的，默认转化成Integer
-            //  一定要注意这个问题
-            Long applyId = Long.parseLong(manApprovedResult.get("applyId").toString());
-            Integer isApproved = Integer.parseInt(manApprovedResult.get("isApproved").toString());
-            manUpdateResult = userProjectManService.updateByApprove(applyId, isApproved);
-        }
-
-        List<Map<String, Object>> roleApprovedResults = (List) jsonObject.get("Role");
-        int roleUpdateResult = 0;
-        for (Map<String, Object> roleApprovedResult : roleApprovedResults
-                ) {
-            //        o是申请中，1是同意，2是拒绝
-            Long applyId = Long.parseLong(roleApprovedResult.get("applyId").toString());
-            Integer isApproved = Integer.parseInt(roleApprovedResult.get("isApproved").toString());
-            roleUpdateResult = userProjectRoleService.updateByApprove(applyId, isApproved);
-        }
-
-        if (manUpdateResult == 1 && roleUpdateResult == 1) {
-            result.put("Msg", "Success");
-        } else {
-            result.put("Msg", "Error");
-        }
-
-        return result;
     }
 
     /*
@@ -237,11 +182,5 @@ public class SysUserController {
         SysUser user = sysUserService.selectById(userId);
         System.out.println("user:" + user.toString());
         return user;
-    }
-
-    @RequestMapping(value="/getdomain",method= RequestMethod.POST)
-    @ResponseBody
-    public List<Domain> getDomain(){
-        return domainService.getDomain();
     }
 }

@@ -68,7 +68,6 @@ public class DefaultController {
         String name = (String) sysUserInfo.get("UserName");
         String pword = (String) sysUserInfo.get("Password");
         logger.info(name + "-" + pword);
-        System.out.println("gsdffghghfdjhjjjjjjjjjjjjjjjjjjjjjjgkuil");
         if (sysUserInfo != null && name != null & pword != null) {
             SysUser ulo = sysUserService.getByName(name);
             System.out.println("---" + ulo);

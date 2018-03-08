@@ -186,8 +186,7 @@ export default{
          // alert(this. BusinessData);
          this.UsageData =response.data.usecaseForms;
          })
-      }
-    },
+      },
     showIboxs (idx) {
       console.log(1)
         this.show = true
@@ -201,5 +200,6 @@ export default{
           this.showThree = false
         }
       }
+  }
 }
 </script>
