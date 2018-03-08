@@ -117,6 +117,7 @@ public class UsecaseController {
         List<String> dataNames = Arrays.asList(dictionary.split(","));
         List<Long> dataIds = dataService.getIdsByName(dataNames,projectId);
 
+        System.out.println("dataIds"+dataIds.toString());
         Usecase usecase = new Usecase(jsonObject.getString("name"),jsonObject.getString("description"),jsonObject.getLong("projectId"),jsonObject.getLong("creatortId"),jsonObject.getString("brif"));
         System.out.println("usecase:"+usecase);
 
@@ -125,8 +126,9 @@ public class UsecaseController {
         usecase.setId(id);
         Map<String,Object> m = usecaseService.newUsecase(usecase);
 
-        usecaseRoleService.creatUsecaseRole(roleIds,id);
-        usecaseDataService.creatUsecaseData(dataIds,id);
+        System.out.println("useId:"+usecase.getId());
+        usecaseRoleService.creatUsecaseRole(roleIds,usecase.getId());
+        usecaseDataService.creatUsecaseData(dataIds,usecase.getId());
 
         System.out.println("m:" +m.toString());
         return m ;
