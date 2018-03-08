@@ -1,6 +1,7 @@
+<!-- 这个页面不用了，不过暂时-->
 <template>
   <div>
-    <TopMirror kind="业务活动" :name="name"></TopMirror>
+    <TopScenario kind="业务活动" :name="name"></TopScenario>
     <div class="top-btn">
       <div>
         <button>演化历史</button>
@@ -108,7 +109,7 @@
   }
 </style>
 <script>
-  import TopMirror from '@/components/TopMirror'
+  import TopScenario from '@/components/TopScenario'
   import {Button} from 'iview'
   export default{
     data () {
@@ -124,7 +125,7 @@
       }
     },
     components: {
-      TopMirror,
+      TopScenario,
       Button
     },
     beforeMount: function () {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopMirror kind="用例" :name="name"></TopMirror>
+    <TopScenario kind="用例" :name="name"></TopScenario>
     <div class="top-btn">
       <div>
         <button>
@@ -10,7 +10,9 @@
       </div>
       <div>
         <button @click="saveData">保存</button>
-        <button>取消</button>
+        <button>
+          <router-link to="/project/home">返回</router-link>
+        </button>
       </div>
     </div>
     <div class="box1 scroll">
@@ -19,16 +21,16 @@
         <Table v-model="brief" ref="table" @tableData="tableData" :data="brief"></Table>
       </div>
       <div class="flow rucm-basicflow">
-        <SpecialTable ref="bflow"  @otherData="otherData" title="Basic Flow" tag="Step" :data="basicFlow"></SpecialTable>
-      </div>
-      <div class=" flow rucm-boundedflow"v-for = "(item,index) in specData1">
-        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Bounded Alternative Flow" tag="RFS"  :pos="index" :data="item"></SpecialTable>
+        <SpecialTable ref="bflow"  @otherData="otherData" title="基本事件流" tag="Step" :data="basicFlow"></SpecialTable>
       </div>
       <div class="flow rucm-specificflow" v-for = "(item,index) in specData2">
-        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Specific Alternative Flow" tag="RFS" :pos="index" :data="item"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="特定分支流" tag="RFS" :pos="index" :data="item"></SpecialTable>
+      </div>
+      <div class=" flow rucm-boundedflow"v-for = "(item,index) in specData1">
+        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="限定分支流" tag="RFS"  :pos="index" :data="item"></SpecialTable>
       </div>
       <div class=" flow rucm-Globalflow" v-for = "(item,index) in specData3">
-        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="Global Alternative Flow" tag="RFS"  :pos="index" :data="item"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="全局分支流" tag="RFS"  :pos="index" :data="item"></SpecialTable>
       </div>
     </div>
     <div class="box3">
@@ -124,7 +126,7 @@
   }
 </style>
 <script>
-  import TopMirror from '@/components/TopMirror'
+  import TopScenario from '@/components/TopScenario'
   import Table from '@/components/Table'
   import SpecialTable from '@/components/SpecialTable'
   import {Button} from 'iview'
@@ -138,7 +140,7 @@
         id:'',
 
         brief: {
-          colum:['Usecase Name','Brief Description','Precondition','Primary Actor','Secondary Actors','Dependency','Generalization','Input','OutPut','DataDictionary'],
+          colum:['用例名称','场景概述','前置条件','主要角色','次要角色','依赖关系','泛化关系','输入数据','输出数据','数据词典'],
           data: [],
         },
         basicFlow: {
@@ -180,7 +182,7 @@
       }
     },
     components: {
-      TopMirror,
+      TopScenario,
       Button,
       Table,
       SpecialTable

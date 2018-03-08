@@ -7,12 +7,13 @@
         <result column="project_id" jdbcType="BIGINT" property="projectId"/>
         <result column="is_man" jdbcType="INTEGER" property="isMan"/>
         <result column="isApproved" jdbcType="INTEGER" property="isapproved"/>
+        <result column="explanation" jdbcType="LONGVARCHAR" property="explanation"/>
     </resultMap>
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.UserProjectMan">
     insert into user_project_man (id, user_id, project_id, 
       is_man, isApproved)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
-      #{isMan,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER})
+      #{isMan,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER}), #{explanation,jdbcType=LONGVARCHAR})
   </insert>
 
     <select id="selectProjectByUserId" resultType="Long" parameterType="Long">

@@ -117,11 +117,11 @@
         infos: [/*后台获取*/
           {
             id: 1,
-            name: 's'
+            name: '高等教育'
           },
           {
             id: 2,
-            name: 'x'
+            name: '嵌入式'
           }
         ],
         name: null,

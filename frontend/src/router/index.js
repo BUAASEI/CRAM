@@ -3,17 +3,14 @@ import Router from 'vue-router'
 import Index from '@/Page/index'
 import SysUser from '@/Page/sysUser'
 import Home from '@/Page/home'
-import ProManage from '@/Page/proManage'
-import ProParticipate from '@/Page/proParticipate'
-import ProOther from '@/Page/proOther'
+import Manager from '@/Page/manager'
 import Project from '@/Page/project'
-import Role from '@/Page/role'
-import Data from '@/Page/data'
-import Problem from '@/Page/problem'
-import Solution from '@/Page/solution'
-import Historys from '@/Page/historys'
-import Scenario from '@/Page/scenario'
-import Activity from '@/Page/activity'
+import Role from '@/Page/projectRole'
+import Data from '@/Page/projectData'
+import Problem from '@/Page/projectProblem'
+import Solution from '@/Page/projectSolution'
+import Historys from '@/Page/projectHistorys'
+import Business from '@/Page/business'
 import Usecase from '@/Page/usecase'
 import Evolution from '@/Page/evolution'
 
@@ -37,19 +34,9 @@ export default new Router({
       component: Home
     },
     {
-      path: '/sysuser/proman',
-      name: 'proman',
-      component: ProManage
-    },
-    {
-      path: '/sysuser/propar',
-      name: 'propar',
-      component: ProParticipate
-    },
-    {
-      path: '/sysuser/proother',
-      name: 'proother',
-      component: ProOther
+      path: '/manager',
+      name: 'manager',
+      component: Manager
     },
     {
       path: '/project/home',
@@ -82,14 +69,9 @@ export default new Router({
       component: Historys
     },
     {
-      path: '/project/scenario',
-      name: 'scenario',
-      component: Scenario
-    },
-    {
-      path: '/project/scenario/activity',
-      name: 'activity',
-      component: Activity
+      path: '/project/business',
+      name: 'business',
+      component: Business
     },
     {
       path: '/project/usecase',

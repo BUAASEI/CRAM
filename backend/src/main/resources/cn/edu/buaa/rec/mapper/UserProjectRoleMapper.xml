@@ -8,14 +8,14 @@
         <result column="role_id" jdbcType="BIGINT" property="roleId"/>
         <result column="is_creator" jdbcType="INTEGER" property="isCreator"/>
         <result column="isApproved" jdbcType="INTEGER" property="isapproved"/>
+        <result column="explanation" jdbcType="LONGVARCHAR" property="explanation"/>
     </resultMap>
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.UserProjectRole">
     insert into user_project_role (id, user_id, project_id, 
       role_id, is_creator, isApproved
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
-      #{roleId,jdbcType=BIGINT}, #{isCreator,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER}
-      )
+      #{roleId,jdbcType=BIGINT}, #{isCreator,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER}, #{explanation,jdbcType=LONGVARCHAR})
   </insert>
     <select id="selectByProjectIdAndUserId" resultType="Long">
     SELECT role_id

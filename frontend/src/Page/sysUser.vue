@@ -1,20 +1,22 @@
 <template>
   <div>
-    <TopMirrorSysUser name="buaa" @showIbox="showIbox"></TopMirrorSysUser>
+    <TopSysUser name="buaa" @showIbox="showIbox"></TopSysUser>
     <div class="context">
       <div class="context-nav">
-        <NavMirrorSysUser target="st"></NavMirrorSysUser>
+        <NavSysUser target="st"></NavSysUser>
       </div>
       <div class="context-detail">
         <div class="detail">
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">项目名称</div>
+              <div class="col-des">项目概述</div>
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in UsageData" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
+                <div class="col-des">{{ item.des }}</div>
                 <div class="col-operate">
                   <span @click="view(item.id)">查看</span>
                   <span>删除</span>
@@ -35,22 +37,22 @@
       <div class="subWindow1" v-if="showOne">
         <InfoBoxUserInfo @closeIbox="close"></InfoBoxUserInfo>
       </div>
-      <div class="subWindow1" v-if="showFour">
-        <InfoBoxMassage @closeIbox="close"></InfoBoxMassage>
-      </div>
+      <!--<div class="subWindow1" v-if="showFour">-->
+        <!--<InfoBoxMassage @closeIbox="close"></InfoBoxMassage>-->
+      <!--</div>-->
     </div>
   </div>
 
 </template>
 
 <script>
-  import TopMirrorSysUser from '@/components/TopMirrorSysUser'
-  import NavMirrorSysUser from '@/components/NavMirrorSysUser'
+  import TopSysUser from '@/components/TopSysUser'
+  import NavSysUser from '@/components/NavSysUser'
   import {Button} from 'iview'
   import InfoBoxNewProject from '@/components/InfoBoxNewProject'
   import InfoBoxNewDomain from '@/components/InfoBoxNewDomain'
   import InfoBoxUserInfo from '@/components/InfoBoxUserInfo'
-  import InfoBoxMassage from '@/components/InfoBoxMassage'
+  // import InfoBoxMassage from '@/components/InfoBoxMassage'
   export default{
     data () {
       return {
@@ -65,13 +67,13 @@
       }
     },
     components: {
-      TopMirrorSysUser,
-      NavMirrorSysUser,
+      TopSysUser,
+      NavSysUser,
       Button,
       InfoBoxNewProject,
       InfoBoxNewDomain,
       InfoBoxUserInfo,
-      InfoBoxMassage
+      // InfoBoxMassage
     },
     mounted () {
       this.close()
@@ -93,9 +95,9 @@
         if (idx === 1) {
           this.showOne = true
         }
-        if (idx === 4) {
-          this.showFour = true
-        }
+        // if (idx === 4) {
+        //   this.showFour = true
+        // }
       },
       close (idx) {
         this.show = false
@@ -108,9 +110,9 @@
         if (idx === 1) {
           this.showOne = false
         }
-        if (idx === 4) {
-          this.showFour = false
-        }
+        // if (idx === 4) {
+        //   this.showFour = false
+        // }
       }
     }
   }
@@ -163,6 +165,9 @@
   }
   .col-name {
     width: 20%;
+  }
+  .col-des {
+    width: 50%;
   }
   .col-operate {
     width: 10%;

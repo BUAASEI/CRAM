@@ -79,8 +79,8 @@ Description: 登录页面
 <script>
   import {Button} from 'iview'
   //从这儿开始就不显示页面了: Sin.vue中的格式不对
-  import Sign from '@/components/Sin'
-  import Sigp from '@/components/Sup'
+  import Sign from '@/components/Signin'
+  import Sigp from '@/components/Signup'
   export default {
     data() {
       return {

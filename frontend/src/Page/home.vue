@@ -1,9 +1,9 @@
 <template>
   <div>
-    <TopMirrorHome name="主页"></TopMirrorHome>
+    <TopHome name="主页"></TopHome>
     <div class="context">
       <div class="context-nav">
-        <NavMirrorHome target="st"></NavMirrorHome>
+        <NavHome target="st"></NavHome>
       </div>
       <div class="context-detail">
         <div class="detail">
@@ -33,8 +33,8 @@
 </template>
 
 <script>
-  import TopMirrorHome from '@/components/TopMirrorHome'
-  import NavMirrorHome from '@/components/NavMirrorHome'
+  import TopHome from '@/components/TopHome'
+  import NavHome from '@/components/NavHome'
   import {Button} from 'iview'
   export default{
     data () {
@@ -54,8 +54,8 @@
       }
     },
     components: {
-      TopMirrorHome,
-      NavMirrorHome,
+      TopHome,
+      NavHome,
       Button
     },
     methods: {

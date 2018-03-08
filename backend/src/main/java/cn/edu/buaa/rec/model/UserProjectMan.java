@@ -41,6 +41,16 @@ public class UserProjectMan {
      */
     private Integer isapproved;
 
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
+    private String explanation;
+
     public UserProjectMan() {
     }
 

@@ -49,6 +49,16 @@ public class UserProjectRole {
      */
     private Integer isapproved;
 
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
+    private String explanation;
+
     public UserProjectRole() {
     }
 

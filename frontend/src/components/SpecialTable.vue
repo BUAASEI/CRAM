@@ -14,7 +14,7 @@
       </div>
       <Table ref="table" @tableData="tableData" :data = "targets" addAble></Table>
       <div class="flex">
-        <div class="item">PostCondition</div>
+        <div class="item">后置条件</div>
         <div class="text"><input v-model="postCondition"></div>
       </div>
     </div>

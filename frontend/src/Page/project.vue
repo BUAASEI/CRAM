@@ -1,10 +1,10 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <Top name="北航学生选课系统"></Top>
+    <TopProject name="北航学生选课系统" @showIbox="showIbox"></TopProject>
     <div class="context">
       <div class="context-nav">
-        <Nav target="st"></Nav>
+        <NavProject target="st"></NavProject>
       </div>
       <div class="context-detail">
         <div class="detail">
@@ -51,9 +51,13 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
+      </div>
+    </div>
+    <div  v-if="show" class="box">
+      <div class="subWindow" v-if="showThree">
+        <InfoBoxNewProject @closeIbox(1)="close"></InfoBoxNewProject>
       </div>
     </div>
   </div>
@@ -131,21 +135,24 @@
 
 </style>
 <script>
-import Top from '@/components/Top'
-import Nav from '@/components/Nav'
+import TopProject from '@/components/TopProject'
+import NavProject from '@/components/NavProject'
 import {Button} from 'iview'
+ import InfoBoxEvolution from '@/components/InfoBoxEvolution'
+
 export default{
   data () {
     return {
-      projectId:'',
-      BusinessData:[],
-      UsageData:[]
+      projectId:'1',
+      BusinessData:[1],
+      UsageData:[1]
     }
   },
   components: {
-    Top,
-    Nav,
-    Button
+    TopProject,
+    NavProject,
+    Button,
+    InfoBoxEvolution
   },
   mounted() {
 
@@ -153,12 +160,13 @@ export default{
     // var userId = localStorage.getItem("id");
     // this.reqInfo(projectId,userId);
     this.reqInfo(1,3);
+    this.close()
   },
   methods: {
     editScenario: function (id) {
       // do something
       // 路由跳转
-      this.$router.push({ name: 'scenario', params: {type: 'edit'} })
+      this.$router.push({ name: 'business', params: {type: 'edit'} })
     },
     editUsecase: function (id) {
       // do something
@@ -178,6 +186,18 @@ export default{
          this.UsageData =response.data.usecaseForms;
          })
       }
-    }
+    },
+    showIbox (idx) {
+        this.show = true
+        if (idx === 1) {
+          this.showOne = true
+        }
+      },
+      close (idx) {
+        this.show = false
+        if (idx === 1) {
+          this.showOne = false
+        }
+      }
 }
 </script>
