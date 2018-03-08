@@ -61,4 +61,15 @@ public class DomainServiceImpl implements DomainService {
     public List<Domain> getDomain() {
         return domainMapper.selectDomain();
     }
+
+    @Override
+    public String getNameById(Long domainId) {
+        if (domainId == null||domainId==0) {
+            return null;
+        }
+
+        String domainName = domainMapper.selectNameById(domainId);
+        return domainName;
+
+    }
 }

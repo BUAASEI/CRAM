@@ -51,6 +51,7 @@ public class UsecaseRoleDataServiceImpl implements UsecaseRoleDataService {
             usecaseForm.put("id",urd.getId());
             usecaseForm.put("usecaseId",usecase.getId());
             usecaseForm.put("usecaseName",usecase.getName());
+            usecaseForm.put("usecaseDes",usecase.getDescription());
             usecaseForm.put("roleId",role.getId());
             usecaseForm.put("roleName", role.getName());
             usecaseForm.put("dataId",data.getId());

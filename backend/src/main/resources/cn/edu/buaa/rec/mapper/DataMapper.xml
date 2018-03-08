@@ -61,4 +61,15 @@
         WHERE name = #{name} AND project_id = #{projectId}
     </select>
 
+    <!--通过name查找id，返回List<Long>-->
+    <select id="selectIdsByName"  resultType="Long">
+        SELECT id
+        from data
+        where project_Id=#{projectId} And name IN
+        <foreach collection="dataNames" item="_name" index="index" open="(" close=")"
+                 separator=",">
+            (#{_name})
+        </foreach>
+    </select>
+
 </mapper>

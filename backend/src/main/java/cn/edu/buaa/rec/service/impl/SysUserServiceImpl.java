@@ -158,4 +158,14 @@ public class SysUserServiceImpl implements SysUserService {
     public SysUser getByName(String name) {
         return sysUserMapper.selectByName(name);
     }
+
+    @Override
+    public String getNameById(Long creatorId) {
+       if (creatorId==null||creatorId==0){
+           return null;
+       }
+       String name = sysUserMapper.selectNameById(creatorId);
+       return name;
+    }
+
 }

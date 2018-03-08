@@ -29,4 +29,6 @@ public interface DataMapper {
 
     int checkByNameAndProjectId(@Param("name")String name,@Param("projectId")Long projectid);
     Long selectMaxId();
+
+    List<Long> selectIdsByName(@Param("dataNames")List<String> dataNames,@Param("projectId")Long projectId);
 }

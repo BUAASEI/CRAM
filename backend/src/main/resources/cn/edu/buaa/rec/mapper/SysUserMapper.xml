@@ -42,6 +42,12 @@
     LIMIT 1
   </select>
 
+    <!-- 根据id，查找该用户名 -->
+    <select id="selectNameById" parameterType="Long" resultType="String">
+        SELECT name
+        FROM sys_user
+        WHERE id = #{id}
+    </select>
     <!-- 通过id更新用户信息 -->
     <!-- int updateById(SysUser sysUserInfo); -->
     <update id="updateById" parameterType="cn.edu.buaa.rec.model.SysUser">

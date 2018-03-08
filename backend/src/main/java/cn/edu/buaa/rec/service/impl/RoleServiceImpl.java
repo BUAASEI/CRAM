@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service("RoleService")
@@ -38,5 +39,24 @@ public class RoleServiceImpl implements RoleService {
 
         }
         return m;
+    }
+
+    @Override
+    public List<Map<String, Object>> getNameAndIdById(List<Long> roleIds) {
+       if (roleIds==null|| roleIds.size()==0){
+           return null;
+       }
+
+       return roleMapper.selectNameAndIdByIds(roleIds);
+
+    }
+
+    @Override
+    public List<Long> getIdsByName(List<String> roleNames,Long projectId) {
+       if(roleNames==null|| roleNames.size()==0||projectId==0){
+           return null;
+       }
+       List<Long> roleIds = roleMapper.selectIdsByName(roleNames,projectId);
+       return roleIds;
     }
 }

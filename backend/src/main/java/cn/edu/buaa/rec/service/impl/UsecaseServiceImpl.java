@@ -6,7 +6,6 @@ import cn.edu.buaa.rec.service.UseCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +14,12 @@ import java.util.Map;
 public class UsecaseServiceImpl implements UseCaseService {
     @Autowired
     private UsecaseMapper usecaseMapper;
+
+
+    @Override
+    public Long selectMaxId() {
+        return usecaseMapper.selectMaxId();
+    }
 
     @Override
     public Usecase getUsecaseById(Long uId) {
@@ -57,11 +62,15 @@ public class UsecaseServiceImpl implements UseCaseService {
         if (count>0){
             m.put("Msg", "该项目用例已经存在！");
         }else{
-            Long usecaseIdMax = usecaseMapper.selectMaxId();
-            usecase.setId((usecaseIdMax == null) ? 1 : usecaseIdMax + 1);
+            if(usecase.getId()==null){
+                Long usecaseIdMax = usecaseMapper.selectMaxId();
+                Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
+                usecase.setId(id);
+            }
+
             usecase.setBuildTime(new Date());
             int r = usecaseMapper.insert(usecase);
-//        System.out.println("r--:"+r);
+
             if (r != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {

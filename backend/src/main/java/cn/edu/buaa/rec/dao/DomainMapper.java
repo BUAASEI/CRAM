@@ -28,4 +28,6 @@ public interface DomainMapper {
     Domain selectById(Long id);
 
     List<Domain> selectDomain();
+
+    String selectNameById(Long id);
 }

@@ -1,11 +1,7 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
-import cn.edu.buaa.rec.service.MailService;
-import cn.edu.buaa.rec.service.ProjectService;
-import cn.edu.buaa.rec.service.BusinessRoleDataService;
-import cn.edu.buaa.rec.service.UsecaseRoleDataService;
-import cn.edu.buaa.rec.service.UserProjectRoleService;
+import cn.edu.buaa.rec.service.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,8 +49,19 @@ public class ProjectController {
     @Qualifier("MailService")
     private MailService mailService;
 
+    @Autowired
+    @Qualifier("SysUserService")
+    private SysUserService sysUserService;
 
-    //项目中心，暂时默认显示场景
+    @Autowired
+    @Qualifier("DomainService")
+    private DomainService domainService;
+
+    @Autowired
+    @Qualifier("RoleService")
+    private RoleService roleService;
+
+    //项目中心，暂时默认显示场景,默认所有角色的场景和用例信息
     @RequestMapping("/home")
     @ResponseBody
     public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info) {
@@ -79,6 +86,34 @@ public class ProjectController {
             usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
         }
         result.put("usecaseForms", usecaseForms);
+        return result;
+    }
+    //项目中心项目基本信息
+    @RequestMapping("basicInfo")
+    @ResponseBody
+    public Map<String,Object> basicInfo(@Valid @RequestBody Map<String,Object> info){
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long projectId = jsonObject.getLong("projectId");
+        Project project = projectService.getProjectById(projectId);
+        Long creatorId = project.getCreatorId();
+        String creatorName = sysUserService.getNameById(creatorId);
+        Long domainId = project.getDomainId();
+        String domainName = domainService.getNameById(domainId);
+        Long userId = jsonObject.getLong("userId");
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+        if (roleIds == null && roleIds.size() == 0) {
+            return null;
+        }
+        List<Map<String,Object>> roles = roleService.getNameAndIdById(roleIds);
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("projectId",project.getId());
+        result.put("projectName",project.getName());
+        result.put("domainId",domainId);
+        result.put("domainName",domainName);
+        result.put("creatorId",creatorId);
+        result.put("creatorName",creatorName);
+        result.put("role",roles);
         return result;
     }
 
@@ -214,5 +249,29 @@ public class ProjectController {
         return map;
     }
 
-    //展示项目中未处理的解决方案
+    //项目中心，根据不同角色显示场景和用例信息
+    @RequestMapping("/changerole")
+    @ResponseBody
+    public Map<String, Object> changeRole(@Valid @RequestBody Map<String, Object> info) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long roleId = jsonObject.getLong("roleId");
+        List<Long> roleIds = new LinkedList<>();
+        roleIds.add(roleId);
+        Map<String, Object> result = new HashMap<>();
+        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
+        List<Map<String, Object>> businessForms = new LinkedList<>();
+        if (businessRoleData != null) {
+            businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        }
+        result.put("businessForms", businessForms);
+        List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
+        List<Map<String, Object>> usecaseForms = new LinkedList<>();
+        if (usecaseRoleData != null) {
+            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
+        }
+        result.put("usecaseForms", usecaseForms);
+        return result;
+    }
+
+
 }

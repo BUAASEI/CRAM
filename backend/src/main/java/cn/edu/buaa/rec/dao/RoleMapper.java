@@ -4,6 +4,7 @@ import cn.edu.buaa.rec.model.Role;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleMapper {
     /**
@@ -27,5 +28,9 @@ public interface RoleMapper {
     int checkByNameAndProjectId(@Param("name")String roleName, @Param("projectId")Long projectid);
 
     Long selectMaxId();
+
+    List<Map<String,Object>> selectNameAndIdByIds(@Param("roleIds")List<Long> roleIds);
+
+    List<Long> selectIdsByName(@Param("roleNames")List<String> roleNames,@Param("projectId")Long projectId);
 
 }
