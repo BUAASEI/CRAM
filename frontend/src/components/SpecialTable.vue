@@ -105,13 +105,10 @@
         colum: this.data.colum,
         data: this.data.data
       }
-      if (this.tag === 'RFS') {
+      if (this.tag !== 'Step') {
         this.RFS = this.data.RFS
-        this.PostCondition = this.data.PostCondition
-      } else if(this.tagh === 'Guaid') {
-        this.RFS = this.data.RFS
-        this.PostCondition = this.data.PostCondition
       }
+      this.PostCondition = this.data.PostCondition
     },
     components: {
       Table
@@ -140,10 +137,10 @@
           colum: this.colums,
           data: this.datas
         }
-        if (this.tag === 'RFS') {
-          obj['RFS'] = this.RFS,
-            obj['PostCondition'] = this.PostCondition
+        if (this.tag !== 'Step') {
+          obj['RFS'] = this.RFS
         }
+        obj['PostCondition'] = this.PostCondition
         this.$emit('otherData', obj, this.title, this.pos)
       }
     }

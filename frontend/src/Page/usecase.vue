@@ -16,7 +16,7 @@
       </div>
     </div>
     <div  v-if="show" class="box1 scroll">
-      <div class="rucm-head">Use Case Specitication for CRAM</div>
+      <div class="rucm-head" v-model = "id">Use Case Specitication for CRAM</div>
       <div class="flow rucm-basic-info">
         <Table v-model="brief" ref="table" @tableData="tableData" :data="brief"></Table>
       </div>
@@ -30,7 +30,7 @@
         <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Specific Alternative Flow" tag="RFS" :pos="index" :data="item"></SpecialTable>
       </div>
       <div class=" flow rucm-Globalflow" v-for = "(item,index) in specData3">
-        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="Global Alternative Flow" tag="RFS"  :pos="index" :data="item"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="Global Alternative Flow" tag="Guaid"  :pos="index" :data="item"></SpecialTable>
       </div>
     </div>
     <div class="box3">
@@ -143,9 +143,6 @@
           data: []
         },
         basicFlow: {
-          colum: [1],
-          data: [''],
-          PostCondition:''
         },
         specData1: [],
         specData2: [],
@@ -188,8 +185,16 @@
             if(usecase!=null){
               this.id = usecase.id;
               var rucmJson = usecase.rucmSpec;
-              var rucms = JSON.parse(rucmJson);
-              var rucmJson = rucms.cases
+              var cases = JSON.parse(rucmJson);
+              // var cases = rucms.cases;
+              this.brief = cases.Brief;
+              this.basicFlow = cases.BasicFlow;
+              this.specData1 = cases.BoundedAlternativeFlows;
+              this.specData2 = cases.SpecificAlternativeFlows;
+              this.specData3 = cases.GlobalAlternativeFlows;
+              this.dict = cases.DataDictionary;
+              this.cases.DataDictionary = cases.DataDictionary;
+              this.show = true
               /*let rucmJson = {
                 Brief: {
                   colum: ['o', 'p', 'i'],
@@ -226,14 +231,7 @@
                 DataDictionary: []
               }
               console.log(rucmJson)*/
-              this.brief = rucmJson.Brief
-              this.basicFlow = rucmJson.BasicFlow;
-              this.specData1 = rucmJson.BoundedAlternativeFlows;
-              this.specData2 = rucmJson.SpecificAlternativeFlows;
-              this.specData3 = rucmJson.GlobalAlternativeFlows;
-              this.dict = rucmJson.DataDictionary;
-              this.cases.DataDictionary = rucmJson.DataDictionary;
-              this.show = true
+
             }
           })
       },
@@ -270,7 +268,8 @@
         this.count++
         if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
           // ajax
-          this.$http.post('usecase/updateusecase',this.cases)
+
+          this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
             .then((response) => {
               confirm(response.data.Msg);
             })
@@ -290,7 +289,7 @@
         this.count++
         if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
           // ajax
-          this.$http.post('usecase/updateusecase',this.cases)
+          this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
             .then((response) => {
               confirm(response.data.Msg);
             })

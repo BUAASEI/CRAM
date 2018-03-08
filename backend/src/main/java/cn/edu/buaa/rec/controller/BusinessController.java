@@ -49,7 +49,7 @@ public class BusinessController {
     //修改场景信息,
     @RequestMapping(value="/update",method=RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateBusiness(@Valid @RequestBody Object info){
+    public Map<String, Object> updateBusiness(@Valid @RequestBody Map<String,Object> info){
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         System.out.println("business"+info.toString());
         Business business = new Business(jsonObject.getLong("id"),jsonObject.getString("name"),jsonObject.getString("description"),jsonObject.getLong("creatorId"),jsonObject.getLong("projectId"),
@@ -61,6 +61,21 @@ public class BusinessController {
         return m ;
 
     }
-
+//    //修改场景信息,
+//    @RequestMapping(value="/update",method=RequestMethod.POST)
+//    public Map<String, Object> updateBusiness(Business business){
+//        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+//        System.out.println("business"+info.toString());
+//        Business business = (Business) jsonObject.get("business");
+//        System.out.println("business"+business.toString());
+////        Business business = new Business(jsonObject.getLong("id"),jsonObject.getString("name"),jsonObject.getString("description"),jsonObject.getLong("creatorId"),jsonObject.getLong("projectId"),
+////                jsonObject.getString("priority"),jsonObject.getString("preCondition"),jsonObject.getString("postCondition"),jsonObject.getString("input"),jsonObject.getString("output"),jsonObject.getString("useState"),
+////                jsonObject.getString("data"),jsonObject.getString("role"),jsonObject.getString("include"),jsonObject.getString("des"),jsonObject.getString("flow"));
+//        Map<String,Object> m = businessService.updateBusiness(business);
+//
+//        System.out.println("m:" +m.toString());
+//        return m ;
+//
+//    }
 
 }

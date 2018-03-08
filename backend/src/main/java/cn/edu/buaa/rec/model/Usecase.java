@@ -40,7 +40,17 @@ public class Usecase {
         this.output = output;
         this.usestate = useState;
     }
-
+    public Usecase(Long id,String name, String description , Long creatorId , Long projectId ,
+             String input , String output ,  String useState , String rucmSoec ){
+        this.id = id;
+        this.description = description;
+        this.creatorId = creatorId;
+        this.projectId = projectId;
+        this.input = input;
+        this.output = output;
+        this.usestate = useState;
+        this.rucmSpec = rucmSoec;
+    }
 
     public Usecase(Long id,String rucmSpec){
         this.id = id;

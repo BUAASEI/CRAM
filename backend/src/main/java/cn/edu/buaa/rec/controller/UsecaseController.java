@@ -50,6 +50,23 @@ public class UsecaseController {
         return usecase;
     }
 
+//    //修改用例信息,
+//    @RequestMapping(value="/update",method=RequestMethod.POST)
+//    @ResponseBody
+//    public Map<String, Object> update(@Valid @RequestBody Map<String, Object> info){
+//        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+//        Long usecaseId = jsonObject.getLong("id");
+//        Usecase usecase = new Usecase(usecaseId,jsonObject.getString("name"),jsonObject.getString("description"),jsonObject.getLong("creatorId"),jsonObject.getLong("projectId"),
+//                jsonObject.getString("input"),jsonObject.getString("output"),jsonObject.getString("useState"),
+//                jsonObject.getString("rucmSoec"));
+//
+//        System.out.println("usecase:"+usecase);
+//        Map<String,Object> m = usecaseService.updateUsecase(usecase);
+//
+//        System.out.println("m:" +m.toString());
+//        return m ;
+//
+//    }
     //修改用例信息,
     @RequestMapping(value="/updateusecase",method=RequestMethod.POST)
     @ResponseBody
