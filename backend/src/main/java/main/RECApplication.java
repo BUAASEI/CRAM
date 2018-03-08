@@ -1,7 +1,8 @@
 package main;
 
-import cn.edu.buaa.rec.dao.BusinessRoleDataMapper;
+import cn.edu.buaa.rec.dao.RoleMapper;
 import cn.edu.buaa.rec.dao.SolutionMapper;
+import cn.edu.buaa.rec.dao.UsecaseRoleMapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.boot.SpringApplication;
@@ -53,10 +54,11 @@ public class RECApplication {
           SpringApplication.run(RECApplication.class);
 
 //        ApplicationContext context = SpringApplication.run(RECApplication.class);
-//        BusinessRoleDataMapper businessRoleDataMapper = (BusinessRoleDataMapper) BeanFactoryUtils.beanOfTypeIncludingAncestors(context,SolutionMapper.class);
-//        List<Long> rId = new LinkedList<>();
-//        rId.add(3L);
-//        System.out.println(businessRoleDataMapper.selectBusinessRoleDataByRoleIds(rId));
+//        RoleMapper roleMapper = (RoleMapper) BeanFactoryUtils.beanOfTypeIncludingAncestors(context, RoleMapper.class);
+//        List<String> rId = new LinkedList<>();
+//        rId.add("June");
+//        rId.add("asaa");
+//        System.out.println(roleMapper.selectIdsByName(rId,2L));
     }
     @Bean
     public WebMvcConfigurer corsConfigurer() {//跨域解决

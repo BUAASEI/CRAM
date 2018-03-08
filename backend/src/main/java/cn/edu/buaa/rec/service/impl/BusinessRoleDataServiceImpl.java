@@ -60,7 +60,10 @@ public class BusinessRoleDataServiceImpl implements BusinessRoleDataService{
             Data data = dataMapper.selectById(brd.getDataId());
             businessForm.put("id",brd.getId());
             businessForm.put("businessName",business.getName());
+            businessForm.put("businessDes",business.getDescription());
+            businessForm.put("roleId", role.getId());
             businessForm.put("roleName", role.getName());
+            businessForm.put("dataId", data.getId());
             businessForm.put("dataName", data.getName());
             bRDForms.add(businessForm);
         }

@@ -13,5 +13,5 @@ public interface UserProjectMapper {
 
     Long selectExistOrNot(@Param("projectId")Long projectId, @Param("userId") Long userId);
 
-    int insertByUserId(Long userId, Long projectId);
+    Long selectMaxId();
 }

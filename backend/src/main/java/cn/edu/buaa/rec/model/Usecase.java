@@ -24,12 +24,15 @@ public class Usecase {
     private String input;
     private String output;
 
-    public Usecase(Long id, String name,Long projectId, String description,String rucmSpec ){
+    public Usecase(Long id, String name,Long projectId,String description,String rucmSpec,String input,String output,String dictionary ){
         this.id = id;
         this.name = name;
         this.projectId = projectId;
         this.description = description;
         this.rucmSpec = rucmSpec;
+        this.input = input;
+        this.output = output;
+        this.dataDictionary = dictionary;
     }
     public Usecase(String name ,String description , Long creatorId , Long projectId , String input , String output , String useState ){
         this.name = name;
@@ -40,6 +43,16 @@ public class Usecase {
         this.output = output;
         this.usestate = useState;
     }
+
+    public Usecase(String name,String description ,Long projectId,Long creatortId,String rucmSpec){
+        this.name = name;
+        this.projectId = projectId;
+        this.creatorId = creatortId;
+        this.description = description;
+        this.rucmSpec = rucmSpec;
+    }
+
+
     public Usecase(Long id,String name, String description , Long creatorId , Long projectId ,
              String input , String output ,  String useState , String rucmSoec ){
         this.id = id;

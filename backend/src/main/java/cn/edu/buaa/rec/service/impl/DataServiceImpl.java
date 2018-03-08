@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service("DataService")
@@ -40,6 +41,20 @@ public class DataServiceImpl implements DataService{
         }
 
         return m;
+
+    }
+
+    @Override
+    public List<Long> getIdsByName(List<String> dataNames, Long projectId) {
+        if (dataNames==null||dataNames.size()==0){
+            return null;
+        }
+        if (projectId==null || projectId < 0){
+            return null;
+        }
+
+        List<Long> dataIds = dataMapper.selectIdsByName(dataNames,projectId);
+        return dataIds;
 
     }
 }

@@ -1,5 +1,7 @@
 package cn.edu.buaa.rec.service;
 
+import cn.edu.buaa.rec.model.UserProject;
+
 import java.util.Map;
 
 /**
@@ -11,5 +13,5 @@ import java.util.Map;
  */
 
 public interface UserProjectService {
-    Map<String,Object> applyProject(Long userId, Long projectId);
+    Map<String,Object> applyProject(UserProject userProject);
 }

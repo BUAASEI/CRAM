@@ -45,5 +45,7 @@ public interface ProjectService {
 
     List<Solution> getUserSolution(Long projectId, Long userId);
 
+    Project getProjectById(Long projectId);
+
 //    List<Business> getBusinessByIds(List<Long> bIds);
 }

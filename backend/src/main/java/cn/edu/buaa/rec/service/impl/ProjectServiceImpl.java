@@ -43,6 +43,17 @@ public class ProjectServiceImpl implements ProjectService {
     private UserProjectMapper userProjectMapper;
 
     @Override
+    public Project getProjectById(Long projectId) {
+        if (projectId==null || projectId==0){
+            return null;
+        }
+
+        Project project = projectMapper.selectById(projectId);
+        return project;
+
+    }
+
+    @Override
     public Map<String, Object> newProject(Project project) {
     //        需要重新写
         //        保存并返回从数据库查询出的结果数据

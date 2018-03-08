@@ -25,7 +25,16 @@ public class UserProject {
      */
     private Long projectId;
 
+    private Integer isapproved;
+
     public UserProject() {
+    }
+
+    public UserProject(Long id, Long userId, Long projectId, Integer isapproved) {
+        this.id = id;
+        this.userId = userId;
+        this.projectId = projectId;
+        this.isapproved = isapproved;
     }
 
     /**
@@ -98,5 +107,13 @@ public class UserProject {
      */
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+
+    public Integer getIsapproved() {
+        return isapproved;
+    }
+
+    public void setIsapproved(Integer isapproved) {
+        this.isapproved = isapproved;
     }
 }

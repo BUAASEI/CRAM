@@ -28,4 +28,6 @@ public interface SysUserService {
     Map<String, List<Map<String, Object>>> getApply(Long projectId);
 
     Map<Long, String> getManProjectId(Long userId);
+
+    String getNameById(Long creatorId);
 }

@@ -5,11 +5,20 @@
     <result column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="project_id" jdbcType="BIGINT" property="projectId" />
+    <result column="isApproved" jdbcType="INTEGER" property="isapproved"/>
   </resultMap>
+
   <insert id="insert" parameterType="cn.edu.buaa.rec.model.UserProject">
-    insert into user_project (id, user_id, project_id)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT})
+    insert into user_project (id, user_id, project_id, isApproved)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{isapproved,jdbcType=INTEGER})
   </insert>
+
+  <!-- Long selectMaxId(); -->
+  <select id="selectMaxId" resultType="Long">
+    SELECT max(id)
+    FROM user_project
+  </select>
+
 
   <!--List<Long> selectByUserId(Long userId);-->
   <select id="selectByUserId" parameterType="Long" resultType="Long">
