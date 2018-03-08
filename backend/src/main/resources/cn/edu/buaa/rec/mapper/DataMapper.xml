@@ -47,4 +47,18 @@
     FROM DATA
     where project_id=#{projectId} AND creator_id=#{userId}
   </select>
+    <!-- 查找现有记录的最大id -->
+    <!-- max后面不能有空格 -->
+    <select id="selectMaxId" resultType="Long">
+        SELECT max(id)
+        FROM data
+    </select>
+
+    <!-- 根据dataName 和 projectId，查找该项目数据是否存在 -->
+    <select id="checkByNameAndProjectId"  resultType="Integer">
+        SELECT count(*)
+        FROM data
+        WHERE name = #{name} AND project_id = #{projectId}
+    </select>
+
 </mapper>

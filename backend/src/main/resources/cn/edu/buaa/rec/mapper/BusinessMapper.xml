@@ -7,17 +7,20 @@
     <result column="build_time" jdbcType="TIMESTAMP" property="buildTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="creator_id" jdbcType="BIGINT" property="creatorId" />
+    <result column="project_id" jdbcType="BIGINT" property="projectId" />
     <result column="priority" jdbcType="VARCHAR" property="priority" />
     <result column="pre_condition" jdbcType="VARCHAR" property="preCondition" />
     <result column="post_condition" jdbcType="VARCHAR" property="postCondition" />
     <result column="use_state" jdbcType="VARCHAR" property="useState" />
     <result column="description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="include" jdbcType="LONGVARCHAR" property="include"/>
+    <result column="data" jdbcType="LONGVARCHAR" property="data"/>
+    <result column="des" jdbcType="LONGVARCHAR" property="data"/>
     <result column="flow" jdbcType="LONGVARCHAR" property="flow" />
     <result column="input" jdbcType="VARCHAR" property="input" />
     <result column="output" jdbcType="VARCHAR" property="output" />
     <result column="data_dictionary" jdbcType="LONGVARCHAR" property="dataDictionary" />
     <result column="roles" jdbcType="LONGVARCHAR" property="roles" />
-
   </resultMap>
 
   <select id="selectBusiness" resultMap="BaseResultMap" parameterType="Long">
@@ -25,16 +28,93 @@
     FROM business
     WHERE id=#{businessId}
   </select>
+
+  <!-- 查找现有记录的最大id -->
+  <!-- max后面不能有空格 -->
+  <select id="selectMaxId" resultType="Long">
+    SELECT max(id)
+    FROM business
+  </select>
+
+  <!-- 根据name 和 projectId，查找该business是否存在 -->
+  <select id="checkByNameAndProjectId"  resultType="Integer">
+    SELECT count(*)
+    FROM business
+    WHERE name = #{name} AND project_id = #{projectId}
+  </select>
+
+
   <insert id="insert" parameterType="cn.edu.buaa.rec.model.Business">
     insert into business (id, name, build_time, 
-      update_time, creator_id, priority, 
-      pre_condition, post_condition, use_state, 
-      description, flow)
+      update_time, creator_id,project_id, priority,
+      pre_condition, post_condition, use_state, input,output,
+      description, roles,data,include,des)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{buildTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT}, #{priority,jdbcType=VARCHAR}, 
-      #{preCondition,jdbcType=VARCHAR}, #{postCondition,jdbcType=VARCHAR}, #{useState,jdbcType=VARCHAR}, 
-      #{description,jdbcType=LONGVARCHAR}, #{flow,jdbcType=LONGVARCHAR},
-      #{input,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, #{dataDictionary,jdbcType=LONGVARCHAR}, #{roles,jdbcType=LONGVARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=BIGINT},  #{projectId,jdbcType=BIGINT}, #{priority,jdbcType=VARCHAR},
+      #{preCondition,jdbcType=VARCHAR}, #{postCondition,jdbcType=VARCHAR}, #{useState,jdbcType=VARCHAR}, #{input,jdbcType=VARCHAR},
+      #{output,jdbcType=VARCHAR},#{description,jdbcType=LONGVARCHAR}, #{roles,jdbcType=LONGVARCHAR},
+      #{data,jdbcType=LONGVARCHAR},#{include,jdbcType=LONGVARCHAR},#{des,jdbcType=LONGVARCHAR})
   </insert>
+
+  <!-- 通过id更新用例信息 -->
+  <!-- int updateById(business); -->
+  <update id="updateById">
+    UPDATE business
+    <set>
+      <if test="name!=null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description!=null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="buildTime!=null">
+        build_time = #{buildTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime!=null">
+        update_time=#{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId!=null">
+        creator_id = #{creatorId,jdbcType=BIGINT},
+      </if>
+      <if test="flow!=null">
+        flow = #{flow,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="useState!=null">
+        use_state = #{useState,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId!=null">
+        project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="priority!=null">
+        priority = #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="priority!=null">
+        priority = #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="preCondition!=null">
+        pre_condition = #{preCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="postCondition!=null">
+        post_Condition = #{postCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="input!=null">
+        input = #{input,jdbcType=VARCHAR},
+      </if>
+      <if test="output!=null">
+        output = #{output,jdbcType=VARCHAR},
+      </if>
+      <if test="des!=null">
+        des = #{des,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="data!=null">
+        data = #{data,jdbcType=LONGVARCHAR},
+      </if>
+
+      <if test="include!=null">
+        include = #{include,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
 
 </mapper>

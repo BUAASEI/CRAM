@@ -10,4 +10,6 @@ public interface UseCaseService {
     Usecase getUsecaseById(Long uId);
 
     Map<String,Object> updateUsecase(Usecase usecase);
+
+    Map<String,Object> newUsecase(Usecase usecase);
 }

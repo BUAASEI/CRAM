@@ -6,7 +6,6 @@ import cn.edu.buaa.rec.service.ProjectService;
 import cn.edu.buaa.rec.service.BusinessRoleDataService;
 import cn.edu.buaa.rec.service.UsecaseRoleDataService;
 import cn.edu.buaa.rec.service.UserProjectRoleService;
-import cn.edu.buaa.rec.service.MailService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

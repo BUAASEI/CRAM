@@ -43,4 +43,33 @@ public class UsecaseServiceImpl implements UseCaseService {
         return m;
 
     }
+
+
+    @Override
+    public Map<String, Object> newUsecase(Usecase usecase) {
+        if (usecase == null) {
+            return null;
+        }
+        String name = usecase.getName();
+        Long projectid = usecase.getProjectId();
+        int  count = usecaseMapper.checkByNameAndProjectId(name,projectid);
+        Map<String,Object> m = new HashMap<>();
+        if (count>0){
+            m.put("Msg", "该项目用例已经存在！");
+        }else{
+            Long usecaseIdMax = usecaseMapper.selectMaxId();
+            usecase.setId((usecaseIdMax == null) ? 1 : usecaseIdMax + 1);
+            usecase.setBuildTime(new Date());
+            int r = usecaseMapper.insert(usecase);
+//        System.out.println("r--:"+r);
+            if (r != 1) {
+                m.put("Msg", "请检查输入数据格式");
+            } else {
+
+                m.put("Msg", "新建用例成功 @^@ ");
+            }
+        }
+
+        return m;
+    }
 }

@@ -1,6 +1,6 @@
 package cn.edu.buaa.rec.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Solution {
     /**
@@ -272,6 +272,15 @@ public class Solution {
     }
 
     public Solution() {
+    }
+
+    public Solution(String title , String content , Long creatorId , Long projectId , Integer type , Integer flag ){
+        this.title = title;
+        this.content = content;
+        this.creatorId = creatorId;
+        this.projectId = projectId;
+        this.type = type;
+        this.flag = flag;
     }
 
     @Override
