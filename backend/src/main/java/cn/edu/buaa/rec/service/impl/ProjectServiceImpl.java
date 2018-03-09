@@ -49,7 +49,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = projectMapper.selectById(projectId);
         return project;
-
     }
 
     @Override
