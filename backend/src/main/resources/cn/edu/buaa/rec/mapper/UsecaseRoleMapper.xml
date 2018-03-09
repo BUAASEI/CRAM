@@ -62,4 +62,13 @@
     FROM usecase_role
   </select>
 
+  <select id="selectUsecaseIdsByRoleIds" resultType="Long">
+    SELECT usecase_id
+    FROM usecase_role
+    WHERE role_id IN
+    <foreach collection="roleIds" item="rId" index="index" separator=",">
+      (#{rId})
+    </foreach>
+  </select>
+
 </mapper>

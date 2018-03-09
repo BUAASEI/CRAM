@@ -18,4 +18,6 @@ public interface UsecaseMapper {
 
     int updateById(Usecase usecase);
     int checkByNameAndProjectId(@Param("name") String name, @Param("projectId")Long projectid);
+
+    List<Usecase> selectByIds(@Param("ids") List<Long> usecaseIds);
 }

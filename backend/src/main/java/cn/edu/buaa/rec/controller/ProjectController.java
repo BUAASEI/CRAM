@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.*;
+import cn.edu.buaa.rec.service.impl.UsecaseServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -64,6 +65,12 @@ public class ProjectController {
     @Qualifier("RoleService")
     private RoleService roleService;
 
+    @Autowired
+    @Qualifier("UsecaseRoleService")
+    private UsecaseRoleService usecaseRoleService;
+    @Autowired
+    @Qualifier("UsecaseService")
+    private UseCaseService useCaseService;
     /**
      * 项目中心，暂时默认显示场景,默认所有角色的场景和用例信息
      */
@@ -74,6 +81,8 @@ public class ProjectController {
         Long projectId = jsonObject.getLong("ProjectId");
         Long userId = jsonObject.getLong("UserId");
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+        List<Long> usecaseIds = usecaseRoleService.getUsecaseIdsByRoleIds(roleIds);
+        List<Map<String,Object>> usecaseForms = useCaseService.getUsecaseForm(usecaseIds);
         System.out.println(roleIds.toString());
         if (roleIds == null && roleIds.size() == 0) {
             return null;
@@ -86,10 +95,10 @@ public class ProjectController {
         }
         result.put("businessForms", businessForms);
         List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
-        List<Map<String, Object>> usecaseForms = new LinkedList<>();
-        if (usecaseRoleData != null) {
-            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
-        }
+//        List<Map<String, Object>> usecaseForms = new LinkedList<>();
+//        if (usecaseRoleData != null) {
+//            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
+//        }
         result.put("usecaseForms", usecaseForms);
         return result;
     }
