@@ -68,7 +68,7 @@
         where project_Id = #{projectId} And name IN
         <foreach collection="roleNames" item="_name" open="(" close=")"
         separator=",">
-            (#{_name})
+            #{_name}
         </foreach>
     </select>
 

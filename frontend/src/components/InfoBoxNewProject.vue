@@ -149,11 +149,12 @@
         this.vertical = []
       },
       submit () {
+        var userId = localStorage.getItem("id");
         let body = {
           ProjectName: this.name,
           Description: this.discribe,
           DomainId: 1,
-          CreatorId: 1/*登陆时获得*/
+          CreatorId: userId
         };
         /*ajax*/
         this.$http.post('sysuser/crepro',body)

@@ -171,10 +171,10 @@
     },
     mounted() {
 
-      // this.projectId = this.$route.params.projectId;
-      // var userId = localStorage.getItem("id");
-      // this.reqInfo(projectId,userId);
-      this.reqInfo(1,3);
+       this.projectId = this.$route.params.projectId;
+      var userId = localStorage.getItem("id");
+      this.reqInfo(projectId,userId);
+      // this.reqInfo(8,userId);
       // this.close()
     },
     methods: {

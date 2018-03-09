@@ -46,6 +46,7 @@ public class UserProjectRoleServiceImpl implements UserProjectRoleService {
             Project project = projectMapper.selectById(iterator.next());
 
             Map<String, Object> temp = new HashMap<>();
+            temp.put("id",project.getId());
             temp.put("ProjectName", project.getName());
             temp.put("PeojectDescription", project.getDescription());
 

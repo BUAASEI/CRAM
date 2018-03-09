@@ -61,6 +61,14 @@ public class ProjectServiceImpl implements ProjectService {
             Long projectIdMax = projectMapper.selectMaxId();
             project.setId((projectIdMax == null) ? 1 : (projectIdMax + 1));
 
+            UserProject userProject = new UserProject();
+
+            Long upIdMax = userProjectMapper.selectMaxId();
+            userProject.setId((upIdMax == null) ? 1 : (upIdMax + 1));
+            userProject.setUserId(project.getCreatorId());
+            userProject.setProjectId(project.getId());
+            userProjectMapper.insert(userProject);
+
             if (projectMapper.insert(project) != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {
