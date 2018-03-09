@@ -45,14 +45,11 @@ public class ProjectController {
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataService usecaseRoleDataService;
 
-//    @Autowired
-//    @Qualifier("MailService")
-//    private MailService mailService;
-
     @Autowired
     @Qualifier("UserProjectService")
     private UserProjectService userProjectService;
 
+    @Autowired
     @Qualifier("SysUserService")
     private SysUserService sysUserService;
 
@@ -65,6 +62,7 @@ public class ProjectController {
     private RoleService roleService;
 
     /**
+     * 查的表不对，不应该用三元表【重新写】
      * 项目中心，暂时默认显示场景,默认所有角色的场景和用例信息
      */
     @RequestMapping("/home")
@@ -96,15 +94,18 @@ public class ProjectController {
 
 
     /**
-     * 项目中心项目基本信息
+     * 项目中心预加载项目基本信息
      */
-    @RequestMapping("/basicInfo")
+    @RequestMapping("/basicinfo")
     @ResponseBody
     public Map<String, Object> basicInfo(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long projectId = jsonObject.getLong("projectId");
+        System.out.println(projectId);
         Project project = projectService.getProjectById(projectId);
+        System.out.println(project.toString());
         Long creatorId = project.getCreatorId();
+        System.out.println(creatorId);
         String creatorName = sysUserService.getNameById(creatorId);
         Long domainId = project.getDomainId();
         String domainName = domainService.getNameById(domainId);
