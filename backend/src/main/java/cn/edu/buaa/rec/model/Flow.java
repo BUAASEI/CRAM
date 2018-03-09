@@ -3,7 +3,7 @@ package cn.edu.buaa.rec.model;
 import java.util.List;
 
 /**
- * Created by menghan on 2018/2/27.
+ * Created by suruo on 2018/2/27.
  */
 public class Flow {
     public List<String> getSteps() {

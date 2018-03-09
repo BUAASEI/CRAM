@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service("UsecaseRoleService")
-public class UsecaseRoleServiceImpl implements UsecaseRoleService{
+public class UsecaseRoleServiceImpl implements UsecaseRoleService {
 
 
     @Autowired
@@ -17,16 +17,16 @@ public class UsecaseRoleServiceImpl implements UsecaseRoleService{
 
     @Override
     public int creatUsecaseRole(List<Long> roleIds, Long usecaseId) {
-        if (roleIds==null||roleIds.size()==0){
+        if (roleIds == null || roleIds.size() == 0) {
             return -1;
         }
-        if (usecaseId<0||usecaseId==null){
+        if (usecaseId < 0 || usecaseId == null) {
 
             return -2;
         }
         Long usecaseIdMax = usecaseRoleMapper.selectMaxId();
         Long id = ((usecaseIdMax == null) ? 1 : usecaseIdMax + 1);
-        for (Long rid : roleIds){
+        for (Long rid : roleIds) {
             UsecaseRole ur = new UsecaseRole();
             ur.setId(id++);
             ur.setRoleId(rid);

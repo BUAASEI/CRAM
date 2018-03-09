@@ -9,5 +9,5 @@ public interface DataService {
 
     Map<String, Object> newData(Data data);
 
-    List<Long> getIdsByName(List<String>dataNames,Long projectId);
+    List<Long> getIdsByName(List<String> dataNames, Long projectId);
 }

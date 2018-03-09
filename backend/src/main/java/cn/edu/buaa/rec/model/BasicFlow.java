@@ -4,24 +4,22 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
- * Created by menghan on 2018/2/27.
+ * Created by 苏若 on 2018/2/27.
  */
-public class BasicFlow extends Flow{
+public class BasicFlow extends Flow {
 
     public BasicFlow() {
     }
 
-    public BasicFlow(JSONObject object){
+    public BasicFlow(JSONObject object) {
         JSONArray bfSteps = object.getJSONArray("data");
         this.steps = new ArrayList<>();
-        for(int i=0;i<bfSteps.size();i++){
-            steps.add((String)bfSteps.get(i));
+        for (int i = 0; i < bfSteps.size(); i++) {
+            steps.add((String) bfSteps.get(i));
         }
-        this.setPostCondition((String)object.get("PostCondition"));
+        this.setPostCondition((String) object.get("PostCondition"));
     }
 
 }

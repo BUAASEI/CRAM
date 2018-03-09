@@ -4,7 +4,6 @@ import cn.edu.buaa.rec.dao.*;
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -44,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Project getProjectById(Long projectId) {
-        if (projectId==null || projectId==0){
+        if (projectId == null || projectId == 0) {
             return null;
         }
 
@@ -55,7 +54,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Map<String, Object> newProject(Project project) {
-    //        需要重新写
+        //        需要重新写
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
         String projectName = project.getName();
@@ -106,7 +105,7 @@ public class ProjectServiceImpl implements ProjectService {
      * 思路:
      * 1）查询所有项目id
      * 2）对于每个id，查询user_project表，如果不存在，则放进来
-     * */
+     */
     @Override
     public List<Map<String, Object>> otherProject(Long userId) {
         List<Project> allProjects = projectMapper.selectAllProjects();
@@ -118,7 +117,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 //            如果在user_project关系表中，查不到user和相关项目的对应记录，返回0
 //            对于这种项目，应该加入返回结果
-            if(userProjectMapper.selectExistOrNot(projectId, userId) == 0){
+            if (userProjectMapper.selectExistOrNot(projectId, userId) == 0) {
                 Map<String, Object> temp = new HashMap<>();
                 temp.put("ProjectId", projectInfo.getId());
                 temp.put("ProjectName", projectInfo.getName());

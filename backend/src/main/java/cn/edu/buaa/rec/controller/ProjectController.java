@@ -96,9 +96,9 @@ public class ProjectController {
 
 
     /**
-     *     项目中心项目基本信息
+     * 项目中心项目基本信息
      */
-    @RequestMapping("basicInfo")
+    @RequestMapping("/basicInfo")
     @ResponseBody
     public Map<String, Object> basicInfo(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
@@ -126,14 +126,24 @@ public class ProjectController {
         return result;
     }
 
-    //    申请角色
+    /**
+     * 申请角色
+     *
+     * @param applyRoleInfo
+     * @return
+     */
     @RequestMapping("/roleapply")
     @ResponseBody
     public Map<String, Object> applyRole(@Valid @RequestBody Map<String, Object> applyRoleInfo) {
         return projectService.applyRole(applyRoleInfo);
     }
 
-    //  申请管理员
+    /**
+     * 申请管理员
+     *
+     * @param applyManagerInfo
+     * @return
+     */
     @RequestMapping("/manapply")
     @ResponseBody
     public Map<String, Object> applyManager(@Valid @RequestBody Map<String, Object> applyManagerInfo) {
@@ -155,18 +165,20 @@ public class ProjectController {
 
 
     /**
+     * 关系改变，重新写
      *
-     *
-     * */
+     * 预加载所有场景（业务场景和用例）的基本信息
+     * 项目管理员使用这个接口查看所有的场景信息
+     */
     @RequestMapping("/scenes")
     @ResponseBody
     public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName) {
-//        return projectService.getScenes(projectName);
-//        关系改变，重新写
-        return null;
+        return projectService.getScenes(projectName);
     }
 
-    //    显示项目中心的角色项
+    /**
+     * 显示项目中心的角色项
+     */
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showRole(@Valid @RequestBody Map<String, Object> info) {
@@ -198,7 +210,12 @@ public class ProjectController {
         return m;
     }
 
-    //    项目中心的数据展示接口
+    /**
+     * 项目中心的数据展示界面
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping(value = "/data", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showData(@Valid @RequestBody Map<String, Object> info) {
@@ -223,7 +240,12 @@ public class ProjectController {
         return map;
     }
 
-    //    展示项目中还未解决的问题
+    /**
+     * 项目中心的问题展示接口。只显示还还没有解决的问题
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping("/question")
     @ResponseBody
     public Map<String, Object> showQuestion(@Valid @RequestBody Map<String, Object> info) {
@@ -251,7 +273,12 @@ public class ProjectController {
         return map;
     }
 
-    //    展示项目中未处理的解决方案
+    /**
+     * 展示项目中尚未处理的解决方案
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping(value = "/solution", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showSolution(@Valid @RequestBody Map<String, Object> info) {
@@ -276,7 +303,12 @@ public class ProjectController {
         return map;
     }
 
-    //项目中心，根据不同角色显示场景和用例信息
+    /**
+     * 根据角色切换，显示不同的场景和用例信息
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping("/changerole")
     @ResponseBody
     public Map<String, Object> changeRole(@Valid @RequestBody Map<String, Object> info) {
@@ -299,6 +331,5 @@ public class ProjectController {
         result.put("usecaseForms", usecaseForms);
         return result;
     }
-
 
 }

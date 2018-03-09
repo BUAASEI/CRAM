@@ -33,7 +33,6 @@ public class BusinessData {
      * This method returns the value of the database column business_data.id
      *
      * @return the value of business_data.id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getId() {
@@ -45,7 +44,6 @@ public class BusinessData {
      * This method sets the value of the database column business_data.id
      *
      * @param id the value for business_data.id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setId(Long id) {
@@ -57,7 +55,6 @@ public class BusinessData {
      * This method returns the value of the database column business_data.business_id
      *
      * @return the value of business_data.business_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getBusinessId() {
@@ -69,7 +66,6 @@ public class BusinessData {
      * This method sets the value of the database column business_data.business_id
      *
      * @param businessId the value for business_data.business_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setBusinessId(Long businessId) {
@@ -81,7 +77,6 @@ public class BusinessData {
      * This method returns the value of the database column business_data.data_id
      *
      * @return the value of business_data.data_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getDataId() {
@@ -93,7 +88,6 @@ public class BusinessData {
      * This method sets the value of the database column business_data.data_id
      *
      * @param dataId the value for business_data.data_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setDataId(Long dataId) {

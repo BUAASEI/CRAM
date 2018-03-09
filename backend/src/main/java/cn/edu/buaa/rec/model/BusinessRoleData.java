@@ -41,7 +41,6 @@ public class BusinessRoleData {
      * This method returns the value of the database column business_role_data.id
      *
      * @return the value of business_role_data.id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public Long getId() {
@@ -53,7 +52,6 @@ public class BusinessRoleData {
      * This method sets the value of the database column business_role_data.id
      *
      * @param id the value for business_role_data.id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public void setId(Long id) {
@@ -65,7 +63,6 @@ public class BusinessRoleData {
      * This method returns the value of the database column business_role_data.business_id
      *
      * @return the value of business_role_data.business_id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public Long getBusinessId() {
@@ -77,7 +74,6 @@ public class BusinessRoleData {
      * This method sets the value of the database column business_role_data.business_id
      *
      * @param businessId the value for business_role_data.business_id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public void setBusinessId(Long businessId) {
@@ -89,7 +85,6 @@ public class BusinessRoleData {
      * This method returns the value of the database column business_role_data.role_id
      *
      * @return the value of business_role_data.role_id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public Long getRoleId() {
@@ -101,7 +96,6 @@ public class BusinessRoleData {
      * This method sets the value of the database column business_role_data.role_id
      *
      * @param roleId the value for business_role_data.role_id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public void setRoleId(Long roleId) {
@@ -113,7 +107,6 @@ public class BusinessRoleData {
      * This method returns the value of the database column business_role_data.data_id
      *
      * @return the value of business_role_data.data_id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public Long getDataId() {
@@ -125,7 +118,6 @@ public class BusinessRoleData {
      * This method sets the value of the database column business_role_data.data_id
      *
      * @param dataId the value for business_role_data.data_id
-     *
      * @mbggenerated Mon Mar 05 23:04:33 CST 2018
      */
     public void setDataId(Long dataId) {

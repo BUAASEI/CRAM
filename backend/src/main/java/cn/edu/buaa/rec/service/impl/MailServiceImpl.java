@@ -35,65 +35,64 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public Map<String, Object> getProApplyName(Long userId) {
-        Map<String,Object> map = new HashMap<>();
-        List<Map<String,Object>> manMap = new ArrayList<>();
-        List<Map<String,Object>> roleMap = new ArrayList<>();
-        map.put("manApply",manMap);
-        map.put("roleApply",roleMap);
+        Map<String, Object> map = new HashMap<>();
+        List<Map<String, Object>> manMap = new ArrayList<>();
+        List<Map<String, Object>> roleMap = new ArrayList<>();
+        map.put("manApply", manMap);
+        map.put("roleApply", roleMap);
         List<Long> projects = userProjectManMapper.selectProjectByUserId(userId);
-        if(projects==null||projects.size()==0) return map;
+        if (projects == null || projects.size() == 0) return map;
         List<Long> usersMan = userProjectManMapper.selectUserByProjectId(projects);
         List<Long> usersRole = userProjectRoleMapper.selectUserByProjectId(projects);
-        if(usersMan!=null)
-        for(Long id:usersMan){
-            SysUser sysUser = sysUserMapper.selectById(id);
-            String fDomain = sysUser.getFamiliardomain();
-            String proExp = sysUser.getProjectexp();
-            String name = sysUser.getName();
-            Map<String,Object> submap= new HashMap<>();
-            submap.put("name",name);
-            submap.put("familiarDomain",fDomain);
-            submap.put("projectExp",proExp);
-            List<Long> applyProjects = userProjectManMapper.selectProjectByUserIdWithNoApproved(id);
-            List<String> applyNames = projectMapper.selectNameByIds(applyProjects);
-            submap.put("proApplyName",applyNames);
-            manMap.add(submap);
-        }
-        if(usersRole!=null)
-        for(Long id:usersRole){
-            SysUser sysUser = sysUserMapper.selectById(id);
-            String fDomain = sysUser.getFamiliardomain();
-            String proExp = sysUser.getProjectexp();
-            String name = sysUser.getName();
-            Map<String,Object> submap= new HashMap<>();
-            submap.put("name",name);
-            submap.put("familiarDomain",fDomain);
-            submap.put("projectExp",proExp);
-            List<Long> applyProjects = userProjectRoleMapper.selectProjectByUserIdWithNoApproved(id);
-            List<String> applyNames = projectMapper.selectNameByIds(applyProjects);
-            submap.put("proApplyName",applyNames);
-            manMap.add(submap);
-        }
+        if (usersMan != null)
+            for (Long id : usersMan) {
+                SysUser sysUser = sysUserMapper.selectById(id);
+                String fDomain = sysUser.getFamiliardomain();
+                String proExp = sysUser.getProjectexp();
+                String name = sysUser.getName();
+                Map<String, Object> submap = new HashMap<>();
+                submap.put("name", name);
+                submap.put("familiarDomain", fDomain);
+                submap.put("projectExp", proExp);
+                List<Long> applyProjects = userProjectManMapper.selectProjectByUserIdWithNoApproved(id);
+                List<String> applyNames = projectMapper.selectNameByIds(applyProjects);
+                submap.put("proApplyName", applyNames);
+                manMap.add(submap);
+            }
+        if (usersRole != null)
+            for (Long id : usersRole) {
+                SysUser sysUser = sysUserMapper.selectById(id);
+                String fDomain = sysUser.getFamiliardomain();
+                String proExp = sysUser.getProjectexp();
+                String name = sysUser.getName();
+                Map<String, Object> submap = new HashMap<>();
+                submap.put("name", name);
+                submap.put("familiarDomain", fDomain);
+                submap.put("projectExp", proExp);
+                List<Long> applyProjects = userProjectRoleMapper.selectProjectByUserIdWithNoApproved(id);
+                List<String> applyNames = projectMapper.selectNameByIds(applyProjects);
+                submap.put("proApplyName", applyNames);
+                manMap.add(submap);
+            }
         return map;
     }
 
     @Override
     public Map<String, Object> acceptRequest(Long id, String chartName) {
-        if(chartName.equals("role")){
+        if (chartName.equals("role")) {
             userProjectManMapper.updateApproved(id);
-        }
-        else if(chartName.equals("man")){
+        } else if (chartName.equals("man")) {
             userProjectRoleMapper.updateApproved(id);
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("msg","已同意");
+        Map<String, Object> map = new HashMap<>();
+        map.put("msg", "已同意");
         return map;
     }
 
     @Override
     public Map<String, Object> refuseRequest(Long id, String chartName) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("msg","已拒绝");
+        Map<String, Object> map = new HashMap<>();
+        map.put("msg", "已拒绝");
         return map;
     }
 

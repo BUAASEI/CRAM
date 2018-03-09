@@ -13,23 +13,23 @@ import java.util.List;
 import java.util.Map;
 
 @Service("DataService")
-public class DataServiceImpl implements DataService{
+public class DataServiceImpl implements DataService {
 
     @Autowired
     private DataMapper dataMapper;
 
     @Override
     public Map<String, Object> newData(Data data) {
-        if (data==null){
+        if (data == null) {
             return null;
         }
         String name = data.getName();
         Long projectid = data.getProjectId();
-        int  count = dataMapper.checkByNameAndProjectId(name,projectid);
-        Map<String,Object> m = new HashMap<>();
-        if (count>0){
+        int count = dataMapper.checkByNameAndProjectId(name, projectid);
+        Map<String, Object> m = new HashMap<>();
+        if (count > 0) {
             m.put("Msg", "该项目数据已经存在！");
-        }else {
+        } else {
             Long dataIdMax = dataMapper.selectMaxId();
             data.setId((dataIdMax == null) ? 1 : dataIdMax + 1);
             data.setBuildTime(new Date());
@@ -47,15 +47,15 @@ public class DataServiceImpl implements DataService{
 
     @Override
     public List<Long> getIdsByName(List<String> dataNames, Long projectId) {
-        if (dataNames==null||dataNames.size()==0){
+        if (dataNames == null || dataNames.size() == 0) {
             return null;
         }
-        if (projectId==null || projectId < 0){
+        if (projectId == null || projectId < 0) {
             return null;
         }
 
         System.out.println("projectId:"+projectId);
-        List<Long> dataIds = dataMapper.selectIdsByName(dataNames,projectId);
+        List<Long> dataIds = dataMapper.selectIdsByName(dataNames, projectId);
         return dataIds;
 
     }

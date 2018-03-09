@@ -42,15 +42,15 @@ public class Business {
     private String roles;
 
 
-   public Business(String name , String description , Long creatorId , Long projectId ){
-       this.name = name;
-       this.description = description;
-       this.creatorId = creatorId;
-       this.projectId = projectId;
-   }
+    public Business(String name, String description, Long creatorId, Long projectId) {
+        this.name = name;
+        this.description = description;
+        this.creatorId = creatorId;
+        this.projectId = projectId;
+    }
 
-    public Business(String name , String description , Long creatorId , Long projectId, String priority ,String preCondition ,String postCondition
-            ,String input,String output, String useState,String data,String role,String include,String des ){
+    public Business(String name, String description, Long creatorId, Long projectId, String priority, String preCondition, String postCondition
+            , String input, String output, String useState, String data, String role, String include, String des) {
         this.name = name;
         this.description = description;
         this.creatorId = creatorId;
@@ -63,13 +63,13 @@ public class Business {
 
         this.data = data;
         this.include = include;
-        this.useState  = useState;
+        this.useState = useState;
         this.roles = role;
         this.des = des;
     }
 
-    public Business(Long id,String name , String description , Long creatorId , Long projectId, String priority ,String preCondition ,String postCondition
-            ,String input,String output, String useState,String data,String role,String include,String des,String flow ){
+    public Business(Long id, String name, String description, Long creatorId, Long projectId, String priority, String preCondition, String postCondition
+            , String input, String output, String useState, String data, String role, String include, String des, String flow) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -83,10 +83,10 @@ public class Business {
 
         this.data = data;
         this.include = include;
-        this.useState  = useState;
+        this.useState = useState;
         this.roles = role;
         this.des = des;
-        this.flow  = flow;
+        this.flow = flow;
     }
 
 
@@ -122,7 +122,6 @@ public class Business {
      * This method returns the value of the database column business.flow
      *
      * @return the value of business.flow
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getFlow() {
@@ -134,7 +133,6 @@ public class Business {
      * This method sets the value of the database column business.flow
      *
      * @param flow the value for business.flow
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setFlow(String flow) {
@@ -146,7 +144,6 @@ public class Business {
      * This method returns the value of the database column business.id
      *
      * @return the value of business.id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getId() {
@@ -158,7 +155,6 @@ public class Business {
      * This method sets the value of the database column business.id
      *
      * @param id the value for business.id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setId(Long id) {
@@ -170,7 +166,6 @@ public class Business {
      * This method returns the value of the database column business.name
      *
      * @return the value of business.name
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getName() {
@@ -182,7 +177,6 @@ public class Business {
      * This method sets the value of the database column business.name
      *
      * @param name the value for business.name
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setName(String name) {
@@ -194,7 +188,6 @@ public class Business {
      * This method returns the value of the database column business.build_time
      *
      * @return the value of business.build_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Date getBuildTime() {
@@ -206,7 +199,6 @@ public class Business {
      * This method sets the value of the database column business.build_time
      *
      * @param buildTime the value for business.build_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setBuildTime(Date buildTime) {
@@ -218,7 +210,6 @@ public class Business {
      * This method returns the value of the database column business.update_time
      *
      * @return the value of business.update_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Date getUpdateTime() {
@@ -230,7 +221,6 @@ public class Business {
      * This method sets the value of the database column business.update_time
      *
      * @param updateTime the value for business.update_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setUpdateTime(Date updateTime) {
@@ -242,7 +232,6 @@ public class Business {
      * This method returns the value of the database column business.creator_id
      *
      * @return the value of business.creator_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getCreatorId() {
@@ -254,7 +243,6 @@ public class Business {
      * This method sets the value of the database column business.creator_id
      *
      * @param creatorId the value for business.creator_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setCreatorId(Long creatorId) {
@@ -266,7 +254,6 @@ public class Business {
      * This method returns the value of the database column business.priority
      *
      * @return the value of business.priority
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getPriority() {
@@ -278,7 +265,6 @@ public class Business {
      * This method sets the value of the database column business.priority
      *
      * @param priority the value for business.priority
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setPriority(String priority) {
@@ -290,7 +276,6 @@ public class Business {
      * This method returns the value of the database column business.pre_condition
      *
      * @return the value of business.pre_condition
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getPreCondition() {
@@ -302,7 +287,6 @@ public class Business {
      * This method sets the value of the database column business.pre_condition
      *
      * @param preCondition the value for business.pre_condition
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setPreCondition(String preCondition) {
@@ -314,7 +298,6 @@ public class Business {
      * This method returns the value of the database column business.post_condition
      *
      * @return the value of business.post_condition
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getPostCondition() {
@@ -326,7 +309,6 @@ public class Business {
      * This method sets the value of the database column business.post_condition
      *
      * @param postCondition the value for business.post_condition
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setPostCondition(String postCondition) {
@@ -346,7 +328,6 @@ public class Business {
      * This method returns the value of the database column business.use_state
      *
      * @return the value of business.use_state
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getUseState() {
@@ -358,7 +339,6 @@ public class Business {
      * This method sets the value of the database column business.use_state
      *
      * @param useState the value for business.use_state
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setUseState(String useState) {

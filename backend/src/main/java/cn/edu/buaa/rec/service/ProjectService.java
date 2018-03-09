@@ -15,29 +15,30 @@ import java.util.Map;
 
 public interface ProjectService {
 
-    Map<String,Object> newProject(Project project) ;
+    Map<String, Object> newProject(Project project);
 
     /**
      * 查询数据库中是否已经存在该项目名称
      */
     boolean noExist(String name);
 
-    List<Map<String,Object>> allProject();
-    List<Map<String,Object>> otherProject(Long userId);
+    List<Map<String, Object>> allProject();
 
-    Map<String,Object> getProjectInfo(String projectName);
+    List<Map<String, Object>> otherProject(Long userId);
 
-    Map<String,Object> applyRole(Map<String, Object> applyRoleInfo);
+    Map<String, Object> getProjectInfo(String projectName);
 
-    Map<String,Object> applyManager(Map<String, Object> applyManagerInfo);
+    Map<String, Object> applyRole(Map<String, Object> applyRoleInfo);
 
-    List<Map<String,Object>> getScenes(String projectName);
+    Map<String, Object> applyManager(Map<String, Object> applyManagerInfo);
+
+    List<Map<String, Object>> getScenes(String projectName);
 
     List<Role> getRole(Long projectId);
 
     List<Data> getData(Long projectId);
 
-    List<Data> getUserDatas(Long projectId,Long userId);
+    List<Data> getUserDatas(Long projectId, Long userId);
 
     List<Question> getQuestion(Long projectId);
 
