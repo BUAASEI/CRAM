@@ -1,10 +1,9 @@
 package cn.edu.buaa.rec.service.impl;
 
-import cn.edu.buaa.rec.dao.ProjectMapper;
-import cn.edu.buaa.rec.dao.SysUserMapper;
-import cn.edu.buaa.rec.dao.UserProjectMapper;
-import cn.edu.buaa.rec.dao.UserProjectRoleMapper;
+import cn.edu.buaa.rec.dao.*;
 import cn.edu.buaa.rec.model.Project;
+import cn.edu.buaa.rec.model.SysUser;
+import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.UserProjectRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,8 @@ public class UserProjectRoleServiceImpl implements UserProjectRoleService {
     private ProjectMapper projectMapper;
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private RoleMapper roleMapper;
 
 
     @Override
@@ -69,5 +70,26 @@ public class UserProjectRoleServiceImpl implements UserProjectRoleService {
     @Override
     public int updateByApprove(Long id, Integer isapproved) {
         return userProjectRoleMapper.updateApprovedById(id, isapproved);
+    }
+
+    @Override
+    public List<Map<String, Object>> getApply(Long projectId) {
+
+        List<Map<String, Object>> roleApplyInfo = new ArrayList<>();
+        List<UserProjectRole> roleApplyUserInfos = userProjectRoleMapper.selectRoleApplyByProjectId(projectId);
+        for (UserProjectRole userProjectRole : roleApplyUserInfos
+                ) {
+            SysUser applyUser = sysUserMapper.selectById(userProjectRole.getUserId());
+            Map<String, Object> roleApplyEachInfo = new HashMap<>();
+            roleApplyEachInfo.put("applyId", userProjectRole.getId());
+            roleApplyEachInfo.put("roleName", roleMapper.selectById(userProjectRole.getRoleId()).getName());
+            roleApplyEachInfo.put("userName", applyUser.getName());
+            roleApplyEachInfo.put("familiarDomain", applyUser.getFamiliardomain());
+            roleApplyEachInfo.put("projectExp", applyUser.getProjectexp());
+            roleApplyEachInfo.put("explanation", userProjectRole.getExplanation());
+            roleApplyInfo.add(roleApplyEachInfo);
+        }
+
+        return roleApplyInfo;
     }
 }

@@ -6,15 +6,28 @@ import cn.edu.buaa.rec.service.UseCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service("UsecaseService")
 public class UsecaseServiceImpl implements UseCaseService {
     @Autowired
     private UsecaseMapper usecaseMapper;
 
+    @Override
+    public List<Map<String, Object>> getUsecaseForm(List<Long> usecaseIds) {
+        if (usecaseIds==null||usecaseIds.size()==0){
+            return null;
+        }
+        List<Usecase> usecasesList = usecaseMapper.selectByIds(usecaseIds);
+        Map<String,Object> usecaseForm = new HashMap<>();
+        List<Map<String,Object>> r = new LinkedList<>();
+        for (Usecase u:usecasesList){
+            usecaseForm.put("id", u.getId());
+            usecaseForm.put("usecaseName", u.getName());
+            r.add(usecaseForm);
+        }
+        return r;
+    }
 
     @Override
     public Long selectMaxId() {

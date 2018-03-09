@@ -16,6 +16,14 @@ public class UsecaseRoleServiceImpl implements UsecaseRoleService {
     private UsecaseRoleMapper usecaseRoleMapper;
 
     @Override
+    public List<Long> getUsecaseIdsByRoleIds(List<Long> roleIds) {
+        if (roleIds==null||roleIds.size()==0){
+            return null;
+        }
+
+        return usecaseRoleMapper.selectUsecaseIdsByRoleIds(roleIds);
+    }
+    @Override
     public int creatUsecaseRole(List<Long> roleIds, Long usecaseId) {
         if (roleIds == null || roleIds.size() == 0) {
             return -1;

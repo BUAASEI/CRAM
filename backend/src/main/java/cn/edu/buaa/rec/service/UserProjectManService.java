@@ -16,4 +16,6 @@ public interface UserProjectManService {
     List<Map<String, Object>> manProject(Long userId);
 
     int updateByApprove(Long id, Integer isapproved);
+
+    List<Map<String,Object>> getApply(Long projectId);
 }

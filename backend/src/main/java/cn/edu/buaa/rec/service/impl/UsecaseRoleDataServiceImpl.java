@@ -24,10 +24,10 @@ public class UsecaseRoleDataServiceImpl implements UsecaseRoleDataService {
     private UsecaseRoleDataMapper usecaseRoleDataMapper;
     @Autowired
     private UsecaseMapper usecaseMapper;
-    @Autowired
-    private RoleMapper roleMapper;
-    @Autowired
-    private DataMapper dataMapper;
+//    @Autowired
+//    private RoleMapper roleMapper;
+//    @Autowired
+//    private DataMapper dataMapper;
 
     @Override
     public List<UsecaseRoleData> getUsecaseRoleDataByRoleIds(List<Long> rIds) {
@@ -49,16 +49,16 @@ public class UsecaseRoleDataServiceImpl implements UsecaseRoleDataService {
         for (UsecaseRoleData urd : uRDId) {
             Map<String, Object> usecaseForm = new HashMap<>();
             Usecase usecase = usecaseMapper.selectById(urd.getUsecaseId());
-            Role role = roleMapper.selectById(urd.getRoleId());
-            Data data = dataMapper.selectById(urd.getDataId());
+//            Role role = roleMapper.selectById(urd.getRoleId());
+//            Data data = dataMapper.selectById(urd.getDataId());
             usecaseForm.put("id", urd.getId());
             usecaseForm.put("usecaseId", usecase.getId());
             usecaseForm.put("usecaseName", usecase.getName());
             usecaseForm.put("usecaseDes", usecase.getDescription());
-            usecaseForm.put("roleId", role.getId());
-            usecaseForm.put("roleName", role.getName());
-            usecaseForm.put("dataId", data.getId());
-            usecaseForm.put("dataName", data.getName());
+//            usecaseForm.put("roleId", role.getId());
+//            usecaseForm.put("roleName", role.getName());
+//            usecaseForm.put("dataId", data.getId());
+//            usecaseForm.put("dataName", data.getName());
             uRDForms.add(usecaseForm);
         }
         return uRDForms;

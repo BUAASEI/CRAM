@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.UsecaseRole;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface UsecaseRoleMapper {
     int insertRoleIdsandProjectId(@Param("roleIds")List<Long> roleIds,@Param("projectId")Long projectId);
 
     Long  selectMaxId();
+
+    List<Long> selectUsecaseIdsByRoleIds(@Param("roleIds")List<Long> roleIds);
 }

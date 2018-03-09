@@ -4,14 +4,13 @@ import cn.edu.buaa.rec.dao.ProjectMapper;
 import cn.edu.buaa.rec.dao.SysUserMapper;
 import cn.edu.buaa.rec.dao.UserProjectManMapper;
 import cn.edu.buaa.rec.model.Project;
+import cn.edu.buaa.rec.model.SysUser;
+import cn.edu.buaa.rec.model.UserProjectMan;
 import cn.edu.buaa.rec.service.UserProjectManService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description:
@@ -52,9 +51,37 @@ public class UserProjectManServiceImpl implements UserProjectManService {
         return m;
     }
 
-    //    根据审批结果，修改数据库后台isapproved字段
+    /**
+     * 根据审批结果，修改数据库后台isApproved字段r
+     *
+     * @param id
+     * @param isapproved
+     * @return
+     */
     @Override
     public int updateByApprove(Long id, Integer isapproved) {
         return userProjectManMapper.updateApprovedById(id, isapproved);
+    }
+
+    @Override
+    public List<Map<String, Object>> getApply(Long projectId) {
+        List<Map<String, Object>> manApplyInfo = new ArrayList<>();
+//        检索出申请该用户管理的项目的项目管理员的UserProjectMan关系记录
+        List<UserProjectMan> userProjectMans = userProjectManMapper.selectManApplyByProjectId(projectId);
+        for (UserProjectMan userProjectMan : userProjectMans
+                ) {
+//            拿到申请用户的个人信息：名字、擅长领域和项目经验
+            SysUser applyUser = sysUserMapper.selectById(userProjectMan.getUserId());
+            Map<String, Object> manApplyEachInfo = new HashMap<>();
+            manApplyEachInfo.put("applyId", userProjectMan.getId());
+            manApplyEachInfo.put("roleName", "项目管理员");
+            manApplyEachInfo.put("userName", applyUser.getName());
+            manApplyEachInfo.put("familiarDomain", applyUser.getFamiliardomain());
+            manApplyEachInfo.put("projectExp", applyUser.getProjectexp());
+            manApplyEachInfo.put("planation", userProjectMan.getExplanation());
+
+            manApplyInfo.add(manApplyEachInfo);
+        }
+        return manApplyInfo;
     }
 }

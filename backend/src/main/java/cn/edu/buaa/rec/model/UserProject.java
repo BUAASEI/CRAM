@@ -10,6 +10,35 @@ public class UserProject {
 
     private Integer isapproved;
 
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
+    @Override
+    public String toString() {
+        return "UserProject{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", projectId=" + projectId +
+                ", isapproved=" + isapproved +
+                ", explanation='" + explanation + '\'' +
+                '}';
+    }
+
+    public UserProject(Long id, Long userId, Long projectId, Integer isapproved, String explanation) {
+        this.id = id;
+        this.userId = userId;
+        this.projectId = projectId;
+        this.isapproved = isapproved;
+        this.explanation = explanation;
+    }
+
+    private String explanation;
+
     public UserProject() {
     }
 
