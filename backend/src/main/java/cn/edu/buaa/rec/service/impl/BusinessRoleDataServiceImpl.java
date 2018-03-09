@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("BusinessRoleDataService")
-public class BusinessRoleDataServiceImpl implements BusinessRoleDataService{
+public class BusinessRoleDataServiceImpl implements BusinessRoleDataService {
 
     @Autowired
     private BusinessRoleDataMapper businessRoleDataMapper;
@@ -31,7 +31,7 @@ public class BusinessRoleDataServiceImpl implements BusinessRoleDataService{
 
     @Override
     public List<BusinessRoleData> getBusinessRoleDataByRoleIds(List<Long> rIds) {
-        if (rIds==null && rIds.size()==0){
+        if (rIds == null && rIds.size() == 0) {
             return null;
         }
 
@@ -48,19 +48,19 @@ public class BusinessRoleDataServiceImpl implements BusinessRoleDataService{
 
     @Override
     public List<Map<String, Object>> getBusinessForm(List<BusinessRoleData> bRDId) {
-        if (bRDId == null ||bRDId.size()==0){
+        if (bRDId == null || bRDId.size() == 0) {
             return null;
         }
 
-        List<Map<String, Object>> bRDForms =new LinkedList<>();
-        for (BusinessRoleData brd : bRDId){
-            Map<String,Object> businessForm = new HashMap<>();
+        List<Map<String, Object>> bRDForms = new LinkedList<>();
+        for (BusinessRoleData brd : bRDId) {
+            Map<String, Object> businessForm = new HashMap<>();
             Business business = businessMapper.selectBusiness(brd.getBusinessId());
             Role role = rolemapper.selectById(brd.getRoleId());
             Data data = dataMapper.selectById(brd.getDataId());
-            businessForm.put("id",brd.getId());
-            businessForm.put("businessName",business.getName());
-            businessForm.put("businessDes",business.getDescription());
+            businessForm.put("id", brd.getId());
+            businessForm.put("businessName", business.getName());
+            businessForm.put("businessDes", business.getDescription());
             businessForm.put("roleId", role.getId());
             businessForm.put("roleName", role.getName());
             businessForm.put("dataId", data.getId());

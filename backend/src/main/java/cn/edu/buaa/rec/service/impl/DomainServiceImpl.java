@@ -34,7 +34,7 @@ public class DomainServiceImpl implements DomainService {
             Long domainIdMax = domainMapper.selectMaxId();
             domain.setId((domainIdMax == null) ? 1 : domainIdMax + 1);
 
-            System.out.println("domainIdMax"+domainIdMax+",domainid:"+domain.getId());
+            System.out.println("domainIdMax" + domainIdMax + ",domainid:" + domain.getId());
             if (domainMapper.insert(domain) != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {
@@ -64,7 +64,7 @@ public class DomainServiceImpl implements DomainService {
 
     @Override
     public String getNameById(Long domainId) {
-        if (domainId == null||domainId==0) {
+        if (domainId == null || domainId == 0) {
             return null;
         }
 

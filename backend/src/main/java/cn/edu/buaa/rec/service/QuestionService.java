@@ -13,5 +13,5 @@ import java.util.Map;
  */
 
 public interface QuestionService {
-    Map<String,Object> newQuestion(Question question);
+    Map<String, Object> newQuestion(Question question);
 }

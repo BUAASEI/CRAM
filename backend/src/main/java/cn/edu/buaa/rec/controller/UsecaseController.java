@@ -2,7 +2,6 @@ package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.Usecase;
 import cn.edu.buaa.rec.service.*;
-
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,12 @@ public class UsecaseController {
     @Qualifier("DataService")
     private DataService dataService;
 
-    //获取用例信息初始化用例修改界面
+    /**
+     * 预加载某用例实例的全部信息
+     *
+     * @param info：usecased
+     * @return
+     */
     @RequestMapping(value = "/getusecase", method = RequestMethod.POST)
     @ResponseBody
     public Usecase getUsecase(@Valid @RequestBody Map<String, Object> info) {
@@ -85,60 +89,74 @@ public class UsecaseController {
 //        return m ;
 //
 //    }
-    //修改用例信息,
-    @RequestMapping(value="/updateusecase",method=RequestMethod.POST)
+
+    /**
+     * 存储修改后的用例信息
+     *
+     * @param info
+     * @return
+     */
+    @RequestMapping(value = "/updateusecase", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> updateUsecase(@Valid @RequestBody Map<String, Object> info){
+    public Map<String, Object> updateUsecase(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long usecaseId = jsonObject.getLong("id");
-        Usecase usecase = new Usecase(usecaseId,jsonObject.getString("rucmSpec"));
-        System.out.println("usecase:"+usecase);
-        Map<String,Object> m = usecaseService.updateUsecase(usecase);
+        Usecase usecase = new Usecase(usecaseId, jsonObject.getString("rucmSpec"));
+        System.out.println("usecase:" + usecase);
+        Map<String, Object> m = usecaseService.updateUsecase(usecase);
 
-        System.out.println("m:" +m.toString());
-        return m ;
+        System.out.println("m:" + m.toString());
+        return m;
 
     }
-    //新建用例信息,
-    @RequestMapping(value="/new",method=RequestMethod.POST)
+
+    /**
+     * 存储新建的用例信息
+     *
+     * @param info
+     * @return
+     */
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> newUsecase(@Valid @RequestBody Map<String, Object> info){
+    public Map<String, Object> newUsecase(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         String actor = jsonObject.getString("actor");
         Long projectId = jsonObject.getLong("projectId");
 
-        System.out.println("info"+info.toString());
+        System.out.println("info" + info.toString());
         List<String> roleNames = Arrays.asList(actor.split(","));
-        System.out.println("roleName"+roleNames.toString());
-        List<Long>  roleIds= roleService.getIdsByName(roleNames,projectId);
+        System.out.println("roleName" + roleNames.toString());
+        List<Long> roleIds = roleService.getIdsByName(roleNames, projectId);
 
-        System.out.println("roIds"+roleIds.toString());
+        System.out.println("roIds" + roleIds.toString());
         String dictionary = jsonObject.getString("dictionary");
         List<String> dataNames = Arrays.asList(dictionary.split(","));
-        List<Long> dataIds = dataService.getIdsByName(dataNames,projectId);
+        List<Long> dataIds = dataService.getIdsByName(dataNames, projectId);
 
-        System.out.println("dataIds"+dataIds.toString());
-        Usecase usecase = new Usecase(jsonObject.getString("name"),jsonObject.getString("description"),jsonObject.getLong("projectId"),jsonObject.getLong("creatortId"),jsonObject.getString("brif"));
-        System.out.println("usecase:"+usecase);
+        System.out.println("dataIds" + dataIds.toString());
+        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatortId"), jsonObject.getString("brif"));
+        System.out.println("usecase:" + usecase);
 
         Long usecaseIdMax = usecaseService.selectMaxId();
         Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
         usecase.setId(id);
-        Map<String,Object> m = usecaseService.newUsecase(usecase);
+        Map<String, Object> m = usecaseService.newUsecase(usecase);
 
-        System.out.println("useId:"+usecase.getId());
-        usecaseRoleService.creatUsecaseRole(roleIds,usecase.getId());
-        usecaseDataService.creatUsecaseData(dataIds,usecase.getId());
+        System.out.println("useId:" + usecase.getId());
+        usecaseRoleService.creatUsecaseRole(roleIds, usecase.getId());
+        usecaseDataService.creatUsecaseData(dataIds, usecase.getId());
 
-        System.out.println("m:" +m.toString());
-        return m ;
+        System.out.println("m:" + m.toString());
+        return m;
 
     }
 
-
-
-
-    //检测缺陷
+    /**
+     * 检测当前用例存在的缺陷
+     *
+     * @param rucmModel
+     * @return
+     */
     @RequestMapping(value = "/detect", method = RequestMethod.POST)
     @ResponseBody
     public String showCheckResult(@Valid @RequestBody String rucmModel) {

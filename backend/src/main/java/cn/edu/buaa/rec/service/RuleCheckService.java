@@ -1,6 +1,5 @@
 package cn.edu.buaa.rec.service;
 
-import cn.edu.buaa.rec.model.Flow;
 import cn.edu.buaa.rec.model.RucmModel;
 
 import java.util.Map;
@@ -9,9 +8,12 @@ import java.util.Map;
  * Created by menghan on 2018/2/27.
  */
 public interface RuleCheckService {
-    public Map<String,Object> rule1Check(RucmModel content);
-    public Map<String,Object> rule3Check(RucmModel content);
-    public Map<String,Object> rule6Check(String content);
-    public Map<String,Object> rule7Check(RucmModel content);
+    public Map<String, Object> rule1Check(RucmModel content);
+
+    public Map<String, Object> rule3Check(RucmModel content);
+
+    public Map<String, Object> rule6Check(String content);
+
+    public Map<String, Object> rule7Check(RucmModel content);
 
 }

@@ -13,5 +13,5 @@ import java.util.Map;
  */
 
 public interface UserProjectService {
-    Map<String,Object> applyProject(UserProject userProject);
+    Map<String, Object> applyProject(UserProject userProject);
 }

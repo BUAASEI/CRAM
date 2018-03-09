@@ -23,7 +23,7 @@ public class UsecaseServiceImpl implements UseCaseService {
 
     @Override
     public Usecase getUsecaseById(Long uId) {
-        if (uId == null){
+        if (uId == null) {
             return null;
         }
         Usecase u = usecaseMapper.selectById(uId);
@@ -32,13 +32,13 @@ public class UsecaseServiceImpl implements UseCaseService {
 
     @Override
     public Map<String, Object> updateUsecase(Usecase usecase) {
-        if(usecase==null){
+        if (usecase == null) {
             return null;
         }
         usecase.setUpdateTime(new Date());
-        Map<String,Object> m = new HashMap<>();
+        Map<String, Object> m = new HashMap<>();
         int r = usecaseMapper.updateById(usecase);
-        System.out.println("r--:"+r);
+        System.out.println("r--:" + r);
         if (r != 1) {
             m.put("Msg", "请检查输入数据格式");
         } else {
@@ -57,12 +57,12 @@ public class UsecaseServiceImpl implements UseCaseService {
         }
         String name = usecase.getName();
         Long projectid = usecase.getProjectId();
-        int  count = usecaseMapper.checkByNameAndProjectId(name,projectid);
-        Map<String,Object> m = new HashMap<>();
-        if (count>0){
+        int count = usecaseMapper.checkByNameAndProjectId(name, projectid);
+        Map<String, Object> m = new HashMap<>();
+        if (count > 0) {
             m.put("Msg", "该项目用例已经存在！");
-        }else{
-            if(usecase.getId()==null){
+        } else {
+            if (usecase.getId() == null) {
                 Long usecaseIdMax = usecaseMapper.selectMaxId();
                 Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
                 usecase.setId(id);

@@ -52,7 +52,7 @@ public class UserProjectManServiceImpl implements UserProjectManService {
         return m;
     }
 
-//    根据审批结果，修改数据库后台isapproved字段
+    //    根据审批结果，修改数据库后台isapproved字段
     @Override
     public int updateByApprove(Long id, Integer isapproved) {
         return userProjectManMapper.updateApprovedById(id, isapproved);

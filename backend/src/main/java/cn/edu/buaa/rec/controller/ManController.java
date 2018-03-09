@@ -1,7 +1,5 @@
 package cn.edu.buaa.rec.controller;
 
-import cn.edu.buaa.rec.model.UserProjectMan;
-import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.SysUserService;
 import cn.edu.buaa.rec.service.UserProjectManService;
 import cn.edu.buaa.rec.service.UserProjectRoleService;
@@ -46,7 +44,7 @@ public class ManController {
     /**
      * 管理中心，这部分的接口为预加载，返回管理的projectId
      * 查看所管理的项目的项目管理员、角色申请和加入项目申请
-    */
+     */
     @RequestMapping(value = "/manproinfo", method = RequestMethod.POST)
     @ResponseBody
     public Map<Long, String> getManProjectInfo(@Valid @RequestBody Map<String, Object> userIdInfo) {
@@ -56,7 +54,12 @@ public class ManController {
         return sysUserService.getManProjectId(userId);
     }
 
-    //    加载每个项目中的申请：管理员、角色
+    /**
+     * 加载每个项目中的申请：管理员、角色
+     *
+     * @param projectIdInfo
+     * @return
+     */
     @RequestMapping(value = "/mail/applyinfo", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, List<Map<String, Object>>> getApplication(@Valid @RequestBody Map<String, Object> projectIdInfo) {
@@ -66,7 +69,13 @@ public class ManController {
         return sysUserService.getApply(projectId);
     }
 
-    //    根据管理员和角色的审批结果，修改数据库相应记录
+    /**
+     * 存储管理员和角色的审批结果
+     * 如果前端传过来的是不带L的，默认转化成Integer
+     *
+     * @param approveInfo：o是申请中，1是同意，2是拒绝
+     * @return
+     */
     @RequestMapping(value = "/mail/approve")
     @ResponseBody
     public Map<String, Object> updateApproveResult(@Valid @RequestBody Map<String, Object> approveInfo) {
@@ -79,10 +88,6 @@ public class ManController {
         int manUpdateResult = 0;
         for (Map<String, Object> manApprovedResult : manApprovedResults
                 ) {
-            //  o是申请中，1是同意，2是拒绝
-
-            //  如果前端传过来的是不带L的，默认转化成Integer
-            //  一定要注意这个问题
             Long applyId = Long.parseLong(manApprovedResult.get("applyId").toString());
             Integer isApproved = Integer.parseInt(manApprovedResult.get("isApproved").toString());
             manUpdateResult = userProjectManService.updateByApprove(applyId, isApproved);
@@ -92,7 +97,6 @@ public class ManController {
         int roleUpdateResult = 0;
         for (Map<String, Object> roleApprovedResult : roleApprovedResults
                 ) {
-            //        o是申请中，1是同意，2是拒绝
             Long applyId = Long.parseLong(roleApprovedResult.get("applyId").toString());
             Integer isApproved = Integer.parseInt(roleApprovedResult.get("isApproved").toString());
             roleUpdateResult = userProjectRoleService.updateByApprove(applyId, isApproved);

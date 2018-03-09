@@ -4,14 +4,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
- * Created by menghan on 2018/2/27.
+ * Created by 苏若 on 2018/2/27.
  */
-public class AlternativeFlow extends Flow{
+public class AlternativeFlow extends Flow {
     private String rfs;
     private String guardCondition;
     private String name;
@@ -43,18 +40,17 @@ public class AlternativeFlow extends Flow{
         this.guardCondition = guardCondition;
     }
 
-    public AlternativeFlow(JSONObject flow,String name){
+    public AlternativeFlow(JSONObject flow, String name) {
         this.name = name;
         this.steps = new ArrayList<>();
         JSONArray rucmSteps = flow.getJSONArray("data");
-        for(int i =0 ; i<rucmSteps.size();i++){
-            steps.add((String)rucmSteps.get(i));
+        for (int i = 0; i < rucmSteps.size(); i++) {
+            steps.add((String) rucmSteps.get(i));
         }
-        if(name.equals("SpecificAlternativeFlow")||name.equals("BoundedAlternativeFlow")){
-            this.setRfs((String)flow.get("RFS"));
-        }
-        else if(name.equals("GlobalAlternativeFlow"))
-            this.setGuardCondition((String)flow.get("GuardCondition"));
+        if (name.equals("SpecificAlternativeFlow") || name.equals("BoundedAlternativeFlow")) {
+            this.setRfs((String) flow.get("RFS"));
+        } else if (name.equals("GlobalAlternativeFlow"))
+            this.setGuardCondition((String) flow.get("GuardCondition"));
     }
 
 }

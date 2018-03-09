@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service("BusinessRoleService")
-public class BusinessRoleServiceImpl implements BusinessRoleService{
+public class BusinessRoleServiceImpl implements BusinessRoleService {
 
     @Autowired
     private BusinessRoleMapper businessRoleMapper;
 
     @Override
     public List<Long> getBusinessId(List<Long> roleIds) {
-        if(roleIds == null){
+        if (roleIds == null) {
             return null;
         }
 

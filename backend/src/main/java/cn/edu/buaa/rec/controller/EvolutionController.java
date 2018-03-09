@@ -20,21 +20,18 @@ public class EvolutionController {
     @Qualifier("EvolutionService")
     private EvolutionService evolutionService;
 
-    @Autowired
-    public EvolutionService getEvolutionService() {
-        return evolutionService;
-    }
-
-    @Autowired
-    public void setEvolutionService(EvolutionService evolutionService) {
-        this.evolutionService = evolutionService;
-    }
-
     @RequestMapping("/")
     @ResponseBody
-    public boolean newQuestion() { return true;}
+    public boolean newQuestion() {
+        return true;
+    }
 
-//    演化场景
+    /**
+     * 演化场景
+     *
+     * @param questionId
+     * @return
+     */
     @RequestMapping(value = "/sceneevo", method = {RequestMethod.GET})
     @ResponseBody
     public String evolutScene(@RequestParam("id") long questionId) {
@@ -42,7 +39,12 @@ public class EvolutionController {
         return "true";
     }
 
-//    查看演化历史
+    /**
+     * 查看场景历史
+     *
+     * @param questionId
+     * @return
+     */
     @RequestMapping(value = "/scenehis", method = {RequestMethod.GET})
     @ResponseBody
     public String getSceneEvolutionHistory(@RequestParam("id") long questionId) {

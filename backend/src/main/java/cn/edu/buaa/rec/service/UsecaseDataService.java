@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface UsecaseDataService {
 
-     int creatUsecaseData(List<Long>dataIds,Long projectId);
+    int creatUsecaseData(List<Long> dataIds, Long projectId);
 }

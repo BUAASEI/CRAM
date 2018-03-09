@@ -29,7 +29,7 @@ public class UserProjectServiceImpl implements UserProjectService {
         Map<String, Object> result = new HashMap<>();
 
         Long maxId = userProjectMapper.selectMaxId();
-        userProject.setId((maxId == null) ? 1 + (maxId+1));
+        userProject.setId((maxId == null) ? 1 : (maxId+1));
 
         int sqlResult = userProjectMapper.insert(userProject);
 

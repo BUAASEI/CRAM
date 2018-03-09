@@ -1,7 +1,10 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.*;
-import cn.edu.buaa.rec.model.*;
+import cn.edu.buaa.rec.model.Project;
+import cn.edu.buaa.rec.model.SysUser;
+import cn.edu.buaa.rec.model.UserProjectMan;
+import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.SysUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +44,9 @@ public class SysUserServiceImpl implements SysUserService {
     private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
     /**
-     *  新建系统用户
+     * 新建系统用户
      */
-        @Override
+    @Override
     public Map<String, Object> newSysUser(SysUser sysUser) {
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
@@ -163,11 +166,11 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public String getNameById(Long creatorId) {
-       if (creatorId==null||creatorId==0){
-           return null;
-       }
-       String name = sysUserMapper.selectNameById(creatorId);
-       return name;
+        if (creatorId == null || creatorId == 0) {
+            return null;
+        }
+        String name = sysUserMapper.selectNameById(creatorId);
+        return name;
     }
 
 }
