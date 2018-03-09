@@ -260,7 +260,8 @@
         this.$refs.flow.forEach(item => {
           item.sends()
         })
-        // var rucmSpec = JSON.stringify(rucm);
+        this.show = false;
+        this.showOne = false;
 
       },
       tableData (data) {

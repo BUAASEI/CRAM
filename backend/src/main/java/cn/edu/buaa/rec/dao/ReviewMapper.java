@@ -18,4 +18,6 @@ public interface ReviewMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(Review record);
+
+    Long selectMaxId();
 }

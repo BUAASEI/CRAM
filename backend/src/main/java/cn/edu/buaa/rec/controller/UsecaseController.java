@@ -5,6 +5,7 @@ import cn.edu.buaa.rec.service.*;
 
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
 import com.alibaba.fastjson.JSONObject;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -107,6 +108,7 @@ public class UsecaseController {
         String actor = jsonObject.getString("actor");
         Long projectId = jsonObject.getLong("projectId");
 
+
         System.out.println("info"+info.toString());
         List<String> roleNames = Arrays.asList(actor.split(","));
         System.out.println("roleName"+roleNames.toString());
@@ -115,6 +117,7 @@ public class UsecaseController {
         System.out.println("roIds"+roleIds.toString());
         String dictionary = jsonObject.getString("dictionary");
         List<String> dataNames = Arrays.asList(dictionary.split(","));
+        System.out.println("dataNames:"+dataNames.toString());
         List<Long> dataIds = dataService.getIdsByName(dataNames,projectId);
 
         System.out.println("dataIds"+dataIds.toString());

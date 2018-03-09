@@ -2,6 +2,7 @@ package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.DataMapper;
 import cn.edu.buaa.rec.model.Data;
+import cn.edu.buaa.rec.model.SysUser;
 import cn.edu.buaa.rec.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ public class DataServiceImpl implements DataService{
             return null;
         }
 
+        System.out.println("projectId:"+projectId);
         List<Long> dataIds = dataMapper.selectIdsByName(dataNames,projectId);
         return dataIds;
 

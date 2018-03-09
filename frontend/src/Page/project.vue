@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用例</Button></div>
+          <div class="detail-btn"><Button @click="createUseCase" type="primary">新增用例</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">用例名称</div>
@@ -56,7 +56,10 @@
       </div>
     </div>
     <div  v-if="show" class="box">
-      <div class="subWindow" v-if="showThree">
+      <div class="subWindow" v-if="showOne">
+        <CreateUC @newData="newData" @closeNew="closeNew"></CreateUC>
+      </div>
+      <div class="subWindow" v-if="showTwo">
         <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
       </div>
     </div>
@@ -132,74 +135,110 @@
     color: dodgerblue;
     cursor: pointer;
   }
-
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 1000px;
+    height: 700px;
+    background-color: rgba(0,0,0,0.6);
+  }
 </style>
 <script>
-import TopProject from '@/components/TopProject'
-import NavProject from '@/components/NavProject'
-import {Button} from 'iview'
- import InfoBoxEvolution from '@/components/InfoBoxEvolution'
+  import TopProject from '@/components/TopProject'
+  import NavProject from '@/components/NavProject'
+  import {Button} from 'iview'
+  import InfoBoxEvolution from '@/components/InfoBoxEvolution'
+  import CreateUC from '@/components/createUC'
 
-export default{
-  data () {
-    return {
-      projectId:'1',
-      BusinessData:[1],
-      UsageData:[1],
-      show: false,
-      showThree: false
-    }
-  },
-  components: {
-    TopProject,
-    NavProject,
-    Button,
-    InfoBoxEvolution
-  },
-  mounted() {
+  export default{
+    data () {
+      return {
+        projectId:'1',
+        BusinessData:[1],
+        UsageData:[1],
+        show: false,
+        showOne: false,
+        showTwo: false
+      }
+    },
+    components: {
+      TopProject,
+      NavProject,
+      Button,
+      InfoBoxEvolution,
+      CreateUC
+    },
+    mounted() {
 
-    // this.projectId = this.$route.params.projectId;
-    // var userId = localStorage.getItem("id");
-    // this.reqInfo(projectId,userId);
-    this.reqInfo(1,3);
-    // this.close()
-  },
-  methods: {
-    editScenario: function (id) {
-      // do something
-      // 路由跳转
-      this.$router.push({ name: 'business', params: {type: 'edit'} })
+      // this.projectId = this.$route.params.projectId;
+      // var userId = localStorage.getItem("id");
+      // this.reqInfo(projectId,userId);
+      this.reqInfo(1,3);
+      // this.close()
     },
-    editUsecase: function (id) {
-      // do something
-      // 路由跳转
-      this.$router.push({ name: 'usecase', params: {type: 'edit',id: id} })
-    },
-    reqInfo: function (projectId,userId) {
-      let info={
-          ProjectId:projectId,
-          UserId:userId
-      };
-      this.$http.post('project/home',info)
-       .then((response) => {
-         this. BusinessData = response.data.businessForms;
-         // alert(this. BusinessData);
-         this.UsageData =response.data.usecaseForms;
-         })
+    methods: {
+      editScenario: function (id) {
+        // do something
+        // 路由跳转
+        this.$router.push({name: 'business', params: {type: 'edit'}})
       },
-    showIboxs (idx) {
-      console.log(1)
+      editUsecase: function (id) {
+        // do something
+        // 路由跳转
+        this.$router.push({name: 'usecase', params: {type: 'edit', id: id}})
+      },
+      reqInfo: function (projectId, userId) {
+        let info = {
+          ProjectId: projectId,
+          UserId: userId
+        };
+        this.$http.post('project/home', info)
+          .then((response) => {
+            this.BusinessData = response.data.businessForms;
+            // alert(this. BusinessData);
+            this.UsageData = response.data.usecaseForms;
+          })
+      },
+      createUseCase: function () {
+        console.log(1)
+        this.show = true
+        this.showOne = true
+      },
+      newData: function (datas) {
+        let obj = {
+          name: datas.data[0],
+          description: datas.description,
+          actor: datas.data[2],
+          dictionary: datas.data[3],
+          creatorId: localStorage.getItem("id"),
+          projectId: this.projectId,
+          brief: datas
+        }
+        console.log(9,obj)
+        this.$http.post('usecase/new', obj)
+          .then((response) => {
+            confirm(response.data.Msg);
+            this.show = false
+            this.showOne = false
+          })
+      },
+      showIboxs(idx) {
         this.show = true
         if (idx === 1) {
-          this.showThree = true
+          this.showTwo = true
         }
-    },
-    close (idx) {
+      },
+      close(idx) {
         this.show = false
         if (idx === 1) {
           this.showThree = false
         }
+      },
+      closeNew() {
+        this.show = false
+        this.showOne = false
       }
+    }
   }
-}
 </script>
