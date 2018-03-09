@@ -47,11 +47,6 @@
         WHERE project_id=#{projectId} AND isApproved=0
     </select>
 
-    <update id="updateApproved" parameterType="Long">
-        UPDATE user_project_role
-        SET isApproved=1
-        WHERE id=#{id}
-    </update>
     <!--int updateIsApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);-->
     <update id="updateApprovedById">
         UPDATE user_project_role

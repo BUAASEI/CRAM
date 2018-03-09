@@ -18,8 +18,6 @@ public interface UserProjectRoleMapper {
 
     List<Long> selectProjectByUserIdWithNoApproved(@Param("userId") Long userId);
 
-    int updateApproved(@Param("id") Long id);
-
 //    根据项目Id，检索申请角色的记录对应的UserId
     List<UserProjectRole> selectRoleApplyByProjectId(@Param("projectId") Long projectId);
 

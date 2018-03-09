@@ -45,9 +45,9 @@ public class ProjectController {
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataService usecaseRoleDataService;
 
-    @Autowired
-    @Qualifier("MailService")
-    private MailService mailService;
+//    @Autowired
+//    @Qualifier("MailService")
+//    private MailService mailService;
 
     @Autowired
     @Qualifier("UserProjectService")

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopSysUser name="buaa" @showIbox="showIbox"></TopSysUser>
+    <TopSysUser name="suruo" @showIbox="showIbox"></TopSysUser>
     <div class="context">
       <div class="context-nav">
         <NavSysUser target="st"></NavSysUser>

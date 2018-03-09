@@ -34,4 +34,18 @@
     WHERE user_id = #{userId} AND project_id = #{projectId}
   </select>
 
+  <!--List<UserProject> selectProApplyByProjectId(Long projectId);-->
+  <select id="selectProApplyByProjectId" resultMap="BaseResultMap" parameterType="Long">
+    SELECT *
+    FROM user_project
+    WHERE project_id=#{projectId} AND isApproved=0
+  </select>
+
+  <!--int updateIsApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);-->
+  <update id="updateApprovedById">
+    UPDATE user_project
+    SET isApproved=#{isapproved}
+    WHERE id=#{id}
+  </update>
+
 </mapper>

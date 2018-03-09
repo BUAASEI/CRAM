@@ -52,11 +52,4 @@
         SET isApproved=#{isapproved}
         WHERE id=#{id}
     </update>
-    <update id="updateApproved" parameterType="Long">
-        UPDATE user_project_man
-        SET isApproved=1
-        WHERE id=#{id}
-    </update>
-
-
 </mapper>

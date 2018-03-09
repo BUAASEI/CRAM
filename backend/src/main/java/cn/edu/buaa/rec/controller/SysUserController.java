@@ -45,9 +45,9 @@ public class SysUserController {
     @Autowired
     @Qualifier("UserProjectRoleService")
     private UserProjectRoleService userProjectRoleService;
-    @Autowired
-    @Qualifier("MailService")
-    private MailService mailService;
+//    @Autowired
+//    @Qualifier("MailService")
+//    private MailService mailService;
 
     /**
      * 跳转到个人中心界面，本接口只返回用户的名称默认显示其 参与 的项目

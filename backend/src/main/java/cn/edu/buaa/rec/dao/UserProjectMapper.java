@@ -14,4 +14,8 @@ public interface UserProjectMapper {
     Long selectExistOrNot(@Param("projectId")Long projectId, @Param("userId") Long userId);
 
     Long selectMaxId();
+
+    List<UserProject> selectProApplyByProjectId(Long projectId);
+
+    int updateApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);
 }
