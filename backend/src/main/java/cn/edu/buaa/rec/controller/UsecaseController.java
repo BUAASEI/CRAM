@@ -223,6 +223,7 @@ public class UsecaseController {
     @RequestMapping(value = "/detect", method = RequestMethod.POST)
     @ResponseBody
     public String showCheckResult(@Valid @RequestBody String rucmModel) {
+        System.out.println("rucmModel:\n" + rucmModel);
         String result = ruleCheckService.ruleCheckResult(rucmModel);
         return result;
     }

@@ -13,4 +13,6 @@ public interface DataService {
 
     List<Map<String,Object>> getNameAndIdByprojectId(Long projectId);
 
+    List<List<Map<String, Object>>> listData(long projectId, long userId);
+
 }

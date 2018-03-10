@@ -52,4 +52,9 @@
         SET isApproved=#{isapproved}
         WHERE id=#{id}
     </update>
+    <select id="selectMaxId" resultType="Long">
+        SELECT max(id)
+        FROM user_project_man
+    </select>
+
 </mapper>

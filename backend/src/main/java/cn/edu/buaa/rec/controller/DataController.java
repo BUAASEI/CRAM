@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -43,5 +44,14 @@ public class DataController {
         Data data = new Data(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("creatorId"), jsonObject.getLong("projectId"));
 
         return dataService.newData(data);
+    }
+
+
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public List<List<Map<String, Object>>> listData(@Valid @RequestBody Map<String, Object> info) {
+
+        return  null;
+
     }
 }

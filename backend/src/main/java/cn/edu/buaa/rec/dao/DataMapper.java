@@ -4,6 +4,7 @@ import cn.edu.buaa.rec.model.Data;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface DataMapper {
 
@@ -20,4 +21,5 @@ public interface DataMapper {
     Long selectMaxId();
 
     List<Long> selectIdsByName(@Param("dataNames")List<String> dataNames,@Param("projectId")Long projectId);
+
 }

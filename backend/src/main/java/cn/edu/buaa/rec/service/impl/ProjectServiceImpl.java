@@ -41,6 +41,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private UserProjectMapper userProjectMapper;
 
+    @Autowired
+    private UserProjectManMapper userProjectManMapper;
+
     @Override
     public Project getProjectById(Long projectId) {
         if (projectId == null || projectId == 0) {
@@ -70,6 +73,13 @@ public class ProjectServiceImpl implements ProjectService {
             userProjectMapper.insert(userProject);
 
             if (projectMapper.insert(project) != 1) {
+                UserProjectMan userProjectMan = new UserProjectMan();
+                userProjectMan.setId(userProjectManMapper.selectMaxId());
+                userProjectMan.setIsapproved(1);
+                userProjectMan.setProjectId(project.getId());
+                userProjectMan.setUserId(project.getCreatorId());
+                userProjectMan.setIsMan(1);
+                userProjectManMapper.insert(userProjectMan);
                 m.put("Msg", "请检查输入数据格式");
             } else {
                 m.put("Msg", "创建项目成功");
