@@ -12,7 +12,7 @@
     </resultMap>
     <insert id="insert" parameterType="cn.edu.buaa.rec.model.UserProjectRole">
     insert into user_project_role (id, user_id, project_id, 
-      role_id, is_creator, isApproved
+      role_id, is_creator, isApproved,explanation
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, 
       #{roleId,jdbcType=BIGINT}, #{isCreator,jdbcType=INTEGER}, #{isapproved,jdbcType=INTEGER}, #{explanation,jdbcType=LONGVARCHAR})
@@ -53,5 +53,12 @@
         SET isApproved=#{isapproved}
         WHERE id=#{id}
     </update>
+
+    <!-- 查找现有记录的最大id -->
+    <!-- max后面不能有空格 -->
+    <select id="selectMaxId" resultType="Long">
+        SELECT max(id)
+        FROM user_project_role
+    </select>
 
 </mapper>

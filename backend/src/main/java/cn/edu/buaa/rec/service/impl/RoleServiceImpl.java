@@ -44,6 +44,8 @@ public class RoleServiceImpl implements RoleService {
                 m.put("Msg", "请检查数据格式！");
             }
             UserProjectRole userProjectRole = new UserProjectRole();
+            Long idMax = userProjectRoleMapper.selectMaxId();
+            userProjectRole.setId((idMax == null) ? 1 : idMax + 1);
             userProjectRole.setUserId(role.getCreatorId());
             userProjectRole.setProjectId(role.getProjectId());
             userProjectRole.setRoleId(role.getId());
