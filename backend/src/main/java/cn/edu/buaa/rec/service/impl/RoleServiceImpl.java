@@ -1,7 +1,9 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.RoleMapper;
+import cn.edu.buaa.rec.dao.UserProjectRoleMapper;
 import cn.edu.buaa.rec.model.Role;
+import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ import java.util.Map;
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private UserProjectRoleMapper userProjectRoleMapper;
 
     @Override
     public Map<String, Object> newRole(Role role) {
@@ -38,7 +43,11 @@ public class RoleServiceImpl implements RoleService {
             } else {
                 m.put("Msg", "请检查数据格式！");
             }
-
+            UserProjectRole userProjectRole = new UserProjectRole();
+            userProjectRole.setUserId(role.getCreatorId());
+            userProjectRole.setProjectId(role.getProjectId());
+            userProjectRole.setRoleId(role.getId());
+            userProjectRoleMapper.insert(userProjectRole);
         }
         return m;
     }

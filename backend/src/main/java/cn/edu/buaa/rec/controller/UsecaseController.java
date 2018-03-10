@@ -150,15 +150,10 @@ public class UsecaseController {
             dataIds.add(dId);
         }
 
-        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatortId"), jsonObject.getString("rucmSpec"));
+        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatorId"), jsonObject.getString("rucmSpec"));
         System.out.println("usecase:" + usecase);
 
         String useState = jsonObject.getString("useState");
-        if (useState == null){
-            useState = "1";
-        }else{
-            useState = "0";
-        }
         usecase.setUsestate(useState);
 
         Long usecaseIdMax = usecaseService.selectMaxId();
@@ -169,6 +164,7 @@ public class UsecaseController {
         System.out.println("useId:" + usecase.getId());
         usecaseRoleService.creatUsecaseRole(roleIds, usecase.getId());
         usecaseDataService.creatUsecaseData(dataIds, usecase.getId());
+
 
         System.out.println("m:" + m.toString());
         return m;
@@ -258,7 +254,7 @@ public class UsecaseController {
             dataIds.add(dId);
         }
 
-        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatortId"), jsonObject.getString("rucmSpec"));
+        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatorId"), jsonObject.getString("rucmSpec"));
         System.out.println("usecase:" + usecase);
 
         usecase.setUsestate("0");

@@ -132,12 +132,12 @@
       saveData: function () {
         let datas = {
           name: this.name,
+          projectId:this.pId,
           description: this.description,
           primaryActorId: this.actor,
           secondaryActorIds: this.primaryActor,
           dictionary: this.dictionary,
           creatorId: localStorage.getItem("id"),
-          projectId: this.projectId,
           rucmSpec: [this.name, this.description, this.actor, this.primaryActor.join(),this.dictionary.join()],
           useState:'1'
         }

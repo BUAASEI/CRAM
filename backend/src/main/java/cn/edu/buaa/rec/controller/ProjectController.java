@@ -83,6 +83,7 @@ public class ProjectController {
         Long projectId = jsonObject.getLong("ProjectId");
         Long userId = jsonObject.getLong("UserId");
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+        System.out.println("roleId:"+roleIds);
         List<Long> usecaseIds = usecaseRoleService.getUsecaseIdsByRoleIds(roleIds);
         List<Map<String,Object>> usecaseForms = useCaseService.getUsecaseForm(usecaseIds);
         System.out.println(roleIds.toString());

@@ -20,17 +20,15 @@ public class UsecaseServiceImpl implements UseCaseService {
             return null;
         }
         List<Usecase> usecasesList = usecaseMapper.selectByIds(usecaseIds);
-        for (Usecase u : usecasesList){
-
-
-        }
         Map<String,Object> usecaseForm = new HashMap<>();
         List<Map<String,Object>> r = new LinkedList<>();
         for (Usecase u:usecasesList){
-            usecaseForm.put("id", u.getId());
+            usecaseForm.put("usecaseId", u.getId());
             usecaseForm.put("usecaseName", u.getName());
             usecaseForm.put("description",u.getDescription());
+            System.out.println();
             r.add(usecaseForm);
+            System.out.println("usecase:"+usecaseForm.toString());
         }
         return r;
     }

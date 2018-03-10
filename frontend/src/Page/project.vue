@@ -12,15 +12,15 @@
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">业务场景名称</div>
-              <div class="col-roles">相关角色</div>
-              <div class="col-datas">相关数据</div>
+              <div class="col-roles">相关描述</div>
+              <!--<div class="col-datas">相关数据</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in BusinessData" :key=item.id>
                 <div class="col-name">{{ item.businessName }}</div>
-                <div class="col-roles">{{ item.roleName }}</div>
-                <div class="col-datas">{{ item.dataName }}</div>
+                <div class="col-roles">{{ item.description}}</div>
+                <!--<div class="col-datas">{{ item.dataName }}</div>-->
                 <div class="col-operate">
                   <span>查看</span>
                   <span @click="editScenario(item.id)">修改</span>
@@ -35,15 +35,15 @@
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">用例名称</div>
-              <div class="col-roles">相关角色</div>
-              <div class="col-datas">相关数据</div>
+              <div class="col-roles">相关描述</div>
+              <!--<div class="col-datas">相关数据</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in UsageData" :key=item.id>
                 <div class="col-name">{{ item.usecaseName }}</div>
-                <div class="col-roles">{{ item.roleName }}</div>
-                <div class="col-datas">{{ item.dataName }}</div>
+                <div class="col-roles">{{ item.description}}</div>
+                <!--<div class="col-datas">{{ item.dataName }}</div>-->
                 <div class="col-operate">
                   <span>查看</span>
                   <span @click="editUsecase(item.usecaseId)">修改</span>
@@ -57,7 +57,7 @@
     </div>
     <div  v-if="show" class="box">
       <div class="subWindow" v-if="showOne">
-        <CreateUC :title="新建用例" :pId="projectId" @closeUc="closeUc"></CreateUC>
+        <CreateUC :title="新建用例" :pId="projectId" @closeNew="closeNew"></CreateUC>
       </div>
       <div class="subWindow" v-if="showTwo">
         <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
@@ -204,7 +204,7 @@
         this.show = true
         this.showOne = true
       },
-      closeUc: function () {
+      closeNew: function () {
         this.show = false
         this.showOne = false
       },
