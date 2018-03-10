@@ -29,10 +29,12 @@ public class DomainServiceImpl implements DomainService {
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
         String domainName = domain.getName();
+
         if (noExist(domainName)) {
             Long domainIdMax = domainMapper.selectMaxId();
             domain.setId((domainIdMax == null) ? 1 : domainIdMax + 1);
 
+            System.out.println("domainIdMax" + domainIdMax + ",domainid:" + domain.getId());
             if (domainMapper.insert(domain) != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {
@@ -58,5 +60,16 @@ public class DomainServiceImpl implements DomainService {
     @Override
     public List<Domain> getDomain() {
         return domainMapper.selectDomain();
+    }
+
+    @Override
+    public String getNameById(Long domainId) {
+        if (domainId == null || domainId == 0) {
+            return null;
+        }
+
+        String domainName = domainMapper.selectNameById(domainId);
+        return domainName;
+
     }
 }

@@ -66,4 +66,10 @@
       </if>
     </trim>
   </insert>
+  <!-- 查找现有记录的最大id -->
+  <!-- max后面不能有空格 -->
+  <select id="selectMaxId" resultType="Long">
+    SELECT max(id)
+    FROM review_scenario
+  </select>
 </mapper>

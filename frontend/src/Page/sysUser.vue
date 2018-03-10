@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopSysUser name="buaa" @showIbox="showIbox"></TopSysUser>
+    <TopSysUser name="suruo" @showIbox="showIbox"></TopSysUser>
     <div class="context">
       <div class="context-nav">
         <NavSysUser target="st"></NavSysUser>
@@ -15,8 +15,8 @@
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in UsageData" :key=item.id>
-                <div class="col-name">{{ item.name }}</div>
-                <div class="col-des">{{ item.des }}</div>
+                <div class="col-name">{{ item.ProjectName }}</div>
+                <div class="col-des">{{ item.ProjectDescription }}</div>
                 <div class="col-operate">
                   <span @click="view(item.id)">查看</span>
                   <span>删除</span>
@@ -59,7 +59,8 @@
         UsageData: [
           {
             id: 1,
-            name: '北航学生选课系统'
+            ProjectName: '北航学生选课系统',
+            ProjectDescription:''
           },
         ],
         show: false,
@@ -76,13 +77,25 @@
       // InfoBoxMassage
     },
     mounted () {
+
+      this.initData();
       this.close()
     },
     methods: {
+
+      initData(){
+        var userId = localStorage.getItem("id");
+        this.$http.post('sysuser/propar', {"UserId":userId})
+          .then((response) => {
+
+          this.UsageData = response.data;
+
+          })
+      },
       view: function (id) {
         // do something
         // 路由跳转
-        this.$router.push({ name: 'project', params: {type: 'view'} })
+        this.$router.push({ name: 'project', params: {type: 'view', projectId:id} })
       },
       showIbox (idx) {
         this.show = true

@@ -15,22 +15,22 @@
         </button>
       </div>
     </div>
-    <div class="box1 scroll">
-      <div class="rucm-head">Use Case Specitication for CRAM</div>
+    <div  v-if="show" class="box1 scroll">
+      <div class="rucm-head" v-model = "id">Use Case Specitication for CRAM</div>
       <div class="flow rucm-basic-info">
         <Table v-model="brief" ref="table" @tableData="tableData" :data="brief"></Table>
       </div>
       <div class="flow rucm-basicflow">
-        <SpecialTable ref="bflow"  @otherData="otherData" title="基本事件流" tag="Step" :data="basicFlow"></SpecialTable>
-      </div>
-      <div class="flow rucm-specificflow" v-for = "(item,index) in specData2">
-        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="特定分支流" tag="RFS" :pos="index" :data="item"></SpecialTable>
+        <SpecialTable ref="bflow"  @otherData="otherData" title="Basic Flow" tag="Step" :data="basicFlow"></SpecialTable>
       </div>
       <div class=" flow rucm-boundedflow"v-for = "(item,index) in specData1">
-        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="限定分支流" tag="RFS"  :pos="index" :data="item"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Bounded Alternative Flow" tag="RFS"  :pos="index" :data="item"></SpecialTable>
+      </div>
+      <div class="flow rucm-specificflow" v-for = "(item,index) in specData2">
+        <SpecialTable  ref="flow"  @add="add" @del="del" @otherData="otherData" title="Specific Alternative Flow" tag="RFS" :pos="index" :data="item"></SpecialTable>
       </div>
       <div class=" flow rucm-Globalflow" v-for = "(item,index) in specData3">
-        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="全局分支流" tag="RFS"  :pos="index" :data="item"></SpecialTable>
+        <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="Global Alternative Flow" tag="Guaid"  :pos="index" :data="item"></SpecialTable>
       </div>
     </div>
     <div class="box3">
@@ -138,37 +138,15 @@
         type: '',
         name: '',
         id:'',
-
         brief: {
-          colum:['用例名称','场景概述','前置条件','主要角色','次要角色','依赖关系','泛化关系','输入数据','输出数据','数据词典'],
-          data: [],
+          colum: [1,2,3,4,5,6,7],
+          data: []
         },
         basicFlow: {
-          colum: [1],
-          data: [''],
-          PostCondition:''
         },
-        specData1: [
-          {
-            colum: [1],
-            data: [],
-            PostCondition:''
-          }
-        ],
-        specData2: [
-          {
-            colum: [1],
-            data: [],
-            PostCondition:''
-          }
-        ],
-        specData3: [
-          {
-            colum: [1],
-            data: [],
-            PostCondition:''
-          }
-        ],
+        specData1: [],
+        specData2: [],
+        specData3: [],
         dict: [],
         cases: {
           Brief: {},
@@ -178,7 +156,8 @@
           GlobalAlternativeFlows: [],
           DataDictionary: []
         },
-        count: 0
+        count: 0,
+        show: false
       }
     },
     components: {
@@ -187,7 +166,7 @@
       Table,
       SpecialTable
     },
-    mounted(){
+    beforeMount (){
       this.type = this.$route.params.type;
       this.id = this.$route.params.id;
       // alert(this.id);
@@ -205,19 +184,54 @@
             var usecase = response.data;
             if(usecase!=null){
               this.id = usecase.id;
-              alert("iddddd:"+id);
               var rucmJson = usecase.rucmSpec;
-               alert(rucmJson);
-              // var rucmJson = JSON.parse(rucmSpec);
+              var cases = JSON.parse(rucmJson);
+              // var cases = rucms.cases;
+              this.brief = cases.Brief;
+              this.basicFlow = cases.BasicFlow;
+              this.specData1 = cases.BoundedAlternativeFlows;
+              this.specData2 = cases.SpecificAlternativeFlows;
+              this.specData3 = cases.GlobalAlternativeFlows;
+              this.dict = cases.DataDictionary;
+              this.cases.DataDictionary = cases.DataDictionary;
+              this.show = true
+              /*let rucmJson = {
+                Brief: {
+                  colum: ['o', 'p', 'i'],
+                  data: ['a', 'b' ,'c']
+                },
+                BasicFlow: {
+                  colum: [1, 2, 3],
+                  data: ['a', 'b' ,'c'],
+                  PostCondition: 'w'
+                },
+                BoundedAlternativeFlows: [
+                  {
+                    colum: [1, 2, 3],
+                    data: ['a', 'b' ,'c'],
+                    RFS: '1',
+                    PostCondition: 'w'
+                  }
+                ],
+                SpecificAlternativeFlows: [
+                  { colum: [1, 2, 3],
+                    data: ['a', 'b' ,'c'],
+                    RFS: '1',
+                    PostCondition: 'w'
+                  }
+                ],
+                GlobalAlternativeFlows: [
+                  {
+                    colum: [1, 2, 3],
+                    data: ['a', 'b' ,'c'],
+                    RFS: '1',
+                    PostCondition: 'w'
+                  }
+                ],
+                DataDictionary: []
+              }
+              console.log(rucmJson)*/
 
-              this.basicFlow = rucmJson.basicFlow;
-              this.specData1 = rucmJson.specData1;
-              this.specData2 = rucmJson.specData2;
-              this.specData3 = rucmJson.specData3;
-              this.dict = rucmJson.DataDictionary;
-              this.cases = rucmJson.cases;
-              this.brief = rucmJson.brief;
-              alert("brief:"+this.brief.toString());
             }
           })
       },
@@ -243,28 +257,12 @@
 
         this.$refs.table.sends()
         this.$refs.bflow.sends()
-        console.log(this.$refs.flow)
         this.$refs.flow.forEach(item => {
           item.sends()
         })
-        let rucmSpec={
-          brief:this.brief,
-          basicFlow : this.basicFlow,
-          specData1 : this.specData1,
-          specData2 : this.specData2,
-          specData3 : this.specData3,
-          cases: this.cases
-        }
-         alert("this.brief save:"+this.brief);
-        // var rucmSpec = JSON.stringify(rucm);
-        let usecase={
-          id: this.id,
-          rucmSpec:rucmSpec
-        };
-        this.$http.post('usecase/updateusecase',usecase)
-          .then((response) => {
-            confirm(response.data.Msg);
-          })
+        this.show = false;
+        this.showOne = false;
+
       },
       tableData (data) {
         this.cases.Brief = data
@@ -272,6 +270,10 @@
         if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
           // ajax
 
+          this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
+            .then((response) => {
+              confirm(response.data.Msg);
+            })
         }
       },
       otherData (data, title, pos) {
@@ -288,7 +290,10 @@
         this.count++
         if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
           // ajax
-
+          this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
+            .then((response) => {
+              confirm(response.data.Msg);
+            })
         }
       }
     }

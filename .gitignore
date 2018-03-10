@@ -33,3 +33,4 @@ hs_err_pid*
 /target/
 *.iml
 /*/*.iml
+frontend/etc/

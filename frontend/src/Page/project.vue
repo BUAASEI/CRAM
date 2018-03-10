@@ -1,7 +1,7 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <TopProject name="北航学生选课系统" @showIbox="showIbox"></TopProject>
+    <TopProject name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
     <div class="context">
       <div class="context-nav">
         <NavProject target="st"></NavProject>
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增用例</Button></div>
+          <div class="detail-btn"><Button @click="createUseCase" type="primary">新增用例</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">用例名称</div>
@@ -56,8 +56,11 @@
       </div>
     </div>
     <div  v-if="show" class="box">
-      <div class="subWindow" v-if="showThree">
-        <InfoBoxNewProject @closeIbox(1)="close"></InfoBoxNewProject>
+      <div class="subWindow" v-if="showOne">
+        <CreateUC @newData="newData" @closeNew="closeNew"></CreateUC>
+      </div>
+      <div class="subWindow" v-if="showTwo">
+        <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
       </div>
     </div>
   </div>
@@ -132,72 +135,110 @@
     color: dodgerblue;
     cursor: pointer;
   }
-
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 1000px;
+    height: 700px;
+    background-color: rgba(0,0,0,0.6);
+  }
 </style>
 <script>
-import TopProject from '@/components/TopProject'
-import NavProject from '@/components/NavProject'
-import {Button} from 'iview'
- import InfoBoxEvolution from '@/components/InfoBoxEvolution'
+  import TopProject from '@/components/TopProject'
+  import NavProject from '@/components/NavProject'
+  import {Button} from 'iview'
+  import InfoBoxEvolution from '@/components/InfoBoxEvolution'
+  import CreateUC from '@/components/createUC'
 
-export default{
-  data () {
-    return {
-      projectId:'1',
-      BusinessData:[1],
-      UsageData:[1]
-    }
-  },
-  components: {
-    TopProject,
-    NavProject,
-    Button,
-    InfoBoxEvolution
-  },
-  mounted() {
-
-    // this.projectId = this.$route.params.projectId;
-    // var userId = localStorage.getItem("id");
-    // this.reqInfo(projectId,userId);
-    this.reqInfo(1,3);
-    this.close()
-  },
-  methods: {
-    editScenario: function (id) {
-      // do something
-      // 路由跳转
-      this.$router.push({ name: 'business', params: {type: 'edit'} })
-    },
-    editUsecase: function (id) {
-      // do something
-      // 路由跳转
-      alert(id);
-      this.$router.push({ name: 'usecase', params: {type: 'edit',id: id} })
-    },
-    reqInfo: function (projectId,userId) {
-      let info={
-          ProjectId:projectId,
-          UserId:userId
-      };
-      this.$http.post('project/home',info)
-       .then((response) => {
-         this. BusinessData = response.data.businessForms;
-         // alert(this. BusinessData);
-         this.UsageData =response.data.usecaseForms;
-         })
+  export default{
+    data () {
+      return {
+        projectId:'1',
+        BusinessData:[1],
+        UsageData:[1],
+        show: false,
+        showOne: false,
+        showTwo: false
       }
     },
-    showIbox (idx) {
+    components: {
+      TopProject,
+      NavProject,
+      Button,
+      InfoBoxEvolution,
+      CreateUC
+    },
+    mounted() {
+
+       this.projectId = this.$route.params.projectId;
+      var userId = localStorage.getItem("id");
+      this.reqInfo(projectId,userId);
+      // this.reqInfo(8,userId);
+      // this.close()
+    },
+    methods: {
+      editScenario: function (id) {
+        // do something
+        // 路由跳转
+        this.$router.push({name: 'business', params: {type: 'edit'}})
+      },
+      editUsecase: function (id) {
+        // do something
+        // 路由跳转
+        this.$router.push({name: 'usecase', params: {type: 'edit', id: id}})
+      },
+      reqInfo: function (projectId, userId) {
+        let info = {
+          ProjectId: projectId,
+          UserId: userId
+        };
+        this.$http.post('project/home', info)
+          .then((response) => {
+            this.BusinessData = response.data.businessForms;
+            // alert(this. BusinessData);
+            this.UsageData = response.data.usecaseForms;
+          })
+      },
+      createUseCase: function () {
+        console.log(1)
+        this.show = true
+        this.showOne = true
+      },
+      newData: function (datas) {
+        let obj = {
+          name: datas.data[0],
+          description: datas.description,
+          actor: datas.data[2],
+          dictionary: datas.data[3],
+          creatorId: localStorage.getItem("id"),
+          projectId: this.projectId,
+          brief: datas
+        }
+        console.log(9,obj)
+        this.$http.post('usecase/new', obj)
+          .then((response) => {
+            confirm(response.data.Msg);
+            this.show = false
+            this.showOne = false
+          })
+      },
+      showIboxs(idx) {
         this.show = true
         if (idx === 1) {
-          this.showOne = true
+          this.showTwo = true
         }
       },
-      close (idx) {
+      close(idx) {
         this.show = false
         if (idx === 1) {
-          this.showOne = false
+          this.showThree = false
         }
+      },
+      closeNew() {
+        this.show = false
+        this.showOne = false
       }
-}
+    }
+  }
 </script>

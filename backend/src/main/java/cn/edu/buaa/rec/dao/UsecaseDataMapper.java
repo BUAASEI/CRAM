@@ -18,4 +18,6 @@ public interface UsecaseDataMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(UsecaseData record);
+
+    Long selectMaxId();
 }

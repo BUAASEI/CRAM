@@ -17,4 +17,6 @@ public interface SysUserMapper {
     SysUser selectById(Long id);
 
     int updateById(SysUser sysUserInfo);
+
+    String selectNameById(Long id);
 }

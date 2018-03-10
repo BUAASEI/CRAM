@@ -139,7 +139,6 @@ public class Domain {
      * This method returns the value of the database column domain.id
      *
      * @return the value of domain.id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getId() {
@@ -151,7 +150,6 @@ public class Domain {
      * This method sets the value of the database column domain.id
      *
      * @param id the value for domain.id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setId(Long id) {
@@ -163,7 +161,6 @@ public class Domain {
      * This method returns the value of the database column domain.name
      *
      * @return the value of domain.name
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getName() {
@@ -175,7 +172,6 @@ public class Domain {
      * This method sets the value of the database column domain.name
      *
      * @param name the value for domain.name
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setName(String name) {
@@ -187,7 +183,6 @@ public class Domain {
      * This method returns the value of the database column domain.creator_id
      *
      * @return the value of domain.creator_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Long getCreatorId() {
@@ -199,7 +194,6 @@ public class Domain {
      * This method sets the value of the database column domain.creator_id
      *
      * @param creatorId the value for domain.creator_id
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setCreatorId(Long creatorId) {
@@ -211,7 +205,6 @@ public class Domain {
      * This method returns the value of the database column domain.build_time
      *
      * @return the value of domain.build_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Date getBuildTime() {
@@ -223,7 +216,6 @@ public class Domain {
      * This method sets the value of the database column domain.build_time
      *
      * @param buildTime the value for domain.build_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setBuildTime(Date buildTime) {
@@ -235,7 +227,6 @@ public class Domain {
      * This method returns the value of the database column domain.update_time
      *
      * @return the value of domain.update_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Date getUpdateTime() {
@@ -247,7 +238,6 @@ public class Domain {
      * This method sets the value of the database column domain.update_time
      *
      * @param updateTime the value for domain.update_time
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setUpdateTime(Date updateTime) {
@@ -259,7 +249,6 @@ public class Domain {
      * This method returns the value of the database column domain.use_state
      *
      * @return the value of domain.use_state
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getUseState() {
@@ -271,7 +260,6 @@ public class Domain {
      * This method sets the value of the database column domain.use_state
      *
      * @param useState the value for domain.use_state
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setUseState(String useState) {
@@ -283,7 +271,6 @@ public class Domain {
      * This method returns the value of the database column domain.isApproved
      *
      * @return the value of domain.isApproved
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public Integer getIsapproved() {
@@ -295,7 +282,6 @@ public class Domain {
      * This method sets the value of the database column domain.isApproved
      *
      * @param isapproved the value for domain.isApproved
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setIsapproved(Integer isapproved) {
@@ -307,7 +293,6 @@ public class Domain {
      * This method returns the value of the database column domain.description
      *
      * @return the value of domain.description
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public String getDescription() {
@@ -319,7 +304,6 @@ public class Domain {
      * This method sets the value of the database column domain.description
      *
      * @param description the value for domain.description
-     *
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     public void setDescription(String description) {

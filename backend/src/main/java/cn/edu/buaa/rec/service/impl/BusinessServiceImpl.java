@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service("BusinessService")
-public class BusinessServiceImpl implements BusinessService{
+public class BusinessServiceImpl implements BusinessService {
 
     @Autowired
     private BusinessMapper businessMapper;
@@ -23,11 +23,11 @@ public class BusinessServiceImpl implements BusinessService{
         }
         String name = business.getName();
         Long projectid = business.getProjectId();
-        int  count = businessMapper.checkByNameAndProjectId(name,projectid);
-        Map<String,Object> m = new HashMap<>();
-        if (count>0){
+        int count = businessMapper.checkByNameAndProjectId(name, projectid);
+        Map<String, Object> m = new HashMap<>();
+        if (count > 0) {
             m.put("Msg", "该项目用例已经存在！");
-        }else{
+        } else {
             Long usecaseIdMax = businessMapper.selectMaxId();
             business.setId((usecaseIdMax == null) ? 1 : usecaseIdMax + 1);
             business.setBuildTime(new Date());
@@ -46,13 +46,13 @@ public class BusinessServiceImpl implements BusinessService{
 
     @Override
     public Map<String, Object> updateBusiness(Business business) {
-       if (business == null){
-           return null;
-       }
+        if (business == null) {
+            return null;
+        }
         business.setUpdateTime(new Date());
-        Map<String,Object> m = new HashMap<>();
+        Map<String, Object> m = new HashMap<>();
         int r = businessMapper.updateById(business);
-        System.out.println("r--:"+r);
+        System.out.println("r--:" + r);
         if (r != 1) {
             m.put("Msg", "请检查输入数据格式");
         } else {

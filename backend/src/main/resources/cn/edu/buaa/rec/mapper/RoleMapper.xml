@@ -50,4 +50,27 @@
     from role
     where id=#{id}
   </select>
+    <!--通过id查找角色名，返回List<Map<String,Object>>-->
+    <select id="selectNameAndIdByIds"  resultType="java.util.HashMap">
+        SELECT id,name
+        from role
+        where id IN
+        <foreach collection="roleIds" item="id" index="index"
+                 separator=",">
+        (#{id})
+        </foreach>
+    </select>
+
+    <!--通过name查找id，返回List<Long>-->
+    <select id="selectIdsByName"  resultType="Long">
+        SELECT id
+        from role
+        where project_Id = #{projectId} And name IN
+        <foreach collection="roleNames" item="_name" open="(" close=")"
+        separator=",">
+            #{_name}
+        </foreach>
+    </select>
+
+
 </mapper>

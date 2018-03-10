@@ -18,4 +18,6 @@ public interface ReviewScenarioMapper {
      * @mbggenerated Mon Mar 05 22:36:56 CST 2018
      */
     int insertSelective(ReviewScenario record);
+
+    Long selectMaxId();
 }

@@ -42,14 +42,32 @@ public class ProjectServiceImpl implements ProjectService {
     private UserProjectMapper userProjectMapper;
 
     @Override
+    public Project getProjectById(Long projectId) {
+        if (projectId == null || projectId == 0) {
+            return null;
+        }
+
+        Project project = projectMapper.selectById(projectId);
+        return project;
+    }
+
+    @Override
     public Map<String, Object> newProject(Project project) {
-    //        需要重新写
+        //        需要重新写
         //        保存并返回从数据库查询出的结果数据
         Map<String, Object> m = new HashMap<>();
         String projectName = project.getName();
         if (noExist(projectName)) {
             Long projectIdMax = projectMapper.selectMaxId();
             project.setId((projectIdMax == null) ? 1 : (projectIdMax + 1));
+
+            UserProject userProject = new UserProject();
+
+            Long upIdMax = userProjectMapper.selectMaxId();
+            userProject.setId((upIdMax == null) ? 1 : (upIdMax + 1));
+            userProject.setUserId(project.getCreatorId());
+            userProject.setProjectId(project.getId());
+            userProjectMapper.insert(userProject);
 
             if (projectMapper.insert(project) != 1) {
                 m.put("Msg", "请检查输入数据格式");
@@ -89,10 +107,12 @@ public class ProjectServiceImpl implements ProjectService {
         return m;
     }
 
-//    查询没有参与的项目
-//    思路：
-//    1）查询所有项目id
-//    2）对于每个id，查询user_project表，如果不存在，则放进来
+    /**
+     * 查询没有参与的项目
+     * 思路:
+     * 1）查询所有项目id
+     * 2）对于每个id，查询user_project表，如果不存在，则放进来
+     */
     @Override
     public List<Map<String, Object>> otherProject(Long userId) {
         List<Project> allProjects = projectMapper.selectAllProjects();
@@ -104,7 +124,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 //            如果在user_project关系表中，查不到user和相关项目的对应记录，返回0
 //            对于这种项目，应该加入返回结果
-            if(userProjectMapper.selectExistOrNot(projectId, userId) == 0){
+            if (userProjectMapper.selectExistOrNot(projectId, userId) == 0) {
                 Map<String, Object> temp = new HashMap<>();
                 temp.put("ProjectId", projectInfo.getId());
                 temp.put("ProjectName", projectInfo.getName());

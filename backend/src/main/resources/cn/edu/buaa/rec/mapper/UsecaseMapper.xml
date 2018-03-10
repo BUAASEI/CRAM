@@ -55,6 +55,15 @@
       #{usestate,jdbcType=VARCHAR},  #{projectId,jdbcType=BIGINT})
   </insert>
 
+  <select id="selectByIds" resultMap="BaseResultMap">
+  SELECT *
+  FROM usecase
+  WHERE id IN
+  <foreach collection="ids" item="id" index="index" open="(" close=")" separator="," >
+    (#{id})
+  </foreach>
+  </select>
+
   <!-- 通过id更新用例信息 -->
   <!-- int updateById(Usecase usecase); -->
   <update id="updateById" parameterType="cn.edu.buaa.rec.model.Usecase">

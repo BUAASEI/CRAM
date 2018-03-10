@@ -20,8 +20,6 @@ public interface UserProjectManMapper {
 
     List<Long> selectProjectByUserIdWithNoApproved(@Param("userId") Long userId);
 
-    int updateApproved(@Param("id") Long id);
-
     List<UserProjectMan> selectManApplyByProjectId(@Param("projectId") Long projectId);
 
     // 根据Id修改项目管理员申请的审批状态

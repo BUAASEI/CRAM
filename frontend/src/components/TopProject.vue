@@ -20,7 +20,7 @@
             </select>
           </span>
           <span class="focus-blue">申请管理员</span>
-          <span @click="postIbox(1)" class="focus-btn">演化场景</span>
+          <span @click="postIbox" class="focus-btn">演化场景</span>
 
           <router-link to="/sysuser">个人中心</router-link>
         </div>
@@ -113,8 +113,9 @@ export default{
   },
   methods: {
     // 调用新建项目弹窗
-      postIbox (idx) {
-        this.$emit('showIbox', idx)
+      postIbox: function() {
+        console.log(9)
+        this.$emit('showIbox', 1)
       }
   }
 }

@@ -5,5 +5,5 @@ import cn.edu.buaa.rec.model.Solution;
 import java.util.Map;
 
 public interface SolutionService {
-    Map<String,Object> newSolution(Solution solution);
+    Map<String, Object> newSolution(Solution solution);
 }

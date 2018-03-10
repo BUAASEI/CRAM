@@ -25,17 +25,17 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public Map newQuestion(Question question) {
-        if (question == null){
+        if (question == null) {
             return null;
         }
 
         String title = question.getTitle();
         Long projectid = question.getProjectId();
-        int  count = questionMapper.checkByTitleAndProjectId(title,projectid);
-        Map<String,Object> m = new HashMap<>();
-        if (count>0){
+        int count = questionMapper.checkByTitleAndProjectId(title, projectid);
+        Map<String, Object> m = new HashMap<>();
+        if (count > 0) {
             m.put("Msg", "该问题已经存在！");
-        }else {
+        } else {
             Long questionIdMax = questionMapper.selectMaxId();
             question.setId((questionIdMax == null) ? 1 : questionIdMax + 1);
             question.setBuildTime(new Date());

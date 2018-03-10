@@ -75,12 +75,13 @@
       this.datas = this.data.data
       let len = this.colums.length
       if (len === 0) {
-        this.columns.push(1)
+        this.colums.push(1)
       }
       while (this.datas.length < len) {
         this.datas.push('')
       }
     },
+
     components: {
     },
     methods: {
@@ -95,6 +96,11 @@
       },
       sends () {
         this.$emit('tableData',{ colum: this.colums, data: this.datas})
+      },
+      dels () {
+        this.datas = this.datas.map((item) => {
+          return ''
+        })
       }
     }
   }

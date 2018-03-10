@@ -23,4 +23,6 @@ public interface DomainService {
 
     List<Domain> getDomain();
 
+    String getNameById(Long domainId);
+
 }

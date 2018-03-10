@@ -1,11 +1,8 @@
 package cn.edu.buaa.rec.controller;
 
 import cn.edu.buaa.rec.model.*;
-import cn.edu.buaa.rec.service.MailService;
-import cn.edu.buaa.rec.service.ProjectService;
-import cn.edu.buaa.rec.service.BusinessRoleDataService;
-import cn.edu.buaa.rec.service.UsecaseRoleDataService;
-import cn.edu.buaa.rec.service.UserProjectRoleService;
+import cn.edu.buaa.rec.service.*;
+import cn.edu.buaa.rec.service.impl.UsecaseServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,11 +47,31 @@ public class ProjectController {
     private UsecaseRoleDataService usecaseRoleDataService;
 
     @Autowired
-    @Qualifier("MailService")
-    private MailService mailService;
+    @Qualifier("UserProjectService")
+    private UserProjectService userProjectService;
 
+    @Autowired
+    @Qualifier("SysUserService")
+    private SysUserService sysUserService;
 
-    //项目中心，暂时默认显示场景
+    @Autowired
+    @Qualifier("DomainService")
+    private DomainService domainService;
+
+    @Autowired
+    @Qualifier("RoleService")
+    private RoleService roleService;
+
+    @Autowired
+    @Qualifier("UsecaseRoleService")
+    private UsecaseRoleService usecaseRoleService;
+    @Autowired
+    @Qualifier("UsecaseService")
+    private UseCaseService useCaseService;
+    /**
+     * 查的表不对，不应该用三元表【重新写】
+     * 项目中心，暂时默认显示场景,默认所有角色的场景和用例信息
+     */
     @RequestMapping("/home")
     @ResponseBody
     public Map<String, Object> ProjectHomePage(@Valid @RequestBody Map<String, Object> info) {
@@ -62,6 +79,8 @@ public class ProjectController {
         Long projectId = jsonObject.getLong("ProjectId");
         Long userId = jsonObject.getLong("UserId");
         List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+        List<Long> usecaseIds = usecaseRoleService.getUsecaseIdsByRoleIds(roleIds);
+        List<Map<String,Object>> usecaseForms = useCaseService.getUsecaseForm(usecaseIds);
         System.out.println(roleIds.toString());
         if (roleIds == null && roleIds.size() == 0) {
             return null;
@@ -74,37 +93,102 @@ public class ProjectController {
         }
         result.put("businessForms", businessForms);
         List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
-        List<Map<String, Object>> usecaseForms = new LinkedList<>();
-        if (usecaseRoleData != null) {
-            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
-        }
+//        List<Map<String, Object>> usecaseForms = new LinkedList<>();
+//        if (usecaseRoleData != null) {
+//            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
+//        }
         result.put("usecaseForms", usecaseForms);
         return result;
     }
 
-    //    申请角色
+
+    /**
+     * 项目中心预加载项目基本信息
+     */
+    @RequestMapping("/basicinfo")
+    @ResponseBody
+    public Map<String, Object> basicInfo(@Valid @RequestBody Map<String, Object> info) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long projectId = jsonObject.getLong("projectId");
+        System.out.println(projectId);
+        Project project = projectService.getProjectById(projectId);
+        System.out.println(project.toString());
+        Long creatorId = project.getCreatorId();
+        System.out.println(creatorId);
+        String creatorName = sysUserService.getNameById(creatorId);
+        Long domainId = project.getDomainId();
+        String domainName = domainService.getNameById(domainId);
+        Long userId = jsonObject.getLong("userId");
+        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+        if (roleIds == null && roleIds.size() == 0) {
+            return null;
+        }
+        List<Map<String, Object>> roles = roleService.getNameAndIdById(roleIds);
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("projectId", project.getId());
+        result.put("projectName", project.getName());
+        result.put("domainId", domainId);
+        result.put("domainName", domainName);
+        result.put("creatorId", creatorId);
+        result.put("creatorName", creatorName);
+        result.put("role", roles);
+        return result;
+    }
+
+    /**
+     * 申请角色
+     *
+     * @param applyRoleInfo
+     * @return
+     */
     @RequestMapping("/roleapply")
     @ResponseBody
     public Map<String, Object> applyRole(@Valid @RequestBody Map<String, Object> applyRoleInfo) {
         return projectService.applyRole(applyRoleInfo);
     }
 
-    //  申请管理员
+    /**
+     * 申请管理员
+     *
+     * @param applyManagerInfo
+     * @return
+     */
     @RequestMapping("/manapply")
     @ResponseBody
     public Map<String, Object> applyManager(@Valid @RequestBody Map<String, Object> applyManagerInfo) {
         return projectService.applyManager(applyManagerInfo);
     }
 
+    /**
+     * 申请加入项目
+     */
+    @RequestMapping("/join")
+    @ResponseBody
+    public Map<String, Object> applyProject(@Valid @RequestBody Map<String, Object> applyProjectInfo) {
+
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(applyProjectInfo);
+        UserProject userProject = new UserProject(1L, jsonObject.getLong("userId"), jsonObject.getLong("projectId"), 0);
+
+        return userProjectService.applyProject(userProject);
+    }
+
+
+    /**
+     * 关系改变，重新写
+     *
+     * 预加载所有场景（业务场景和用例）的基本信息
+     * 项目管理员使用这个接口查看所有的场景信息
+     */
     @RequestMapping("/scenes")
     @ResponseBody
     public List<Map<String, Object>> showScenes(@Valid @RequestBody String projectName) {
-//        return projectService.getScenes(projectName);
-//        关系改变，重新写
-        return null;
+        return projectService.getScenes(projectName);
     }
 
-    //    显示项目中心的角色项
+    /**
+     * 显示项目中心的角色项
+     */
     @RequestMapping(value = "/role", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showRole(@Valid @RequestBody Map<String, Object> info) {
@@ -136,7 +220,12 @@ public class ProjectController {
         return m;
     }
 
-    //    项目中心的数据展示接口
+    /**
+     * 项目中心的数据展示界面
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping(value = "/data", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showData(@Valid @RequestBody Map<String, Object> info) {
@@ -161,7 +250,12 @@ public class ProjectController {
         return map;
     }
 
-    //    展示项目中还未解决的问题
+    /**
+     * 项目中心的问题展示接口。只显示还还没有解决的问题
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping("/question")
     @ResponseBody
     public Map<String, Object> showQuestion(@Valid @RequestBody Map<String, Object> info) {
@@ -189,7 +283,12 @@ public class ProjectController {
         return map;
     }
 
-    //    展示项目中未处理的解决方案
+    /**
+     * 展示项目中尚未处理的解决方案
+     *
+     * @param info
+     * @return
+     */
     @RequestMapping(value = "/solution", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> showSolution(@Valid @RequestBody Map<String, Object> info) {
@@ -213,4 +312,34 @@ public class ProjectController {
         map.put("userSolutions", userSolutions);
         return map;
     }
+
+    /**
+     * 根据角色切换，显示不同的场景和用例信息
+     *
+     * @param info
+     * @return
+     */
+    @RequestMapping("/changerole")
+    @ResponseBody
+    public Map<String, Object> changeRole(@Valid @RequestBody Map<String, Object> info) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        Long roleId = jsonObject.getLong("roleId");
+        List<Long> roleIds = new LinkedList<>();
+        roleIds.add(roleId);
+        Map<String, Object> result = new HashMap<>();
+        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);
+        List<Map<String, Object>> businessForms = new LinkedList<>();
+        if (businessRoleData != null) {
+            businessForms = businessRoleDataService.getBusinessForm(businessRoleData);
+        }
+        result.put("businessForms", businessForms);
+        List<UsecaseRoleData> usecaseRoleData = usecaseRoleDataService.getUsecaseRoleDataByRoleIds(roleIds);
+        List<Map<String, Object>> usecaseForms = new LinkedList<>();
+        if (usecaseRoleData != null) {
+            usecaseForms = usecaseRoleDataService.getUsecaseForm(usecaseRoleData);
+        }
+        result.put("usecaseForms", usecaseForms);
+        return result;
+    }
+
 }

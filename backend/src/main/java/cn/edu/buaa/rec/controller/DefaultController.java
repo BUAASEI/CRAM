@@ -32,21 +32,30 @@ import java.util.Map;
 public class DefaultController {
 
     private static final Logger logger = LoggerFactory.getLogger(SysUserController.class);
-    //    这个注解是必须的吗？还是只需要get
+
     @Autowired
     @Qualifier("SysUserService")
     private SysUserService sysUserService;
 
+    /**
+     * 加上（@ResponseBody）返回字符串
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping("/")
-//    加上就返回字符串
-//    @ResponseBody
     public String index(Model model) {
         System.out.println("hello");
         return "index.html";
     }
 
-    //    注册新系统用户
-    //    在newSysUser()中检测：用户名是否重复
+    /**
+     * 注册新系统用户
+     * 在newSysUser中检测用户名是否重复
+     *
+     * @param sysUserInfo
+     * @return
+     */
     @RequestMapping(value = "/logup", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> register(@Valid @RequestBody Map<String, Object> sysUserInfo) {
@@ -59,7 +68,12 @@ public class DefaultController {
         return sysUserService.newSysUser(sysUser);
     }
 
-    //    系统用户登录
+    /**
+     * 系统用户登录
+     *
+     * @param sysUserInfo
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> login(@Valid @RequestBody Map<String, Object> sysUserInfo) {
@@ -68,7 +82,6 @@ public class DefaultController {
         String name = (String) sysUserInfo.get("UserName");
         String pword = (String) sysUserInfo.get("Password");
         logger.info(name + "-" + pword);
-        System.out.println("gsdffghghfdjhjjjjjjjjjjjjjjjjjjjjjjgkuil");
         if (sysUserInfo != null && name != null & pword != null) {
             SysUser ulo = sysUserService.getByName(name);
             System.out.println("---" + ulo);
@@ -88,15 +101,26 @@ public class DefaultController {
         return m;
     }
 
-    //    这儿可能是一个系统的主页
-    //    暂时不打算做
+    /**
+     * 预留的系统主页接口
+     * 打算写所有系统信息的主页面
+     * 暂时没有设计
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     public String home(Model model) {
 
         return "index.html";
     }
 
-//    注册验证是否存在重名用户
+    /**
+     * 验证是否存在同名用户
+     *
+     * @param sysUserInfo
+     * @return
+     */
     @RequestMapping(value = "/nameExi", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> nameExi(@Valid @RequestBody Map<String, Object> sysUserInfo) {
@@ -105,6 +129,4 @@ public class DefaultController {
         m.put("Msg", "Success");
         return m;
     }
-
-
 }

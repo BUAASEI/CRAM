@@ -6,10 +6,7 @@ import cn.edu.buaa.rec.service.UseCaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service("UsecaseService")
 public class UsecaseServiceImpl implements UseCaseService {
@@ -17,8 +14,29 @@ public class UsecaseServiceImpl implements UseCaseService {
     private UsecaseMapper usecaseMapper;
 
     @Override
+    public List<Map<String, Object>> getUsecaseForm(List<Long> usecaseIds) {
+        if (usecaseIds==null||usecaseIds.size()==0){
+            return null;
+        }
+        List<Usecase> usecasesList = usecaseMapper.selectByIds(usecaseIds);
+        Map<String,Object> usecaseForm = new HashMap<>();
+        List<Map<String,Object>> r = new LinkedList<>();
+        for (Usecase u:usecasesList){
+            usecaseForm.put("id", u.getId());
+            usecaseForm.put("usecaseName", u.getName());
+            r.add(usecaseForm);
+        }
+        return r;
+    }
+
+    @Override
+    public Long selectMaxId() {
+        return usecaseMapper.selectMaxId();
+    }
+
+    @Override
     public Usecase getUsecaseById(Long uId) {
-        if (uId == null){
+        if (uId == null) {
             return null;
         }
         Usecase u = usecaseMapper.selectById(uId);
@@ -27,13 +45,13 @@ public class UsecaseServiceImpl implements UseCaseService {
 
     @Override
     public Map<String, Object> updateUsecase(Usecase usecase) {
-        if(usecase==null){
+        if (usecase == null) {
             return null;
         }
         usecase.setUpdateTime(new Date());
-        Map<String,Object> m = new HashMap<>();
+        Map<String, Object> m = new HashMap<>();
         int r = usecaseMapper.updateById(usecase);
-        System.out.println("r--:"+r);
+        System.out.println("r--:" + r);
         if (r != 1) {
             m.put("Msg", "请检查输入数据格式");
         } else {
@@ -52,16 +70,20 @@ public class UsecaseServiceImpl implements UseCaseService {
         }
         String name = usecase.getName();
         Long projectid = usecase.getProjectId();
-        int  count = usecaseMapper.checkByNameAndProjectId(name,projectid);
-        Map<String,Object> m = new HashMap<>();
-        if (count>0){
+        int count = usecaseMapper.checkByNameAndProjectId(name, projectid);
+        Map<String, Object> m = new HashMap<>();
+        if (count > 0) {
             m.put("Msg", "该项目用例已经存在！");
-        }else{
-            Long usecaseIdMax = usecaseMapper.selectMaxId();
-            usecase.setId((usecaseIdMax == null) ? 1 : usecaseIdMax + 1);
+        } else {
+            if (usecase.getId() == null) {
+                Long usecaseIdMax = usecaseMapper.selectMaxId();
+                Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
+                usecase.setId(id);
+            }
+
             usecase.setBuildTime(new Date());
             int r = usecaseMapper.insert(usecase);
-//        System.out.println("r--:"+r);
+
             if (r != 1) {
                 m.put("Msg", "请检查输入数据格式");
             } else {
