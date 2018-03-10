@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by menghan on 2018/2/27.
@@ -112,6 +114,10 @@ public class RuleCheckImpl implements RuleCheckService {
         Map<String, Object> rule3Map = rule3Check(model);
         if ((Integer) rule3Map.get("status") == 1)
             sb.append(rule3Map.get("result"));
+        //rule5 and rule6
+        Map<String, Object> rule56Map = rule5And6Check(model);
+        if ((Integer) rule56Map.get("status") == 1)
+            sb.append(rule56Map.get("result"));
         //rule7
         Map<String, Object> rule7Map = rule7Check(model);
         if ((Integer) rule7Map.get("status") == 1)
@@ -138,6 +144,65 @@ public class RuleCheckImpl implements RuleCheckService {
             }
         }
         if (map.get("status") == null) map.put("status", 0);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> rule5And6Check(RucmModel rucmModel){
+        Map<String,Object> map = new HashMap<>();
+        List<String> steps = rucmModel.getBasicFlow().getSteps();
+        Map<String,Boolean> inputData = new HashMap<>();
+        map.put("status",0);
+        for(int i=0;i<steps.size();i++){
+            if(steps.get(i).contains("INPUT")){
+                String[] tmpStr = steps.get(i).split(" ");
+                int index = 0;
+                for(;index<tmpStr.length;index++){
+                    if(tmpStr[index].equals("INPUT"))
+                        break;
+                }
+                if(index==tmpStr.length-1){
+                    map.put("status",1);
+                    String errorInfo = "BasicFlow-步骤-"+(i+1)+"的INPUT没有数据\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                }
+                String data = tmpStr[index+1];
+                inputData.put(data,false);
+            }
+            if(steps.get(i).contains("OP")){
+                String[] tmpStr = steps.get(i).split(" ");
+                int index = 0;
+                for(;index<tmpStr.length;index++){
+                    if(tmpStr[index].equals("OP"))
+                        break;
+                }
+                if(index==tmpStr.length-1){
+                    map.put("status",1);
+                    String errorInfo = "BasicFlow-步骤"+(i+1)+"的OP没有数据\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                }
+                String data = tmpStr[index+1];
+                if(!inputData.containsKey(data)){
+                    map.put("status",1);
+                    String errorInfo = "BasicFlow-步骤"+(i+1)+"：系统没有接收到"+data+"数据\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                }else{
+                    inputData.put(data,true);
+                }
+            }
+        }
+        for(String key:inputData.keySet()){
+            Boolean isUsed = inputData.get(key);
+            if(!isUsed){
+                map.put("status",1);
+                String errorInfo = "系统未对输入的数据："+key+"进行响应\n";
+                errorInfo = map.getOrDefault("result","")+errorInfo;
+                map.put("result",errorInfo);
+            }
+        }
         return map;
     }
 

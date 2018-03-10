@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by suruo on 2018/2/27.
@@ -18,6 +20,61 @@ public class RucmModel {
     private String secondaryActors;
     private String dependency;
     private String generalization;
+    private List<String> input;
+    private List<String> output;
+    private List<String> dataDictionary;
+
+    public List<String> getInput() {
+        return input;
+    }
+
+    public void setInput(List<String> input) {
+        this.input = input;
+    }
+
+    public List<String> getOutput() {
+        return output;
+    }
+
+    public void setOutput(List<String> output) {
+        this.output = output;
+    }
+
+    public List<String> getDataDictionary() {
+        return dataDictionary;
+    }
+
+    public void setDataDictionary(List<String> dataDictionary) {
+        this.dataDictionary = dataDictionary;
+    }
+
+    public Set<String> getInputSet() {
+        return inputSet;
+    }
+
+    public void setInputSet(Set<String> inputSet) {
+        this.inputSet = inputSet;
+    }
+
+    public Set<String> getOutputSet() {
+        return outputSet;
+    }
+
+    public void setOutputSet(Set<String> outputSet) {
+        this.outputSet = outputSet;
+    }
+
+    public Set<String> getDictionarySet() {
+        return dictionarySet;
+    }
+
+    public void setDictionarySet(Set<String> dictionarySet) {
+        this.dictionarySet = dictionarySet;
+    }
+
+    private Set<String> inputSet;
+    private Set<String> outputSet;
+    private Set<String> dictionarySet;
     private BasicFlow basicFlow;
     private List<AlternativeFlow> alternativeFlows;
 
@@ -32,6 +89,21 @@ public class RucmModel {
         setSecondaryActors((String) basicInfo.get(4));
         setDependency((String) basicInfo.get(5));
         setGeneralization((String) basicInfo.get(6));
+        input = new ArrayList<>();
+        inputSet = new HashSet<>();
+        String[] inputs = ((String)basicInfo.get(7)).split(",");
+        for(String str:inputs) input.add(str);
+        inputSet.addAll(input);
+        output = new ArrayList<>();
+        outputSet = new HashSet<>();
+        String[] outputs = ((String)basicInfo.get(8)).split(",");
+        for(String str:outputs) output.add(str);
+        outputSet.addAll(output);
+        dataDictionary = new ArrayList<>();
+        dictionarySet = new HashSet<>();
+        String[] dd = ((String)basicInfo.get(9)).split(",");
+        for(String str:dd) dataDictionary.add(str);
+        dictionarySet.addAll(dataDictionary);
         basicFlow = new BasicFlow(rucmSpecification.getJSONObject("BasicFlow"));
         alternativeFlows = new ArrayList<>();
         JSONArray specificFlows = rucmSpecification.getJSONArray("SpecificAlternativeFlows");

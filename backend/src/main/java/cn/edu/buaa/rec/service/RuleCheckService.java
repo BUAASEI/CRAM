@@ -10,6 +10,8 @@ import java.util.Map;
 public interface RuleCheckService {
     public Map<String, Object> rule1Check(RucmModel content);
 
+    public Map<String, Object> rule5And6Check(RucmModel content);
+
     public Map<String, Object> rule3Check(RucmModel content);
 
     public Map<String, Object> rule6Check(String content);
