@@ -2,10 +2,13 @@ package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.BusinessMapper;
 import cn.edu.buaa.rec.dao.UsecaseMapper;
+import cn.edu.buaa.rec.model.AlternativeFlow;
 import cn.edu.buaa.rec.model.BasicFlow;
 import cn.edu.buaa.rec.model.Business;
 import cn.edu.buaa.rec.model.RucmModel;
 import cn.edu.buaa.rec.service.RuleCheckService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +102,8 @@ public class RuleCheckImpl implements RuleCheckService {
 
     public String ruleCheckResult(String rucmModel) {
         RucmModel rucmModelM = new RucmModel(rucmModel);
+        //String s = JSON.toJSONString(rucmModelM);
+        //System.out.println(s);
         return checkResult(rucmModelM);
     }
 
@@ -122,6 +127,14 @@ public class RuleCheckImpl implements RuleCheckService {
         Map<String, Object> rule7Map = rule7Check(model);
         if ((Integer) rule7Map.get("status") == 1)
             sb.append(rule7Map.get("result"));
+        //rule9
+        Map<String, Object> rule9Map = rule9Check(model);
+        if ((Integer) rule9Map.get("status") == 1)
+            sb.append(rule9Map.get("result"));
+        //rule11 and rule12
+        Map<String, Object> rule11Map = rule11And12Check(model);
+        if ((Integer) rule11Map.get("status") == 1)
+            sb.append(rule11Map.get("result"));
         return sb.toString();
     }
 
@@ -166,9 +179,10 @@ public class RuleCheckImpl implements RuleCheckService {
                     String errorInfo = "BasicFlow-步骤-"+(i+1)+"的INPUT没有数据\n";
                     errorInfo = map.getOrDefault("result","")+errorInfo;
                     map.put("result",errorInfo);
+                }else {
+                    String data = tmpStr[index + 1];
+                    inputData.put(data, false);
                 }
-                String data = tmpStr[index+1];
-                inputData.put(data,false);
             }
             if(steps.get(i).contains("OP")){
                 String[] tmpStr = steps.get(i).split(" ");
@@ -183,14 +197,16 @@ public class RuleCheckImpl implements RuleCheckService {
                     errorInfo = map.getOrDefault("result","")+errorInfo;
                     map.put("result",errorInfo);
                 }
-                String data = tmpStr[index+1];
-                if(!inputData.containsKey(data)){
-                    map.put("status",1);
-                    String errorInfo = "BasicFlow-步骤"+(i+1)+"：系统没有接收到"+data+"数据\n";
-                    errorInfo = map.getOrDefault("result","")+errorInfo;
-                    map.put("result",errorInfo);
-                }else{
-                    inputData.put(data,true);
+                else {
+                    String data = tmpStr[index + 1];
+                    if (!inputData.containsKey(data)) {
+                        map.put("status", 1);
+                        String errorInfo = "BasicFlow-步骤" + (i + 1) + "：系统没有接收到" + data + "数据\n";
+                        errorInfo = map.getOrDefault("result", "") + errorInfo;
+                        map.put("result", errorInfo);
+                    } else {
+                        inputData.put(data, true);
+                    }
                 }
             }
         }
@@ -240,6 +256,38 @@ public class RuleCheckImpl implements RuleCheckService {
     }
 
     @Override
+    public Map<String,Object> rule9Check(RucmModel content){
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",0);
+        int size = content.getBasicFlow().getSteps().size();
+        int[] arr = new int[size];
+        List<AlternativeFlow> alternativeFlows = content.getAlternativeFlows();
+        for(int i = 0;i<alternativeFlows.size();i++){
+            AlternativeFlow flow = alternativeFlows.get(i);
+            if(flow.getName().equals("SpecificAlternativeFlow")){
+                int rfs = Integer.parseInt(flow.getRfs());
+                arr[rfs-1]++;
+            }else if(flow.getName().equals("BoundedAlternativeFlow")){
+                String[] tmp = flow.getRfs().split("-");
+                int begin = Integer.parseInt(tmp[0]);
+                int end = Integer.parseInt(tmp[1]);
+                for(int k = begin ; k<=end;k++){
+                    arr[k-1]++;
+                }
+            }
+        }
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]>1){
+                map.put("status",1);
+                String errorInfo = "BasicFlow-步骤-"+(i+1)+"存在多于两条分支边\n";
+                errorInfo = map.getOrDefault("result","")+errorInfo;
+                map.put("result",errorInfo);
+            }
+        }
+        return map;
+    }
+
+    @Override
     public Map<String, Object> rule7Check(RucmModel rucmModel) {
         Map<String, Object> map = new HashMap<>();
         BasicFlow basicFlow = rucmModel.getBasicFlow();
@@ -270,6 +318,62 @@ public class RuleCheckImpl implements RuleCheckService {
             }
         }
         if (map.get("status") == null) map.put("status", 0);
+        return map;
+    }
+    @Override
+    public Map<String, Object> rule11And12Check(RucmModel content){
+        List<String> list = content.getBasicFlow().getSteps();
+        Map<String,Object> map = new HashMap<>();
+        map.put("status",0);
+        for(int i=0;i<list.size();i++){
+            String step = list.get(i);
+            if(step.contains("COLLECT")){
+                String[] arr = step.split(" ");
+                int j = 0;
+                for(;j<arr.length;j++){
+                    if(arr[j].equals("COLLECT")) break;
+                }
+                if(j==arr.length-1){
+                    map.put("status",1);
+                    String errorInfo = "BasicFlow-步骤-"+(i+1)+"的收集数据为空\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                }
+                else {
+                    String data = arr[j + 1];
+                    if(!content.getInputSet().contains(data)){
+                        map.put("status",1);
+                        String errorInfo = "BasicFlow-步骤-"+(i+1)+"的数据未被定义在INPUT中:"+data+"\n";
+                        errorInfo = map.getOrDefault("result","")+errorInfo;
+                        map.put("result",errorInfo);
+                    }
+                }
+
+            }
+            else if(step.contains("OUTPUT")){
+                String[] arr = step.split(" ");
+                int j = 0;
+                for(;j<arr.length;j++){
+                    if(arr[j].equals("OUTPUT")) break;
+                }
+                if(j==arr.length-1){
+                    map.put("status",1);
+                    String errorInfo = "BasicFlow-步骤-"+(i+1)+"的发送数据为空\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                }
+                else {
+                    String data = arr[j + 1];
+                    if(!content.getOutputSet().contains(data)){
+                        map.put("status",1);
+                        String errorInfo = "BasicFlow-步骤-"+(i+1)+"的发送数据未被定义在OUTPUT中:"+data+"\n";
+                        errorInfo = map.getOrDefault("result","")+errorInfo;
+                        map.put("result",errorInfo);
+                    }
+                }
+
+            }
+        }
         return map;
     }
 
