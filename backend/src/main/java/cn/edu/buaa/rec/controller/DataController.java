@@ -40,7 +40,7 @@ public class DataController {
 
         Long projectId = jsonObject.getLong("projectId");
         System.out.println("projectId" + projectId);
-        Data data = new Data(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("creatorId"), jsonObject.getLong("projectId"), jsonObject.getString("useState"));
+        Data data = new Data(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("creatorId"), jsonObject.getLong("projectId"));
 
         return dataService.newData(data);
     }

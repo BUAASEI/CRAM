@@ -16,4 +16,6 @@ public interface UseCaseService {
     Long selectMaxId();
     List<Map<String,Object>> getUsecaseForm(List<Long> usecaseIds);
 
+    Usecase getById(Long usecaseId);
+
 }

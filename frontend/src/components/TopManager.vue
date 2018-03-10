@@ -10,12 +10,10 @@
       <div class="right">
         <div class="right-name">{{ kind }}：{{ name }}</div>
         <div class="right-tag">
-          <span>当前项目：{{ projectname }}</span>
-          <span class="focus-blue">切换项目
-            <select v-model="selected">
-              <option v-for="item in other_projects" v-bind:value="item">{{item}}</option>
-            </select>
-          </span>
+          <span class="focus-blue">当前项目：</span>
+          <select class="select" v-model="pIdx">
+            <option v-for="item in options" :value="item.id">{{ item.projectName }}</option>
+          </select>
           <router-link to="/sysuser">个人中心</router-link>
         </div>
       </div>
@@ -60,11 +58,17 @@
   .right-tag>span {
     margin-right: 40px;
   }
+  .select {
+    width: 80px;
+    margin-right: 30px;
+  }
 </style>
 <script>
   export default{
     data () {
       return {
+        pIdx: null,
+        options: null // 存放下拉框内容
       }
     },
     props: {
@@ -75,19 +79,31 @@
       name: {
         type: String,
         default: '北航学生选课系统'
-      },
-      projectname: {
-        type: String,
-        default: '选课系统'
-      },
-      other_projects: {
-        type: Array,
-        default: ['选课系统','电梯系统','版本控制系统']
       }
     },
     components: {
     },
+    mounted () {
+      //请求项目类型
+      let uId = localStorage.getItem('id')
+      this.getProjects(uId)
+    },
+    watch: {
+      pIdx: function (val) {
+        this.$emit('chageProject', val)
+      }
+    },
     methods: {
+      getProjects: function (id) {
+        let obj =  {UserId: id}
+        this.$http.post('man/proinfo', obj)
+          .then((response) => {
+            this.options = response.data
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
     }
   }
 </script>

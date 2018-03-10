@@ -154,7 +154,8 @@
           BoundedAlternativeFlows: [],
           SpecificAlternativeFlows: [],
           GlobalAlternativeFlows: [],
-          DataDictionary: []
+          DataDictionary: [],
+          caseState: null
         },
         count: 0,
         show: false
@@ -194,6 +195,7 @@
               this.specData3 = cases.GlobalAlternativeFlows;
               this.dict = cases.DataDictionary;
               this.cases.DataDictionary = cases.DataDictionary;
+              this.cases.useState = usecase.useState
               this.show = true
               /*let rucmJson = {
                 Brief: {

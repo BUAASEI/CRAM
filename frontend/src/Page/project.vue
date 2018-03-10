@@ -1,14 +1,14 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <TopProject name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
+    <TopProject :projectId="projectId" name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
     <div class="context">
       <div class="context-nav">
         <NavProject target="st"></NavProject>
       </div>
       <div class="context-detail">
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增业务场景</Button></div>
+          <div class="detail-btn"><Button @click="createBusiness" type="primary">新增业务场景</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">业务场景名称</div>
@@ -57,7 +57,7 @@
     </div>
     <div  v-if="show" class="box">
       <div class="subWindow" v-if="showOne">
-        <CreateUC @newData="newData" @closeNew="closeNew"></CreateUC>
+        <CreateUC :title="新建用例" :pId="projectId" @closeUc="closeUc"></CreateUC>
       </div>
       <div class="subWindow" v-if="showTwo">
         <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
@@ -154,7 +154,7 @@
   export default{
     data () {
       return {
-        projectId:'1',
+        projectId: 1,
         BusinessData:[1],
         UsageData:[1],
         show: false,
@@ -171,10 +171,10 @@
     },
     mounted() {
 
-       this.projectId = this.$route.params.projectId;
-      var userId = localStorage.getItem("id");
-      this.reqInfo(projectId,userId);
-      // this.reqInfo(8,userId);
+      // this.projectId = this.$route.params.projectId;
+      // var userId = localStorage.getItem("id");
+      // this.reqInfo(projectId,userId);
+      this.reqInfo(1,3);
       // this.close()
     },
     methods: {
@@ -201,27 +201,12 @@
           })
       },
       createUseCase: function () {
-        console.log(1)
         this.show = true
         this.showOne = true
       },
-      newData: function (datas) {
-        let obj = {
-          name: datas.data[0],
-          description: datas.description,
-          actor: datas.data[2],
-          dictionary: datas.data[3],
-          creatorId: localStorage.getItem("id"),
-          projectId: this.projectId,
-          brief: datas
-        }
-        console.log(9,obj)
-        this.$http.post('usecase/new', obj)
-          .then((response) => {
-            confirm(response.data.Msg);
-            this.show = false
-            this.showOne = false
-          })
+      closeUc: function () {
+        this.show = false
+        this.showOne = false
       },
       showIboxs(idx) {
         this.show = true
@@ -234,10 +219,6 @@
         if (idx === 1) {
           this.showThree = false
         }
-      },
-      closeNew() {
-        this.show = false
-        this.showOne = false
       }
     }
   }

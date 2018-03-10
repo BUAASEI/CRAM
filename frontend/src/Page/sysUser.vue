@@ -1,9 +1,9 @@
 <template>
   <div>
-    <TopSysUser name="suruo" @showIbox="showIbox"></TopSysUser>
+    <TopSysUser name="buaa" @showIbox="showIbox"></TopSysUser>
     <div class="context">
       <div class="context-nav">
-        <NavSysUser target="st"></NavSysUser>
+        <NavSysUser @sliderData="sliderData"></NavSysUser>
       </div>
       <div class="context-detail">
         <div class="detail">
@@ -14,7 +14,7 @@
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in UsageData" :key=item.id>
+              <div class="detail-item" v-for="item in usageData" :key=item.id>
                 <div class="col-name">{{ item.ProjectName }}</div>
                 <div class="col-des">{{ item.ProjectDescription }}</div>
                 <div class="col-operate">
@@ -38,7 +38,7 @@
         <InfoBoxUserInfo @closeIbox="close"></InfoBoxUserInfo>
       </div>
       <!--<div class="subWindow1" v-if="showFour">-->
-        <!--<InfoBoxMassage @closeIbox="close"></InfoBoxMassage>-->
+      <!--<InfoBoxMassage @closeIbox="close"></InfoBoxMassage>-->
       <!--</div>-->
     </div>
   </div>
@@ -56,13 +56,7 @@
   export default{
     data () {
       return {
-        UsageData: [
-          {
-            id: 1,
-            ProjectName: '北航学生选课系统',
-            ProjectDescription:''
-          },
-        ],
+        usageData: null,
         show: false,
         showThree: false
       }
@@ -77,25 +71,14 @@
       // InfoBoxMassage
     },
     mounted () {
-
-      this.initData();
+      this.getData(1)
       this.close()
     },
     methods: {
-
-      initData(){
-        var userId = localStorage.getItem("id");
-        this.$http.post('sysuser/propar', {"UserId":userId})
-          .then((response) => {
-
-          this.UsageData = response.data;
-
-          })
-      },
       view: function (id) {
         // do something
         // 路由跳转
-        this.$router.push({ name: 'project', params: {type: 'view', projectId:id} })
+        this.$router.push({ name: 'project', params: {type: 'view',id:id}})
       },
       showIbox (idx) {
         this.show = true
@@ -123,9 +106,30 @@
         if (idx === 1) {
           this.showOne = false
         }
-        // if (idx === 4) {
-        //   this.showFour = false
-        // }
+      },
+      //请求不同项目类型数据
+      getData: function (pos) {
+        let str = ''
+        if (pos === 1) {
+          str = '/proman'
+        } else if (pos === 2) {
+          str = '/propar'
+        } else {
+          str = '/proother'
+        }
+        let param = {
+          UserId: localStorage.getItem('id')
+        }
+        console.log(11)
+        this.$http.post('sysuser' + str, param)
+          .then((response) => {
+            this.usageData = response.data
+          })
+      },
+      //点击左侧栏，切换项目请求
+      sliderData: function (pos) {
+        //ajax
+        this.getData(pos)
       }
     }
   }

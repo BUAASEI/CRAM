@@ -6,6 +6,7 @@ import cn.edu.buaa.rec.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.rmi.MarshalledObject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,5 +60,14 @@ public class RoleServiceImpl implements RoleService {
         }
         List<Long> roleIds = roleMapper.selectIdsByName(roleNames, projectId);
         return roleIds;
+    }
+
+    @Override
+    public List<Map<String, Object>> getNameAndIdByProjectId(Long projectId) {
+       if (projectId==null || projectId<0){
+           return null;
+       }
+       List<Map<String,Object>> roles = roleMapper.selectNameAndIdByProjectId(projectId);
+       return roles;
     }
 }

@@ -34,11 +34,10 @@ public class Data {
         this.description = description;
     }
 
-    public Data(String name, String description, Long creatorId, Long projectId, String useState) {
+    public Data(String name, String description, Long creatorId, Long projectId) {
         this.name = name;
         this.creatorId = creatorId;
         this.projectId = projectId;
-        this.useState = useState;
         this.description = description;
     }
 

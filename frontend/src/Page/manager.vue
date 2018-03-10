@@ -1,9 +1,9 @@
 <template>
   <div>
-    <TopManager name="suruo"></TopManager>
+    <TopManager @chageProject="chageProject" name="buaa"></TopManager>
     <div class="context">
       <div class="context-nav">
-        <NavManager target="st"></NavManager>
+        <NavSysUser @sliderData="sliderData" :target="mTitle"></NavSysUser>
       </div>
       <div class="context-detail">
         <div class="detail">
@@ -17,16 +17,16 @@
               <div class="col-explanation">说明</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in UsageData" :key=item.id>
+              <div class="detail-item" v-for="item in UsageData" :key=item.applyId>
                 <div class="col-operate">
-                  <span @click="view(item.id)">同意</span>
+                  <span @click="view(item.applyId)">同意</span>
                   <span>拒绝</span>
                 </div>
-                <div class="col-user">{{ item.user }}</div>
-                <div class="col-role">{{ item.role }}</div>
-                <div class="col-familiar">{{ item.familiar }}</div>
-                <div class="col-experience">{{ item.experience }}</div>
-                <div class="col-experience">{{ item.explanation }}</div>
+                <div class="col-user">{{ item.userName }}</div>
+                <div class="col-role">{{ item.roleName }}</div>
+                <div class="col-familiar">{{ item.familiarDomain }}</div>
+                <div class="col-experience">{{ item.projectExp }}</div>
+                <div class="col-experience">{{ item.planation }}</div>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
 
 <script>
   import TopManager from '@/components/TopManager'
-  import NavManager from '@/components/NavManager'
+  import NavSysUser from '@/components/NavSysUser'
   import {Button} from 'iview'
   import InfoBoxNewProject from '@/components/InfoBoxNewProject'
   import InfoBoxNewDomain from '@/components/InfoBoxNewDomain'
@@ -48,21 +48,16 @@
   export default {
     data() {
       return {
-        UsageData: [
-          {
-            id: 1,
-            user: 'suruo',
-            role: '学生',
-            familiar: '需求获取',
-            experience: 'CRAM',
-            explanation: '我是一名在校研究生'
-          },
-        ]
+        mTitle: ["角色申请", "管理员申请", "项目申请"],
+        pos: null,
+        pId: null,
+        projectName: null,
+        UsageData: null
       }
     },
     components: {
       TopManager,
-      NavManager,
+      NavSysUser,
       Button,
       InfoBoxNewProject,
       InfoBoxNewDomain,
@@ -107,6 +102,36 @@
         if (idx === 4) {
           this.showFour = false
         }
+      },
+      //请求不同项目类型数据
+      getData: function (val) {
+        let str = ''
+        let pos = this.pos
+        let pId = this.pId
+        let obj = {
+          projectId: +pId
+        }
+        if (pos === 1) {
+          str = 'man/role/applyinfo'
+        } else if (pos === 2) {
+          str = 'man/man/applyinfo'
+        } else {
+          str = 'man/pro/applyinfo'
+        }
+        this.$http.post(str, obj)
+          .then((response) => {
+            this.usageData = response.data
+          })
+      },
+      //点击左侧栏，切换项目请求
+      sliderData: function (pos) {
+        //ajax
+        this.pos = pos
+        this.getData()
+      },
+      changeProject: function (id) {
+        this.pId = id
+        this.getData()
       }
     }
   }
@@ -183,7 +208,7 @@
   .col-explanation {
     width: 40%;
   }
-   .col-operate {
+  .col-operate {
     width: 5%;
   }
 

@@ -50,7 +50,7 @@
     from role
     where id=#{id}
   </select>
-    <!--通过id查找角色名，返回List<Map<String,Object>>-->
+    <!--通过id查找角色名和Id，返回List<Map<String,Object>>-->
     <select id="selectNameAndIdByIds"  resultType="java.util.HashMap">
         SELECT id,name
         from role
@@ -59,6 +59,13 @@
                  separator=",">
         (#{id})
         </foreach>
+    </select>
+
+    <!--通过projectId查找角色名和Id，返回List<Map<String,Object>>-->
+    <select id="selectNameAndIdByProjectId"  resultType="java.util.HashMap">
+        SELECT id,name
+        from role
+        where project_id=#{projectId}
     </select>
 
     <!--通过name查找id，返回List<Long>-->

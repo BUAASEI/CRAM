@@ -10,6 +10,7 @@ import java.util.*;
 
 @Service("UsecaseService")
 public class UsecaseServiceImpl implements UseCaseService {
+
     @Autowired
     private UsecaseMapper usecaseMapper;
 
@@ -19,14 +20,29 @@ public class UsecaseServiceImpl implements UseCaseService {
             return null;
         }
         List<Usecase> usecasesList = usecaseMapper.selectByIds(usecaseIds);
+        for (Usecase u : usecasesList){
+
+
+        }
         Map<String,Object> usecaseForm = new HashMap<>();
         List<Map<String,Object>> r = new LinkedList<>();
         for (Usecase u:usecasesList){
             usecaseForm.put("id", u.getId());
             usecaseForm.put("usecaseName", u.getName());
+            usecaseForm.put("description",u.getDescription());
             r.add(usecaseForm);
         }
         return r;
+    }
+
+    @Override
+    public Usecase getById(Long usecaseId) {
+        if (usecaseId==null||usecaseId<0){
+            return null;
+        }
+
+        return usecaseMapper.selectById(usecaseId);
+
     }
 
     @Override
