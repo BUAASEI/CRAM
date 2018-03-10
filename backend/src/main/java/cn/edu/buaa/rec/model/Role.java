@@ -95,7 +95,7 @@ public class Role {
     public Role() {
     }
 
-    public Role(String roleName, String description, Long creatorId ,Long projectId,String input ,String output,String behavior,String useState){
+    public Role(String roleName, String description, Long creatorId ,Long projectId,String input ,String output,String behavior){
         this.name =roleName;
         this.description = description;
         this.creatorId = creatorId;
@@ -103,7 +103,6 @@ public class Role {
         this.input = input;
         this.output = output;
         this.behavior = behavior;
-        this.useState = useState;
     }
 
     public String getBehavior() {

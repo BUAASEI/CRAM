@@ -3,8 +3,8 @@ package cn.edu.buaa.rec.controller;
 import cn.edu.buaa.rec.model.Usecase;
 import cn.edu.buaa.rec.service.*;
 import cn.edu.buaa.rec.service.impl.RuleCheckImpl;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description:
@@ -102,9 +100,18 @@ public class UsecaseController {
     public Map<String, Object> updateUsecase(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long usecaseId = jsonObject.getLong("id");
-        Usecase usecase = new Usecase(usecaseId, jsonObject.getString("rucmSpec"));
-        System.out.println("usecase:" + usecase);
-        Map<String, Object> m = usecaseService.updateUsecase(usecase);
+        Usecase use = usecaseService.getById(usecaseId);
+        String parentName = use.getName();
+        String nowName = jsonObject.getString("name");
+        Map<String, Object> m = new HashMap<>();
+        if (parentName.equals(nowName)){
+            Usecase usecase = new Usecase(usecaseId, jsonObject.getString("rucmSpec"));
+            System.out.println("usecase:" + usecase);
+            usecase.setUsestate("1");
+            m = usecaseService.updateUsecase(usecase);
+        }else{
+            m = newUsecaseIner(info,"0");
+        }
 
         System.out.println("m:" + m.toString());
         return m;
@@ -121,24 +128,136 @@ public class UsecaseController {
     @ResponseBody
     public Map<String, Object> newUsecase(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        String actor = jsonObject.getString("actor");
+        System.out.println("JsonInfo:"+info.toString());
         Long projectId = jsonObject.getLong("projectId");
+        Long primaryActorId = jsonObject.getLong("primaryActorId");
+        System.out.println("primaryId:"+primaryActorId.toString());
+        JSONArray secondaryActorIds = jsonObject.getJSONArray("secondaryActorIds");
+        System.out.println("secondaryId:"+secondaryActorIds.toString());
+        List<Long> roleIds = new LinkedList<>();
+        roleIds.add(primaryActorId);
+        for (int i=0;i<secondaryActorIds.size();i++){
+            Long sId = Long.valueOf(secondaryActorIds.get(i).toString());
+            roleIds.add(sId);
+        }
 
-        System.out.println("info" + info.toString());
-        List<String> roleNames = Arrays.asList(actor.split(","));
-        System.out.println("roleName" + roleNames.toString());
-        List<Long> roleIds = roleService.getIdsByName(roleNames, projectId);
+        JSONArray dictionary = jsonObject.getJSONArray("dictionary");
 
-        System.out.println("roIds" + roleIds.toString());
-        String dictionary = jsonObject.getString("dictionary");
-        List<String> dataNames = Arrays.asList(dictionary.split(","));
+        System.out.println("datasId"+dictionary.toString());
+        List<Long> dataIds = new LinkedList<>();
+        for (int i=0;i<dictionary.size();i++){
+            Long dId = Long.valueOf(dictionary.get(i).toString());
+            dataIds.add(dId);
+        }
 
-        System.out.println("dataNames:"+dataNames.toString());
-        List<Long> dataIds = dataService.getIdsByName(dataNames, projectId);
-
-        System.out.println("dataIds" + dataIds.toString());
-        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatortId"), jsonObject.getString("brif"));
+        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatorId"), jsonObject.getString("rucmSpec"));
         System.out.println("usecase:" + usecase);
+
+        String useState = jsonObject.getString("useState");
+        usecase.setUsestate(useState);
+
+        Long usecaseIdMax = usecaseService.selectMaxId();
+        Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
+        usecase.setId(id);
+        Map<String, Object> m = usecaseService.newUsecase(usecase);
+
+        System.out.println("useId:" + usecase.getId());
+        usecaseRoleService.creatUsecaseRole(roleIds, usecase.getId());
+        usecaseDataService.creatUsecaseData(dataIds, usecase.getId());
+
+
+        System.out.println("m:" + m.toString());
+        return m;
+
+    }
+
+//    /**
+//     * 存储新建的用例信息
+//     *
+//     * @param info
+//     * @return
+//     */
+//    @RequestMapping(value = "/new", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Map<String, Object> newUsecase(@Valid @RequestBody Map<String, Object> info) {
+//        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+//        String actor = jsonObject.getString("actor");
+//        Long projectId = jsonObject.getLong("projectId");
+//
+//        System.out.println("info" + info.toString());
+//        List<String> roleNames = Arrays.asList(actor.split(","));
+//        System.out.println("roleName" + roleNames.toString());
+//        List<Long> roleIds = roleService.getIdsByName(roleNames, projectId);
+//
+//        System.out.println("roIds" + roleIds.toString());
+//        String dictionary = jsonObject.getString("dictionary");
+//        List<String> dataNames = Arrays.asList(dictionary.split(","));
+//
+//        System.out.println("dataNames:"+dataNames.toString());
+//        List<Long> dataIds = dataService.getIdsByName(dataNames, projectId);
+//
+//        System.out.println("dataIds" + dataIds.toString());
+//        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatortId"), jsonObject.getString("brif"));
+//        System.out.println("usecase:" + usecase);
+//
+//        Long usecaseIdMax = usecaseService.selectMaxId();
+//        Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
+//        usecase.setId(id);
+//        Map<String, Object> m = usecaseService.newUsecase(usecase);
+//
+//        System.out.println("useId:" + usecase.getId());
+//        usecaseRoleService.creatUsecaseRole(roleIds, usecase.getId());
+//        usecaseDataService.creatUsecaseData(dataIds, usecase.getId());
+//
+//        System.out.println("m:" + m.toString());
+//        return m;
+//
+//    }
+
+    /**
+     * 检测当前用例存在的缺陷
+     *
+     * @param rucmModel
+     * @return
+     */
+    @RequestMapping(value = "/detect", method = RequestMethod.POST)
+    @ResponseBody
+    public String showCheckResult(@Valid @RequestBody String rucmModel) {
+        String result = ruleCheckService.ruleCheckResult(rucmModel);
+        return result;
+    }
+
+
+    //内部创建Usecase的方法，便于修改uSeState
+
+    public Map<String, Object> newUsecaseIner(Map<String, Object> info,String useState) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
+        System.out.println("JsonInfo:"+info.toString());
+        Long projectId = jsonObject.getLong("projectId");
+        Long primaryActorId = jsonObject.getLong("primaryActorId");
+        System.out.println("primaryId:"+primaryActorId.toString());
+
+        JSONArray secondaryActorIds = jsonObject.getJSONArray("secondaryActorIds");
+        System.out.println("secondaryId:"+secondaryActorIds.toString());
+        List<Long> roleIds = new LinkedList<>();
+        roleIds.add(primaryActorId);
+        for (int i=0;i<secondaryActorIds.size();i++){
+            Long sId = Long.valueOf(secondaryActorIds.get(i).toString());
+            roleIds.add(sId);
+        }
+
+        JSONArray dictionary = jsonObject.getJSONArray("dictionary");
+
+        List<Long> dataIds = new LinkedList<>();
+        for (int i=0;i<dictionary.size();i++){
+            Long dId = Long.valueOf(dictionary.get(i).toString());
+            dataIds.add(dId);
+        }
+
+        Usecase usecase = new Usecase(jsonObject.getString("name"), jsonObject.getString("description"), jsonObject.getLong("projectId"), jsonObject.getLong("creatorId"), jsonObject.getString("rucmSpec"));
+        System.out.println("usecase:" + usecase);
+
+        usecase.setUsestate("0");
 
         Long usecaseIdMax = usecaseService.selectMaxId();
         Long id = (usecaseIdMax == null) ? 1 : usecaseIdMax + 1;
@@ -154,17 +273,6 @@ public class UsecaseController {
 
     }
 
-    /**
-     * 检测当前用例存在的缺陷
-     *
-     * @param rucmModel
-     * @return
-     */
-    @RequestMapping(value = "/detect", method = RequestMethod.POST)
-    @ResponseBody
-    public String showCheckResult(@Valid @RequestBody String rucmModel) {
-        String result = ruleCheckService.ruleCheckResult(rucmModel);
-        return result;
-    }
+
 
 }

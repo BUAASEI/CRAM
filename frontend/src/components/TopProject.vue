@@ -111,12 +111,39 @@ export default{
   },
   components: {
   },
+  props: {
+    projectId: {
+      type: Number,
+      default: 1
+    }
+
+  },
+  mounted(){
+     var userId = localStorage.getItem("id");
+     this.initData(userId,this.projectId);
+
+  },
   methods: {
     // 调用新建项目弹窗
       postIbox: function() {
         console.log(9)
         this.$emit('showIbox', 1)
-      }
+      },
+    initData(userId,projectId){
+
+      let body = {
+        ProjectName: this.name,
+        Description: this.discribe,
+        DomainId: 1,
+        CreatorId: userId
+      };
+      /*ajax*/
+     /* this.$http.post('sysuser/crepro',body)
+        .then((response) => {
+          confirm(response.data.Msg);
+        })*/
+
+    }
   }
 }
 </script>

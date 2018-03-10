@@ -4,11 +4,11 @@
     <TopProject name="北航学生选课系统"></TopProject>
     <div class="context">
       <div class="context-nav">
-        <NavProject target="st"></NavProject>
+        <NavProject target="re"></NavProject>
       </div>
       <div class="context-detail">
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增角色</Button></div>
+          <div class="detail-btn"><Button @click="createRole" type="primary">新增角色</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">角色名称</div>
@@ -48,10 +48,12 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="showNew" class="box">
+      <CreateBox @close="closeBox" title="新增角色" :datas="newInput" url="role/new"></CreateBox>
     </div>
   </div>
 </template>
@@ -125,27 +127,37 @@
     color: dodgerblue;
     cursor: pointer;
   }
-
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 1000px;
+    height: 600px;
+    background-color: rgba(0,0,0,0.6);
+  }
 </style>
 <script>
   import TopProject from '@/components/TopProject'
   import NavProject from '@/components/NavProject'
-  import {Button} from 'iview'
+  import CreateBox from '@/components/createBox'
+  import {Button, Input} from 'iview'
 
   export default{
 
     data() {
       return {
         userId:'',
-        projectId:'',
+        projectId: null,
         userRoles:[],
-        listRoles:[]
+        listRoles:[],
+        newInput: ['roleName', 'description','input','output','behavior'],
+        showNew: false //新增角色
       }
     },
     mounted() {
-      this.userId = $route.params.userId;
-      this.projectId = $route.params.projectId;
-      this.getRoles(projectId,userId);
+      this.userId = this.$route.params.userId;
+      this.projectId = localStorage.getItem('pId');
+      this.getRoles(projectId, userId);
     },
     methods:{
 
@@ -171,12 +183,21 @@
         // do something
         // 路由跳转
         this.$router.push({ name: 'usecase', params: {type: 'edit'} })
+      },
+      //新增角色弹窗
+      createRole: function () {
+        this.showNew = true
+      },
+      closeBox: function () {
+        this.showNew = false
       }
     },
     components: {
       TopProject,
       NavProject,
-      Button
+      Button,
+      Input,
+      CreateBox
     }
 
   }

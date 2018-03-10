@@ -205,4 +205,6 @@ public class UserProjectRole {
     public void setIsapproved(Integer isapproved) {
         this.isapproved = isapproved;
     }
+
+
 }

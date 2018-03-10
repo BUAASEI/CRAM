@@ -4,7 +4,7 @@
     <TopProject name="北航学生选课系统"></TopProject>
     <div class="context">
       <div class="context-nav">
-        <NavProject target="st"></NavProject>
+        <NavProject target="mt"></NavProject>
       </div>
       <div class="context-detail">
         <div class="detail">

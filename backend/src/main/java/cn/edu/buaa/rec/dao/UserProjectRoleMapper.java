@@ -23,4 +23,6 @@ public interface UserProjectRoleMapper {
 
 //    <!-- 根据Id修改角色申请的审批状态 -->
     int updateApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);
+
+    Long selectMaxId();
 }

@@ -154,7 +154,8 @@
           BoundedAlternativeFlows: [],
           SpecificAlternativeFlows: [],
           GlobalAlternativeFlows: [],
-          DataDictionary: []
+          DataDictionary: [],
+          caseState: null
         },
         count: 0,
         show: false
@@ -185,16 +186,20 @@
             if(usecase!=null){
               this.id = usecase.id;
               var rucmJson = usecase.rucmSpec;
-              var cases = JSON.parse(rucmJson);
-              // var cases = rucms.cases;
-              this.brief = cases.Brief;
-              this.basicFlow = cases.BasicFlow;
-              this.specData1 = cases.BoundedAlternativeFlows;
-              this.specData2 = cases.SpecificAlternativeFlows;
-              this.specData3 = cases.GlobalAlternativeFlows;
-              this.dict = cases.DataDictionary;
-              this.cases.DataDictionary = cases.DataDictionary;
-              this.show = true
+              if(rucmJson!=null){
+                var cases = JSON.parse(rucmJson);
+                // var cases = rucms.cases;
+                this.brief = cases.Brief;
+                this.basicFlow = cases.BasicFlow;
+                this.specData1 = cases.BoundedAlternativeFlows;
+                this.specData2 = cases.SpecificAlternativeFlows;
+                this.specData3 = cases.GlobalAlternativeFlows;
+                this.dict = cases.DataDictionary;
+                this.cases.DataDictionary = cases.DataDictionary;
+                this.cases.useState = usecase.useState
+                this.show = true
+              }
+
               /*let rucmJson = {
                 Brief: {
                   colum: ['o', 'p', 'i'],

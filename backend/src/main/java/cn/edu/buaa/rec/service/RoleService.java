@@ -13,5 +13,7 @@ public interface RoleService {
 
     List<Long> getIdsByName(List<String> roleNames, Long projectId);
 
+    List<Map<String,Object>> getNameAndIdByProjectId(Long projectId);
+
 
 }

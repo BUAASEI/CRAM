@@ -7,16 +7,16 @@
     <div :class="target === 'st'? 'locked' : ''">
       <router-link to="/project/home">场景</router-link>
     </div>
-    <div>
+    <div :class="target === 're'? 'locked' : ''">
       <router-link to="/project/role">角色</router-link>
     </div>
-    <div>
+    <div :class="target === 'dt'? 'locked' : ''">
       <router-link to="/project/data">数据</router-link>
     </div>
-    <div>
+    <div :class="target === 'qs'? 'locked' : ''">
       <router-link to="/project/problem">问题</router-link>
     </div>
-    <div>
+    <div :class="target === 'mt'? 'locked' : ''">
       <router-link to="/project/solution">解决方案</router-link>
     </div>
   </div>

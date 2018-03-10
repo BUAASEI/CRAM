@@ -33,7 +33,7 @@ public class RoleController {
     public Map<String, Object> newRole(@Valid @RequestBody Map<String, Object> roleInfo) {
 
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(roleInfo);
-        Role role = new Role(jsonObject.getString("roleName"), jsonObject.getString("description"), jsonObject.getLong("creatorId"), jsonObject.getLong("projectId"), jsonObject.getString("input"), jsonObject.getString("output"), jsonObject.getString("behavior"), jsonObject.getString("useState"));
+        Role role = new Role(jsonObject.getString("roleName"), jsonObject.getString("description"), jsonObject.getLong("creatorId"), jsonObject.getLong("projectId"), jsonObject.getString("input"), jsonObject.getString("output"), jsonObject.getString("behavior"));
 
         System.out.println(role.toString());
         return roleService.newRole(role);

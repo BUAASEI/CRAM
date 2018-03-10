@@ -7,10 +7,7 @@ import cn.edu.buaa.rec.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("DataService")
 public class DataServiceImpl implements DataService {
@@ -57,6 +54,25 @@ public class DataServiceImpl implements DataService {
         System.out.println("projectId:"+projectId);
         List<Long> dataIds = dataMapper.selectIdsByName(dataNames, projectId);
         return dataIds;
+    }
 
+    @Override
+    public List<Map<String, Object>> getNameAndIdByprojectId(Long projectId) {
+       if (projectId ==null || projectId<0){
+           return null;
+       }
+
+       List<Data> datas = dataMapper.selectByProjectId(projectId);
+
+       List<Map<String,Object>> list = new LinkedList<>();
+
+       for (Data data : datas){
+           Map<String,Object> m = new HashMap<>();
+           m.put("id",data.getId());
+           m.put("name",data.getName());
+           list.add(m);
+       }
+
+       return list;
     }
 }

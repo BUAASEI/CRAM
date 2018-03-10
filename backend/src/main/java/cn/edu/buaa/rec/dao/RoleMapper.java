@@ -33,4 +33,5 @@ public interface RoleMapper {
 
     List<Long> selectIdsByName(@Param("roleNames")List<String> roleNames,@Param("projectId")Long projectId);
 
+    List<Map<String,Object>> selectNameAndIdByProjectId(@Param("projectId")Long projectId);
 }

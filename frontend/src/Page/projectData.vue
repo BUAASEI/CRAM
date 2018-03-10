@@ -4,11 +4,11 @@
     <TopProject name="北航学生选课系统"></TopProject>
     <div class="context">
       <div class="context-nav">
-        <NavProject target="st"></NavProject>
+        <NavProject target="dt"></NavProject>
       </div>
       <div class="context-detail">
         <div class="detail">
-          <div class="detail-btn"><Button type="primary">新增数据</Button></div>
+          <div class="detail-btn"><Button @click="createData" type="primary">新增数据</Button></div>
           <div class="detail-body">
             <div class="detail-head">
               <div class="col-name">数据名称</div>
@@ -54,10 +54,12 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="showNew" class="box">
+      <CreateBox @close="closeBox" title="新增数据" :datas="newInput" url="data/new"></CreateBox>
     </div>
   </div>
 </template>
@@ -134,58 +136,36 @@
     color: dodgerblue;
     cursor: pointer;
   }
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 1000px;
+    height: 600px;
+    background-color: rgba(0,0,0,0.6);
+  }
 
 </style>
 <script>
   import TopProject from '@/components/TopProject'
   import NavProject from '@/components/NavProject'
+  import CreateBox from '@/components/createBox'
   import {Button} from 'iview'
-  let a1 = [
-    {
-      id: 1,
-      name: '毕业选课结果',
-      roles: '校教务部，院系教务',
-      datas: '学生选课结果'
-    },
-    {
-      id: 2,
-      name: '选课结束',
-      roles: '学生，开课老师，计算中心',
-      datas: '学生选课结果'
-    },
-    {
-      id: 3,
-      name: '选课结束',
-      roles: '学生，开课老师，计算中心',
-      datas: '学生选课结果'
-    }
-  ]
-  let a2 = [
-    {
-      id: 1,
-      name: '毕业选课结果',
-      roles: '校教务部，院系教务',
-      datas: '学生选课结果'
-    },
-    {
-      id: 2,
-      name: '选课结束',
-      roles: '学生，开课老师，计算中心',
-      datas: '学生选课结果'
-    }
-  ]
 
   export default{
     data () {
       return {
         userDatas: [],
-        listDatas: []
+        listDatas: [],
+        newInput: ['name', 'description'],
+        showNew: false //新增数据
       }
     },
     components: {
       TopProject,
       NavProject,
-      Button
+      Button,
+      CreateBox
     },
     mounted() {
       this.getDatas(3,3);
@@ -214,6 +194,13 @@
         // do something
         // 路由跳转
         this.$router.push({ name: 'usecase', params: {type: 'edit'} })
+      },
+      //新增数据弹窗
+      createData: function () {
+        this.showNew = true
+      },
+      closeBox: function () {
+        this.showNew = false
       }
     }
   }

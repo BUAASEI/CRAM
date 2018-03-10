@@ -1,11 +1,14 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.RoleMapper;
+import cn.edu.buaa.rec.dao.UserProjectRoleMapper;
 import cn.edu.buaa.rec.model.Role;
+import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.rmi.MarshalledObject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +18,9 @@ import java.util.Map;
 public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleMapper roleMapper;
+
+    @Autowired
+    private UserProjectRoleMapper userProjectRoleMapper;
 
     @Override
     public Map<String, Object> newRole(Role role) {
@@ -37,7 +43,13 @@ public class RoleServiceImpl implements RoleService {
             } else {
                 m.put("Msg", "请检查数据格式！");
             }
-
+            UserProjectRole userProjectRole = new UserProjectRole();
+            Long idMax = userProjectRoleMapper.selectMaxId();
+            userProjectRole.setId((idMax == null) ? 1 : idMax + 1);
+            userProjectRole.setUserId(role.getCreatorId());
+            userProjectRole.setProjectId(role.getProjectId());
+            userProjectRole.setRoleId(role.getId());
+            userProjectRoleMapper.insert(userProjectRole);
         }
         return m;
     }
@@ -59,5 +71,14 @@ public class RoleServiceImpl implements RoleService {
         }
         List<Long> roleIds = roleMapper.selectIdsByName(roleNames, projectId);
         return roleIds;
+    }
+
+    @Override
+    public List<Map<String, Object>> getNameAndIdByProjectId(Long projectId) {
+       if (projectId==null || projectId<0){
+           return null;
+       }
+       List<Map<String,Object>> roles = roleMapper.selectNameAndIdByProjectId(projectId);
+       return roles;
     }
 }
