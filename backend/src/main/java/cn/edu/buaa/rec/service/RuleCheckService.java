@@ -18,4 +18,10 @@ public interface RuleCheckService {
 
     public Map<String, Object> rule7Check(RucmModel content);
 
+    public Map<String,Object> rule9Check(RucmModel content);
+
+    public Map<String, Object> rule11And12Check(RucmModel content);
+
+
+
 }
