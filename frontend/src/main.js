@@ -10,7 +10,7 @@ import './style/style.css'
 
 Vue.config.productionTip = false
 Vue.use(VueResource)
-Vue.http.options.root = 'http://192.168.109.190:8088/cram/';
+Vue.http.options.root = 'http://192.168.109.250:8088/cram/';
 
 /* eslint-disable no-new */
 new Vue({

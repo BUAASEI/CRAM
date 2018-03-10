@@ -1,9 +1,12 @@
 package cn.edu.buaa.rec.dao;
 
 import cn.edu.buaa.rec.model.Question;
+import cn.edu.buaa.rec.model.Question;
+import cn.edu.buaa.rec.model.Solution;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface QuestionMapper {
     /**
@@ -21,10 +24,21 @@ public interface QuestionMapper {
      * @mbggenerated Wed Feb 28 00:40:34 CST 2018
      */
     int insertSelective(Question record);
-    List<Question> selectByProjectId(Long projectId);
 
     Long selectMaxId();
 
     int checkByTitleAndProjectId(@Param("title")String title, @Param("projectId")Long projectid);
+
+
+    int update(Question question);
+    int delete(Long id);
+
+    List<Map<String,Object>> selectByProjectIdToUsecase(Long projectId);
+    List<Map<String,Object>> selectByProjectIdToBussiness(Long projectId);
+
+    List<Solution> selectByUserId(@Param("userId")Long userId);
+
+    List<Map<String,Object>> selectByProjectIdAndUserIdToBussiness(@Param("projectId")Long projectId, @Param("userId") Long userId);
+    List<Map<String,Object>> selectByProjectIdAndUserIdToUsecase(@Param("projectId")Long projectId, @Param("userId") Long userId);
 
 }

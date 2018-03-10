@@ -192,34 +192,8 @@ public class ProjectServiceImpl implements ProjectService {
         return userDatas;
     }
 
-    @Override
-    public List<Question> getQuestion(Long projectId) {
-        if (projectId == null) {
-            return null;
-        }
-        return questionMapper.selectByProjectId(projectId);
-    }
 
-    @Override
-    public List<Solution> getSolution(Long projectId) {
 
-        if (projectId == null) {
-            return null;
-        }
-        System.out.println(projectId);
-        List<Solution> listSolutions = solutionMapper.selectByProjectId(projectId);
-        return listSolutions;
-    }
-
-    @Override
-    public List<Solution> getUserSolution(Long projectId, Long userId) {
-        if (projectId == null || userId == null) {
-            return null;
-        }
-
-        List<Solution> userSolutions = solutionMapper.selectByProjectIdAndUserId(projectId, userId);
-        return userSolutions;
-    }
 
     private Project getProject(String name) {
         System.out.println("name:" + name);
