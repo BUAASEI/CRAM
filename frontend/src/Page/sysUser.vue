@@ -78,6 +78,7 @@
       view: function (id) {
         // do something
         // 路由跳转
+        localStorage.setItem('pId', id)
         this.$router.push({ name: 'project', params: {type: 'view',id:id}})
       },
       showIbox (idx) {

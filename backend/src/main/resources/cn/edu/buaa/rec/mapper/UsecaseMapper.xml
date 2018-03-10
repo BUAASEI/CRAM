@@ -64,6 +64,12 @@
   </foreach>
   </select>
 
+  <select id="selectByProjectId" resultMap="BaseResultMap">
+    SELECT *
+    FROM usecase
+    WHERE project_id = #{projectId}
+  </select>
+
   <!-- 通过id更新用例信息 -->
   <!-- int updateById(Usecase usecase); -->
   <update id="updateById" parameterType="cn.edu.buaa.rec.model.Usecase">

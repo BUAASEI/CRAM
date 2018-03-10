@@ -46,6 +46,11 @@ public class ProjectController {
     @Qualifier("UsecaseRoleDataService")
     private UsecaseRoleDataService usecaseRoleDataService;
 
+
+    @Autowired
+    @Qualifier("UserProjectManService")
+    private UserProjectManService userProjectManService;
+
     @Autowired
     @Qualifier("UserProjectService")
     private UserProjectService userProjectService;
@@ -82,13 +87,21 @@ public class ProjectController {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long projectId = jsonObject.getLong("ProjectId");
         Long userId = jsonObject.getLong("UserId");
-        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
-        System.out.println("roleId:"+roleIds);
-        List<Long> usecaseIds = usecaseRoleService.getUsecaseIdsByRoleIds(roleIds);
-        List<Map<String,Object>> usecaseForms = useCaseService.getUsecaseForm(usecaseIds);
-        System.out.println(roleIds.toString());
-        if (roleIds == null && roleIds.size() == 0) {
-            return null;
+//        List<Long> roleIds = userProjectRoleService.getUserRoleId(projectId, userId);
+//        System.out.println("roleId:"+roleIds);
+//        List<Long> usecaseIds = usecaseRoleService.getUsecaseIdsByRoleIds(roleIds);
+//        System.out.println("usecase"+usecaseIds);
+//        List<Map<String,Object>> usecaseForms = useCaseService.getUsecaseForm(usecaseIds);
+//        System.out.println(roleIds.toString());
+//        if (roleIds == null && roleIds.size() == 0) {
+//            return null;
+//        }
+        int manger = userProjectManService.checkIsManger(projectId,userId);
+        System.out.println("manger:"+manger);
+        List<Map<String, Object>> usecaseForms = new LinkedList<>();
+
+        if(manger==1) {
+            usecaseForms = useCaseService.getUsecaseByprojectId(projectId);
         }
         Map<String, Object> result = new HashMap<>();
 //        List<BusinessRoleData> businessRoleData = businessRoleDataService.getBusinessRoleDataByRoleIds(roleIds);

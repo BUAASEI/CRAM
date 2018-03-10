@@ -166,7 +166,7 @@
           projectId:projectId,
           userId:userId
         };
-        this.$http.post('project/role',info)
+        this.$http.post('/role',info)
           .then((response) => {
             this.listRoles = response.data.listRoles;
 

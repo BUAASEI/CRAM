@@ -25,4 +25,7 @@ public interface UserProjectRoleMapper {
     int updateApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);
 
     Long selectMaxId();
+
+    int checkIsManger(@Param("projectId")Long projectId,@Param("userId")Long userId);
+
 }

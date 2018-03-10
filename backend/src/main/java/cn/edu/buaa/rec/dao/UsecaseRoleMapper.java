@@ -28,4 +28,5 @@ public interface UsecaseRoleMapper {
     Long  selectMaxId();
 
     List<Long> selectUsecaseIdsByRoleIds(@Param("roleIds")List<Long> roleIds);
+
 }

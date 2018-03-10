@@ -66,8 +66,8 @@
     SELECT usecase_id
     FROM usecase_role
     WHERE role_id IN
-    <foreach collection="roleIds" item="rId" index="index" separator=",">
-      (#{rId})
+    <foreach collection="roleIds" item="rId" index="index" separator="," open="(" close=")">
+      #{rId}
     </foreach>
   </select>
 

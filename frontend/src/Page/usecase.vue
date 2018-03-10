@@ -6,7 +6,7 @@
         <button>
           <router-link to="/evolution">演化历史</router-link>
         </button>
-        <button>缺陷检测</button>
+        <button @click="printLack">缺陷检测</button>
       </div>
       <div>
         <button @click="saveData">保存</button>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div  v-if="show" class="box1 scroll">
-      <div class="rucm-head" v-model = "id">Use Case Specitication for CRAM</div>
+      <div class="rucm-head">Use Case Specitication for CRAM</div>
       <div class="flow rucm-basic-info">
         <Table v-model="brief" ref="table" @tableData="tableData" :data="brief"></Table>
       </div>
@@ -47,6 +47,9 @@
       <p>
         <button>发表评论</button>
       </p>
+    </div>
+    <div v-if="showLack" class="box">
+      <p class="content">{{ lackData }}</p>
     </div>
   </div>
 </template>
@@ -124,6 +127,17 @@
   .col-operate {
     width: 15%;
   }
+  .box {
+    position: fixed;
+    top: 150px;
+    left: 400px;
+    width: 800px;
+    height: 600px;
+    background-color: white;
+  }
+  .content {
+    word-break: break-all;
+  }
 </style>
 <script>
   import TopScenario from '@/components/TopScenario'
@@ -139,7 +153,7 @@
         name: '',
         id:'',
         brief: {
-          colum: [1,2,3,4,5,6,7],
+          colum: ["Usecase Name","Brief Description","Precondition","Primary Actor","Secondary Actors","Dependency","Generalization","Input","output","DataDictionary"],
           data: []
         },
         basicFlow: {
@@ -158,7 +172,10 @@
           caseState: null
         },
         count: 0,
-        show: false
+        show: false,
+        lack: false,
+        lackData: null,
+        showLack: false
       }
     },
     components: {
@@ -183,61 +200,19 @@
         this.$http.post('usecase/getusecase',{"usecaseId":id})
           .then((response) => {
             var usecase = response.data;
-            if(usecase!=null){
-              this.id = usecase.id;
-              var rucmJson = usecase.rucmSpec;
-              if(rucmJson!=null){
-                var cases = JSON.parse(rucmJson);
-                // var cases = rucms.cases;
-                this.brief = cases.Brief;
-                this.basicFlow = cases.BasicFlow;
-                this.specData1 = cases.BoundedAlternativeFlows;
-                this.specData2 = cases.SpecificAlternativeFlows;
-                this.specData3 = cases.GlobalAlternativeFlows;
-                this.dict = cases.DataDictionary;
-                this.cases.DataDictionary = cases.DataDictionary;
-                this.cases.useState = usecase.useState
-                this.show = true
-              }
-
-              /*let rucmJson = {
-                Brief: {
-                  colum: ['o', 'p', 'i'],
-                  data: ['a', 'b' ,'c']
-                },
-                BasicFlow: {
-                  colum: [1, 2, 3],
-                  data: ['a', 'b' ,'c'],
-                  PostCondition: 'w'
-                },
-                BoundedAlternativeFlows: [
-                  {
-                    colum: [1, 2, 3],
-                    data: ['a', 'b' ,'c'],
-                    RFS: '1',
-                    PostCondition: 'w'
-                  }
-                ],
-                SpecificAlternativeFlows: [
-                  { colum: [1, 2, 3],
-                    data: ['a', 'b' ,'c'],
-                    RFS: '1',
-                    PostCondition: 'w'
-                  }
-                ],
-                GlobalAlternativeFlows: [
-                  {
-                    colum: [1, 2, 3],
-                    data: ['a', 'b' ,'c'],
-                    RFS: '1',
-                    PostCondition: 'w'
-                  }
-                ],
-                DataDictionary: []
-              }
-              console.log(rucmJson)*/
-
-            }
+            this.id = usecase.id;
+            var rucmJson = usecase.rucmSpec;
+            var cases = JSON.parse(rucmJson);
+            // var cases = rucms.cases;
+            this.brief = cases.Brief;
+            this.basicFlow = cases.BasicFlow;
+            this.specData1 = cases.BoundedAlternativeFlows;
+            this.specData2 = cases.SpecificAlternativeFlows;
+            this.specData3 = cases.GlobalAlternativeFlows;
+            this.dict = cases.DataDictionary;
+            this.cases.DataDictionary = cases.DataDictionary;
+            this.cases.useState = usecase.useState
+            this.show = true
           })
       },
       add (obj) {
@@ -259,7 +234,7 @@
         }
       },
       saveData () {
-
+        this.lack = false
         this.$refs.table.sends()
         this.$refs.bflow.sends()
         this.$refs.flow.forEach(item => {
@@ -275,10 +250,7 @@
         if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
           // ajax
 
-          this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
-            .then((response) => {
-              confirm(response.data.Msg);
-            })
+          this.lack ?  this.reqLack() : this.reqSave()
         }
       },
       otherData (data, title, pos) {
@@ -295,12 +267,34 @@
         this.count++
         if (this.count === 2 + this.specData1.length + this.specData2.length + this.specData3.length) {
           // ajax
-          this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
-            .then((response) => {
-              confirm(response.data.Msg);
-            })
+          this.lack ?  this.reqLack() : this.reqSave()
         }
+      },
+      //缺陷检测
+      printLack () {
+        this.lack = true
+        this.$refs.table.sends()
+        this.$refs.bflow.sends()
+        this.$refs.flow.forEach(item => {
+          item.sends()
+        })
+      },
+      //req save
+      reqSave () {
+        this.$http.post('usecase/updateusecase',{"id":this.id,"rucmSpec":this.cases})
+          .then((response) => {
+            confirm(response.data.Msg);
+          })
+      },
+      //req lack
+      reqLack () {
+        this.$http.post('usecase/detect',this.cases)
+          .then((response) => {
+            this.lackData = response.data
+            this.showLack = true
+          })
       }
+
     }
   }
 </script>

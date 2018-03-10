@@ -88,7 +88,7 @@
         let obj = this.outputs
         obj['creatorId'] = localStorage.getItem('id')
         obj['projectId'] = localStorage.getItem('pId')
-        this.$http.post(url, obj)
+        this.$http.post(this.url, obj)
           .then((response) => {
             this.$emit("close")
           })

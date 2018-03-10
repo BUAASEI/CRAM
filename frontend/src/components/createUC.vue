@@ -138,7 +138,22 @@
           secondaryActorIds: this.primaryActor,
           dictionary: this.dictionary,
           creatorId: localStorage.getItem("id"),
-          rucmSpec: [this.name, this.description, this.actor, this.primaryActor.join(),this.dictionary.join()],
+          rucmSpec: {
+            Brief: {
+              colum: ["Usecase Name","Brief Description","Precondition","Primary Actor","Secondary Actors","Dependency","Generalization","Input","output","DataDictionary"],
+              data: [this.name, this.description, null, this.actor, this.primaryActor.join(),null,null,this.dictionary.join()]
+            },
+            BasicFlow: {colum:[1],data:[]},
+            SpecificAlternativeFlows: [{
+              colum:[1],data:[]
+            }],
+            GlobalAlternativeFlows: [{
+              colum:[1],data:[]
+            }],
+            BoundedAlternativeFlows: [{
+              colum:[1],data:[]
+            }]
+          },
           useState:'1'
         }
         this.$http.post('usecase/new', datas)

@@ -24,4 +24,6 @@ public interface UserProjectManMapper {
 
     // 根据Id修改项目管理员申请的审批状态
     int updateApprovedById(@Param("id") Long id, @Param("isapproved") Integer isapproved);
+
+    int checkIsManger(@Param("projectId")Long projectId,@Param("userId")Long userId);
 }

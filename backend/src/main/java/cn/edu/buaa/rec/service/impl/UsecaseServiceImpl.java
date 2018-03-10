@@ -108,4 +108,24 @@ public class UsecaseServiceImpl implements UseCaseService {
 
         return m;
     }
+
+    @Override
+    public List<Map<String, Object>> getUsecaseByprojectId(Long projectId) {
+        if (projectId==null){
+            return null;
+        }
+
+       List<Usecase> us = usecaseMapper.selectByProjectId(projectId);
+        List<Map<String,Object>> usform = new LinkedList<>();
+        for (Usecase u:us){
+            Map<String,Object> f = new HashMap<>();
+            f.put("usecaseId", u.getId());
+
+            f.put("usecaseName", u.getName());
+            f.put("description",u.getDescription());
+            usform.add(f);
+        }
+
+        return usform;
+    }
 }

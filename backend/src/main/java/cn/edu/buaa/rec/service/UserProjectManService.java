@@ -18,4 +18,7 @@ public interface UserProjectManService {
     int updateByApprove(Long id, Integer isapproved);
 
     List<Map<String,Object>> getApply(Long projectId);
+
+    int checkIsManger(Long projectId, Long userId);
+
 }

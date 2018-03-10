@@ -42,6 +42,7 @@ public class UserProjectManServiceImpl implements UserProjectManService {
                 ) {
             Project project = projectMapper.selectById(projectId);
             Map<String, Object> temp = new HashMap<>();
+            temp.put("id",project.getId());
             temp.put("ProjectName", project.getName());
             temp.put("ProjectDescription", project.getName());
 
@@ -83,5 +84,11 @@ public class UserProjectManServiceImpl implements UserProjectManService {
             manApplyInfo.add(manApplyEachInfo);
         }
         return manApplyInfo;
+    }
+
+    @Override
+    public int checkIsManger(Long projectId, Long userId) {
+
+        return userProjectManMapper.checkIsManger(projectId,userId);
     }
 }

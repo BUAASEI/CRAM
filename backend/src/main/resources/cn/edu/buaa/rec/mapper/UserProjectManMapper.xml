@@ -52,4 +52,10 @@
         SET isApproved=#{isapproved}
         WHERE id=#{id}
     </update>
+
+    <select id="checkIsManger" resultType="Integer">
+        SELECT isApproved
+        FROM user_project_man
+        WHERE user_id=#{userId} AND project_id=#{projectId}
+    </select>
 </mapper>

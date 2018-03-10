@@ -18,4 +18,7 @@ public interface UseCaseService {
 
     Usecase getById(Long usecaseId);
 
+    List<Map<String,Object>> getUsecaseByprojectId(Long projectId);
+
+
 }

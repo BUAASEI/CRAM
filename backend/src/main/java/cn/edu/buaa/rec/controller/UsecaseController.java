@@ -100,18 +100,18 @@ public class UsecaseController {
     public Map<String, Object> updateUsecase(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
         Long usecaseId = jsonObject.getLong("id");
-        Usecase use = usecaseService.getById(usecaseId);
-        String parentName = use.getName();
-        String nowName = jsonObject.getString("name");
+//        Usecase use = usecaseService.getById(usecaseId);
+//        String parentName = use.getName();
+//        String nowName = jsonObject.getString("name");
         Map<String, Object> m = new HashMap<>();
-        if (parentName.equals(nowName)){
+//        if (parentName.equals(nowName)){
             Usecase usecase = new Usecase(usecaseId, jsonObject.getString("rucmSpec"));
             System.out.println("usecase:" + usecase);
             usecase.setUsestate("1");
             m = usecaseService.updateUsecase(usecase);
-        }else{
-            m = newUsecaseIner(info,"0");
-        }
+//        }else{
+//            m = newUsecaseIner(info,"0");
+//        }
 
         System.out.println("m:" + m.toString());
         return m;
@@ -270,6 +270,13 @@ public class UsecaseController {
 
         System.out.println("m:" + m.toString());
         return m;
+
+    }
+
+    @RequestMapping("getUsecaseByProjectId")
+    @ResponseBody
+    public Map<String,Object> getUsecaseByprojectId(@Valid@RequestBody Map<String,object> info){
+
 
     }
 
