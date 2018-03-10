@@ -98,7 +98,6 @@ public class SysUserController {
         System.out.println(domainInfo);
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(domainInfo);
         Domain domain = new Domain(jsonObject.getString("DomainName"), jsonObject.getString("Description"), jsonObject.getLong("CreatorId"));
-
         if (domain.getName() == null) {
             Map<String, Object> error = new HashMap<>();
             error.put("Msg", "领域名不可为空");
