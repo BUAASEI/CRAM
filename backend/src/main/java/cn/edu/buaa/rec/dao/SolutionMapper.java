@@ -1,9 +1,11 @@
 package cn.edu.buaa.rec.dao;
 
+import cn.edu.buaa.rec.entity.SolutionEntity;
 import cn.edu.buaa.rec.model.Solution;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SolutionMapper {
     /**
@@ -22,11 +24,16 @@ public interface SolutionMapper {
      */
     int insertSelective(Solution record);
 
-    List<Solution> selectByProjectId(Long id);
+    List<Map<String,Object>> selectByProjectId(Long projectId);
 
-    List<Solution> selectByProjectIdAndUserId(@Param("projectId")Long projectId,@Param("userId") Long userId);
+    List<Solution> selectByUserId(@Param("userId")Long userId);
+
+    List<Map<String,Object>> selectByProjectIdAndUserId(@Param("projectId")Long projectId, @Param("userId") Long userId);
 
     Long selectMaxId();
 
     int checkByTitleAndProjectId(@Param("title")String title,@Param("projectId")Long projectid);
+
+    int update(Solution solution);
+    int delete(Long id);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,5 +48,45 @@ public class QuestionServiceImpl implements QuestionService {
             }
         }
         return m;
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllQuestionsOfProject(long projectId) {
+        List<Map<String, Object>> questWithhBussiness = questionMapper.selectByProjectIdToBussiness(projectId);
+        List<Map<String, Object>> questWithUsecase = questionMapper.selectByProjectIdToUsecase(projectId);
+        questWithhBussiness.addAll(questWithUsecase);
+        return questWithhBussiness;
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllQuestionsOfProjectAndUser(long projectId, long userId) {
+        List<Map<String, Object>> questWithBussiness =  questionMapper.selectByProjectIdAndUserIdToBussiness(projectId, userId);
+        List<Map<String, Object>> questWithUsecase = questionMapper.selectByProjectIdAndUserIdToUsecase(projectId, userId);
+        questWithBussiness.addAll(questWithUsecase);
+        return questWithBussiness;
+    }
+
+    @Override
+    public Map<String, Object> updateQuestion(Question question) {
+        Map<String, Object> result = new HashMap<>();
+        int res = questionMapper.update(question);
+        if (res == 1) {
+            result.put("Msg", "更新解决方案成功");
+        } else {
+            result.put("Msg", "更新方案失败");
+        }
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> deleteQuestion(Long id) {
+        Map<String, Object> result = new HashMap<>();
+        int res = questionMapper.delete(id);
+        if (res == 1) {
+            result.put("Msg", "删除解决方案成功");
+        } else {
+            result.put("Msg", "删除方案失败");
+        }
+        return result;
     }
 }

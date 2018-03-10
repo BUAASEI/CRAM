@@ -1,5 +1,6 @@
 package cn.edu.buaa.rec.controller;
 
+import cn.edu.buaa.rec.entity.SolutionEntity;
 import cn.edu.buaa.rec.model.*;
 import cn.edu.buaa.rec.service.*;
 import cn.edu.buaa.rec.service.impl.UsecaseServiceImpl;
@@ -250,7 +251,7 @@ public class ProjectController {
         List<Data> listDatas = new LinkedList<>();
         List<Data> userDatas = new LinkedList<>();
         for (Data d : datas) {
-            if (d.getCreatorId() != userId) {
+            if (d.getCreatorId().equals(userId)) {
                 System.out.println(d.toString());
                 listDatas.add(d);
             } else {
@@ -263,68 +264,6 @@ public class ProjectController {
         return map;
     }
 
-    /**
-     * 项目中心的问题展示接口。只显示还还没有解决的问题
-     *
-     * @param info
-     * @return
-     */
-    @RequestMapping("/question")
-    @ResponseBody
-    public Map<String, Object> showQuestion(@Valid @RequestBody Map<String, Object> info) {
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("ProjectId");
-        Long userId = jsonObject.getLong("UserId");
-        if (projectId == null) {
-            return null;
-        }
-        Map<String, Object> map = new HashMap<>();
-        List<Question> questions = projectService.getQuestion(projectId);
-        System.out.println(questions);
-        List<Question> listQuestions = new LinkedList<>();
-        List<Question> userQuestions = new LinkedList<>();
-        for (Question q : questions) {
-            if (q.getCreatorId() != userId) {
-                System.out.println(q.toString());
-                listQuestions.add(q);
-            } else {
-                userQuestions.add(q);
-            }
-        }
-        map.put("ListQuestions", listQuestions);
-        map.put("UserQuestions", userQuestions);
-        return map;
-    }
-
-    /**
-     * 展示项目中尚未处理的解决方案
-     *
-     * @param info
-     * @return
-     */
-    @RequestMapping(value = "/solution", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> showSolution(@Valid @RequestBody Map<String, Object> info) {
-        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("ProjectId");
-        Long userId = jsonObject.getLong("UserId");
-        Map<String, Object> map = new HashMap<>();
-        List<Solution> solutions = projectService.getSolution(projectId);
-        List<Solution> listSolutions = new LinkedList<>();
-        List<Solution> userSolutions = new LinkedList<>();
-        for (Solution s : solutions) {
-            if (s.getCreatorId() != userId) {
-                System.out.println(s.toString());
-                listSolutions.add(s);
-            } else {
-                userSolutions.add(s);
-            }
-        }
-
-        map.put("listSolutions", listSolutions);
-        map.put("userSolutions", userSolutions);
-        return map;
-    }
 
     /**
      * 根据角色切换，显示不同的场景和用例信息

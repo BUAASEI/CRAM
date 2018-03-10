@@ -1,6 +1,7 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.SolutionMapper;
+import cn.edu.buaa.rec.entity.SolutionEntity;
 import cn.edu.buaa.rec.model.Solution;
 import cn.edu.buaa.rec.service.SolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service("SolutionService")
@@ -40,4 +42,40 @@ public class SolutionServiceImpl implements SolutionService {
 
         return m;
     }
+
+    @Override
+    public List<Map<String,Object>> getAllSolutionsOfProject(long projectId) {
+        return solutionMapper.selectByProjectId(projectId);
+    }
+
+    @Override
+    public List<Map<String,Object>> getAllSolutionsOfProjectAndUser(long projectId, long userId) {
+
+        return solutionMapper.selectByProjectIdAndUserId(projectId, userId);
+    }
+
+    @Override
+    public Map<String, Object> updateSolution(Solution solution) {
+        Map<String, Object> result = new HashMap<>();
+        int res = solutionMapper.update(solution);
+        if (res == 1) {
+            result.put("Msg", "更新解决方案成功");
+        } else {
+            result.put("Msg", "更新方案失败");
+        }
+        return result;
+    }
+    @Override
+    public Map<String, Object> deleteSolution(Long id) {
+        Map<String, Object> result = new HashMap<>();
+        int res = solutionMapper.delete(id);
+        if (res == 1) {
+            result.put("Msg", "删除解决方案成功");
+        } else {
+            result.put("Msg", "删除方案失败");
+        }
+        return result;
+    }
+
 }
+

@@ -75,4 +75,16 @@ public class DataServiceImpl implements DataService {
 
        return list;
     }
+
+    @Override
+    public List<List<Map<String, Object>>> listData(long projectId, long userId) {
+       List<List<Map<String, Object>>> data = new ArrayList<List<Map<String, Object>>>();
+
+       List<Map<String, Object>> dataOfUserAndProject ;
+       List<Map<String, Object>> dataOfProject;
+
+       //data.add(dataOfUserAndProject);
+       //data.add(dataOfProject);
+       return data;
+    }
 }

@@ -132,10 +132,9 @@ public class SysUserController {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(projectInfo);
         Project project = new Project(jsonObject.getString("ProjectName"), jsonObject.getString("Description"),
                 jsonObject.getLong("DomainId"), jsonObject.getLong("CreatorId"));
-
         System.out.println(project.toString());
 
-        return projectService.newProject(project);
+       return projectService.newProject(project);
     }
 
     /**

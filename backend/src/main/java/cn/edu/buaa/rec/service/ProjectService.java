@@ -40,11 +40,6 @@ public interface ProjectService {
 
     List<Data> getUserDatas(Long projectId, Long userId);
 
-    List<Question> getQuestion(Long projectId);
-
-    List<Solution> getSolution(Long projectId);
-
-    List<Solution> getUserSolution(Long projectId, Long userId);
 
     Project getProjectById(Long projectId);
 

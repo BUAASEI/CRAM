@@ -223,6 +223,7 @@ public class UsecaseController {
     @RequestMapping(value = "/detect", method = RequestMethod.POST)
     @ResponseBody
     public String showCheckResult(@Valid @RequestBody String rucmModel) {
+        System.out.println("rucmModel:\n" + rucmModel);
         String result = ruleCheckService.ruleCheckResult(rucmModel);
         return result;
     }
@@ -275,8 +276,9 @@ public class UsecaseController {
 
     @RequestMapping("getUsecaseByProjectId")
     @ResponseBody
-    public Map<String,Object> getUsecaseByprojectId(@Valid@RequestBody Map<String,object> info){
+    public Map<String,Object> getUsecaseByprojectId(@Valid@RequestBody Map<String,Object> info){
 
+        return null;
 
     }
 

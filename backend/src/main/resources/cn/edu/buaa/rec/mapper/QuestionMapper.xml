@@ -40,4 +40,71 @@
         FROM question
         WHERE title = #{title} AND project_id = #{projectId}
     </select>
+    <select id="selectByProjectIdToBussiness" parameterType="Long" resultType="java.util.Map">
+      SELECT tt.id, tt.title, tt.content, b.name as settings
+      from (select q.id, q.title, q.content, qb.business_id
+            from question q
+            left join question_business qb
+            on q.id = qb.question_id
+            where q.project_id=#{projectId}) tt
+      left join business b
+      on tt.business_id = b.id
+
+    </select>
+
+    <select id="selectByProjectIdToUsecase" parameterType="Long" resultType="java.util.Map">
+
+      SELECT tt.id, tt.title, tt.content, b.name as settings
+      from (select q.id, q.title, q.content, qb.usecase_id
+            from question q
+            left join question_usecase qb
+            on q.id = qb.usecase_id
+            where q.project_id=#{projectId}) tt
+      left join usecase b
+      on tt.usecase_id = b.id
+    </select>
+
+    <select id="selectByUserId" parameterType="Long" resultType="java.util.Map">
+        SELECT tt.id, tt.title, tt.content, q.title as question
+        from (select s.id, s.title, s.content, sq.question_id
+        from solution s
+        left join solution_question sq
+        on s.id = sq.solution_id
+        where s.creator_id=#{userId}) tt
+        left join question q
+        on tt.question_id = q.id
+    </select>
+
+    <select id="selectByProjectIdAndUserIdToBussiness"  resultType="java.util.Map">
+
+      SELECT tt.id, tt.title, tt.content, b.name as settings
+      from (select q.id, q.title, q.content, qb.business_id
+            from question q
+            left join question_business qb
+            on q.id = qb.business_id
+            where q.project_id=#{projectId} and q.creator_id=#{userId}) tt
+      left join business b
+      on tt.business_id = b.id
+
+    </select>
+
+    <select id="selectByProjectIdAndUserIdToUsecase"  resultType="java.util.Map">
+
+      SELECT tt.id, tt.title, tt.content, b.name as settings
+      from (select q.id, q.title, q.content, qb.usecase_id
+            from question q
+            left join question_usecase qb
+            on q.id = qb.usecase_id
+            where q.project_id=#{projectId} and q.creator_id=#{userId}) tt
+      left join usecase b
+      on tt.usecase_id = b.id
+
+    </select>
+
+    <delete id="delete" parameterType="Long">
+        DELETE from question where id=#{id}
+    </delete>
+
+
+
 </mapper>

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,5 +59,31 @@ public class QuestionController {
         Question question = new Question();
         question.setId(questionId);
         return questionService.newQuestion(question);
+    }
+
+    public Map<String, Object> updateQuestion(@Valid @RequestBody Map<String, Object> questInfo) {
+        return null;
+    }
+
+    /**
+     * 获取问题列表
+     * @param questInfo
+     * @return
+     */
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public List<List<Map<String, Object>>> questList(@Valid @RequestBody Map<String, Object> questInfo) {
+        JSONObject jsonObject = (JSONObject) JSONObject.toJSON(questInfo);
+        long projectId = jsonObject.getLong("projectId");
+        long userId = jsonObject.getLong("userId");
+
+        List<List<Map<String, Object>>> questions = new ArrayList<>(2);
+
+        List<Map<String, Object>>  questsOfUserAndProject = questionService.getAllQuestionsOfProjectAndUser(projectId, userId);
+        List<Map<String, Object>> questsOfProject = questionService.getAllQuestionsOfProject(projectId);
+        questions.add(questsOfUserAndProject);
+        questions.add(questsOfProject);
+        return questions;
+
     }
 }

@@ -1,7 +1,9 @@
 package cn.edu.buaa.rec.service;
 
 import cn.edu.buaa.rec.model.Question;
+import cn.edu.buaa.rec.model.Question;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,4 +16,13 @@ import java.util.Map;
 
 public interface QuestionService {
     Map<String, Object> newQuestion(Question question);
+
+    List<Map<String,Object>> getAllQuestionsOfProject(long projectId);
+
+    List<Map<String,Object>> getAllQuestionsOfProjectAndUser(long projectId, long userId);
+
+    Map<String, Object> updateQuestion(Question question);
+
+    Map<String, Object> deleteQuestion(Long id);
+
 }
