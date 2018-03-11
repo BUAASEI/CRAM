@@ -1,7 +1,7 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <TopProject name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
+    <TopProject name="北航学生选课系统" @showIbox="showIbox"></TopProject>
     <div class="context">
       <div class="context-nav">
         <NavProject target="st"></NavProject>

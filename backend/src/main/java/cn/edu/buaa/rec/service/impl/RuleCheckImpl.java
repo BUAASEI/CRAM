@@ -265,10 +265,31 @@ public class RuleCheckImpl implements RuleCheckService {
         for(int i = 0;i<alternativeFlows.size();i++){
             AlternativeFlow flow = alternativeFlows.get(i);
             if(flow.getName().equals("SpecificAlternativeFlow")){
+                if(!isNumeric(flow.getRfs())){
+                    map.put("status",1);
+                    String errorInfo = "SpecificAlternativeFlow的rfs输入不合法\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                    continue;
+                }
                 int rfs = Integer.parseInt(flow.getRfs());
+                if(rfs>size){
+                    map.put("status",1);
+                    String errorInfo = "SpecificAlternativeFlow的rfs:"+rfs+"大于BasicFLow的步骤数\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                    continue;
+                }
                 arr[rfs-1]++;
             }else if(flow.getName().equals("BoundedAlternativeFlow")){
                 String[] tmp = flow.getRfs().split("-");
+                if(tmp.length!=2||!isNumeric(tmp[0])||!isNumeric(tmp[1])){
+                    map.put("status",1);
+                    String errorInfo = "BoundedAlternativeFlow的rfs输入格式不合法\n";
+                    errorInfo = map.getOrDefault("result","")+errorInfo;
+                    map.put("result",errorInfo);
+                    continue;
+                }
                 int begin = Integer.parseInt(tmp[0]);
                 int end = Integer.parseInt(tmp[1]);
                 for(int k = begin ; k<=end;k++){
