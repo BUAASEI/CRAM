@@ -155,9 +155,9 @@
       }
     },
     mounted() {
-      this.userId = this.$route.params.userId;
+      this.userId = localStorage.getItem('id');
       this.projectId = localStorage.getItem('pId');
-      this.getRoles(projectId, userId);
+      this.getRoles(this.projectId, this.userId);
     },
     methods:{
 
@@ -166,7 +166,7 @@
           projectId:projectId,
           userId:userId
         };
-        this.$http.post('/role',info)
+        this.$http.post('project/role',info)
           .then((response) => {
             this.listRoles = response.data.listRoles;
 

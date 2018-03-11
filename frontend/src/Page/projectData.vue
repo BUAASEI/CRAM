@@ -13,16 +13,16 @@
             <div class="detail-head">
               <div class="col-name">数据名称</div>
               <div class="col-description">数据描述</div>
-              <div class="col-business">所属业务场景</div>
-              <div class="col-usecase">所属用例场景</div>
+              <!--<div class="col-business">所属业务场景</div>-->
+              <!--<div class="col-usecase">所属用例场景</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in userDatas" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
                 <div class="col-description">{{ item.description }}</div>
-                <div class="col-businesses">{{ item.businesses }}</div>
-                <div class="col-usecases">{{ item.usecases }}</div>
+                <!--<div class="col-businesses">{{ item.businesses }}</div>-->
+                <!--<div class="col-usecases">{{ item.usecases }}</div>-->
                 <div class="col-operate">
                   <!--<span @click="editScenario(item.id)">设置</span>-->
                   <span>修改</span>
@@ -37,16 +37,16 @@
             <div class="detail-head">
               <div class="col-name">数据名称</div>
               <div class="col-description">数据描述</div>
-              <div class="col-business">所属业务场景</div>
-              <div class="col-usecase">所属用例场景</div>
+              <!--<div class="col-business">所属业务场景</div>-->
+              <!--<div class="col-usecase">所属用例场景</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in listDatas" :key=item.id>
                 <div class="col-name">{{ item.name }}</div>
                 <div class="col-description">{{ item.description }}</div>
-                <div class="col-businesses">{{ item.businesses }}</div>
-                <div class="col-usecases">{{ item.usecases }}</div>
+                <!--<div class="col-businesses">{{ item.businesses }}</div>-->
+                <!--<div class="col-usecases">{{ item.usecases }}</div>-->
                 <div class="col-operate">
                   <!--<span @click="editUsecase(item.id)">设置</span>-->
                   <span>修改</span>
@@ -168,7 +168,9 @@
       CreateBox
     },
     mounted() {
-      this.getDatas(3,3);
+      var projectId = localStorage.getItem("pId");
+      var userId = localStorage.getItem("id");
+      this.getDatas(projectId,userId);
     },
     methods: {
 

@@ -1,8 +1,10 @@
 package cn.edu.buaa.rec.service.impl;
 
 import cn.edu.buaa.rec.dao.RoleMapper;
+import cn.edu.buaa.rec.dao.UsecaseRoleMapper;
 import cn.edu.buaa.rec.dao.UserProjectRoleMapper;
 import cn.edu.buaa.rec.model.Role;
+import cn.edu.buaa.rec.model.UsecaseRole;
 import cn.edu.buaa.rec.model.UserProjectRole;
 import cn.edu.buaa.rec.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private UserProjectRoleMapper userProjectRoleMapper;
+    @Autowired
+    private UsecaseRoleMapper usecaseRoleMapper;
 
     @Override
     public Map<String, Object> newRole(Role role) {
@@ -35,21 +39,30 @@ public class RoleServiceImpl implements RoleService {
             m.put("Msg", "该项目角色已经存在！");
         } else {
             Long roleIdMax = roleMapper.selectMaxId();
-            role.setId((roleIdMax == null) ? 1 : roleIdMax + 1);
+            Long roleId = (roleIdMax == null) ? 1 : roleIdMax + 1;
+            role.setId(roleId);
             role.setBuildTime(new Date());
             int r = roleMapper.insert(role);
             if (r == 1) {
+
+//                UsecaseRole  ur  = new UsecaseRole();
+//                Long urId = usecaseRoleMapper.selectMaxId();
+//                ur.setId(urId);
+//                ur.setUsecaseId(role.getCreatorId());
+//                ur.setRoleId(role.getId());
+                UserProjectRole userProjectRole = new UserProjectRole();
+                Long idMax = userProjectRoleMapper.selectMaxId();
+                userProjectRole.setId((idMax == null) ? 1 : idMax + 1);
+                userProjectRole.setUserId(role.getCreatorId());
+                userProjectRole.setProjectId(role.getProjectId());
+                userProjectRole.setRoleId(role.getId());
+                userProjectRole.setIsapproved(1);
+                userProjectRoleMapper.insert(userProjectRole);
                 m.put("Msg", "新角色创建成功！");
             } else {
                 m.put("Msg", "请检查数据格式！");
             }
-//            UserProjectRole userProjectRole = new UserProjectRole();
-//            Long idMax = userProjectRoleMapper.selectMaxId();
-//            userProjectRole.setId((idMax == null) ? 1 : idMax + 1);
-//            userProjectRole.setUserId(role.getCreatorId());
-//            userProjectRole.setProjectId(role.getProjectId());
-//            userProjectRole.setRoleId(role.getId());
-//            userProjectRoleMapper.insert(userProjectRole);
+
         }
         return m;
     }

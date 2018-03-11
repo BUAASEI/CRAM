@@ -13,14 +13,14 @@
             <div class="detail-head">
               <div class="col-name">问题名称</div>
               <div class="col-roles">问题描述</div>
-              <div class="col-datas">所属场景</div>
+              <!--<div class="col-datas">所属场景</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in userQuestions" :key=item.id>
                 <div class="col-name">{{ item.title}}</div>
                 <div class="col-roles">{{ item.content }}</div>
-                <div class="col-datas">{{ item.datas }}</div>
+                <!--<div class="col-datas">{{ item.datas }}</div>-->
                 <div class="col-operate">
                   <!--<span @click="editScenario(item.id)">设置</span>-->
                   <span>修改</span>
@@ -34,14 +34,14 @@
             <div class="detail-head">
               <div class="col-name">问题名称</div>
               <div class="col-roles">问题描述</div>
-              <div class="col-datas">所属场景</div>
+              <!--<div class="col-datas">所属场景</div>-->
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
               <div class="detail-item" v-for="item in listQuestions" :key=item.id>
                 <div class="col-name">{{ item.title }}</div>
                 <div class="col-roles">{{ item.content }}</div>
-                <div class="col-datas">{{ item.datas }}</div>
+                <!--<div class="col-datas">{{ item.datas }}</div>-->
                 <div class="col-operate">
                   <!--<span @click="editUsecase(item.id)">设置</span>-->
                   <span>查看</span>
@@ -159,7 +159,9 @@
       CreateBox
     },
     mounted() {
-      this.getQuestions(3,3);
+      var projectId = localStorage.getItem("pId");
+      var userId = localStorage.getItem("id");
+      this.getQuestions(projectId,userId);
     },
     methods: {
 
@@ -168,7 +170,7 @@
           projectId:projectId,
           userId:userId
         };
-        this.$http.post('project/question',info)
+        this.$http.post('question/list',info)
           .then((response) => {
             this.listQuestions = response.data.listQuestions;
             this.userQuestions=response.data.userQuestions;

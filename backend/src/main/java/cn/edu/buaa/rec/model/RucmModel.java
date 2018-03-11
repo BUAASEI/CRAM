@@ -85,7 +85,7 @@ public class RucmModel {
         setBriefDescription((String) basicInfo.get(0));
         setUseCaseName((String) basicInfo.get(1));
         setPreCondition((String) basicInfo.get(2));
-        setPrimaryActor((String) basicInfo.get(3));
+        setPrimaryActor(basicInfo.get(3).toString());
         setSecondaryActors((String) basicInfo.get(4));
         setDependency((String) basicInfo.get(5));
         setGeneralization((String) basicInfo.get(6));

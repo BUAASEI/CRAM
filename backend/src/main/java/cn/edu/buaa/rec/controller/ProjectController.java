@@ -208,8 +208,8 @@ public class ProjectController {
     public Map<String, Object> showRole(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
 
-        Long projectId = jsonObject.getLong("ProjectId");
-        Long userId = jsonObject.getLong("UserId");
+        Long projectId = jsonObject.getLong("projectId");
+        Long userId = jsonObject.getLong("userId");
         Map<String, Object> m = new HashMap<String, Object>();
 
         List<Role> roles = projectService.getRole(projectId);
@@ -230,7 +230,9 @@ public class ProjectController {
             }
         }
         m.put("listRoles", listRoles);
+        System.out.println("listRoles:"+listRoles);
         m.put("userRoles", userRoles);
+        System.out.println("userRoles:"+userRoles);
         return m;
     }
 
@@ -244,18 +246,19 @@ public class ProjectController {
     @ResponseBody
     public Map<String, Object> showData(@Valid @RequestBody Map<String, Object> info) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(info);
-        Long projectId = jsonObject.getLong("ProjectId");
-        Long userId = jsonObject.getLong("UserId");
+        Long projectId = jsonObject.getLong("projectId");
+        Long userId = jsonObject.getLong("userId");
         Map<String, Object> map = new HashMap<>();
         List<Data> datas = projectService.getData(projectId);
         List<Data> listDatas = new LinkedList<>();
         List<Data> userDatas = new LinkedList<>();
         for (Data d : datas) {
-            if (d.getCreatorId().equals(userId)) {
-                System.out.println(d.toString());
+            if (d.getCreatorId()!=userId) {
+                System.out.println("listd:"+d.toString()+userId);
                 listDatas.add(d);
             } else {
                 userDatas.add(d);
+                System.out.println("userd:"+d.toString());
             }
         }
 

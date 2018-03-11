@@ -14,12 +14,12 @@
           <span>创建时间：{{ dates }}</span>
           <span>创建人：{{ creator }}</span>
           <span>当前角色：{{ rolename }}</span>
-          <span class="focus-blue">切换角色
+          <!--<span class="focus-blue">切换角色
             <select v-model="selected">
               <option v-for="item in other_roles" v-bind:value="item">{{item}}</option>
             </select>
           </span>
-          <span class="focus-blue">申请管理员</span>
+          <span class="focus-blue">申请管理员</span>-->
           <span @click="postIbox" class="focus-btn">演化场景</span>
 
           <router-link to="/sysuser">个人中心</router-link>
@@ -77,6 +77,8 @@
 export default{
   data () {
     return {
+      userId: null,
+      projectId: null
     }
   },
   props: {
@@ -103,25 +105,14 @@ export default{
     rolename: {
       type: String,
       default: '校教务部'
-    },
-    other_roles: {
-      type: Array,
-      default: ['学生','老师','管理员']
     }
   },
   components: {
   },
-  props: {
-    projectId: {
-      type: Number,
-      default: 1
-    }
-
-  },
   mounted(){
-     var userId = localStorage.getItem("id");
-     this.initData(userId,this.projectId);
-
+    var userId = localStorage.getItem("id");
+    //this.reqBasic()
+    this.initData(userId,this.projectId);
   },
   methods: {
     // 调用新建项目弹窗
@@ -135,7 +126,7 @@ export default{
         ProjectName: this.name,
         Description: this.discribe,
         DomainId: 1,
-        CreatorId: userId
+        CreatorId: this.userId
       };
       /*ajax*/
      /* this.$http.post('sysuser/crepro',body)
@@ -143,6 +134,12 @@ export default{
           confirm(response.data.Msg);
         })*/
 
+    },
+    reqBasic: function () {
+      this.$http.post('project/basicinfo', {projectId: this.projectId, userId: this.userId})
+        .then((response) => {
+          this.staticData = response.data
+        })
     }
   }
 }

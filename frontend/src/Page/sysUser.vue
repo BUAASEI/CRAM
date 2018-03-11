@@ -14,11 +14,11 @@
               <div class="col-operate">操作</div>
             </div>
             <div class="detail-context">
-              <div class="detail-item" v-for="item in usageData" :key=item.id>
+              <div class="detail-item" v-for="item in usageData" :key=item.ProjectId>
                 <div class="col-name">{{ item.ProjectName }}</div>
                 <div class="col-des">{{ item.ProjectDescription }}</div>
                 <div class="col-operate">
-                  <span @click="view(item.id)">查看</span>
+                  <span @click="view(item.ProjectId)">查看</span>
                   <span>删除</span>
                 </div>
               </div>

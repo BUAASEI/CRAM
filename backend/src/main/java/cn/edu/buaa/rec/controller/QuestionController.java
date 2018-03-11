@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +73,7 @@ public class QuestionController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public List<List<Map<String, Object>>> questList(@Valid @RequestBody Map<String, Object> questInfo) {
+    public Map<String, Object> questList(@Valid @RequestBody Map<String, Object> questInfo) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(questInfo);
         long projectId = jsonObject.getLong("projectId");
         long userId = jsonObject.getLong("userId");
@@ -81,9 +82,10 @@ public class QuestionController {
 
         List<Map<String, Object>>  questsOfUserAndProject = questionService.getAllQuestionsOfProjectAndUser(projectId, userId);
         List<Map<String, Object>> questsOfProject = questionService.getAllQuestionsOfProject(projectId);
-        questions.add(questsOfUserAndProject);
-        questions.add(questsOfProject);
-        return questions;
+        Map<String,Object> m = new HashMap<>();
+        m.put("listQuestions",questsOfProject);
+        m.put("userQuestions",questsOfUserAndProject);
+        return m;
 
     }
 }

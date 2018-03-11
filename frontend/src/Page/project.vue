@@ -1,7 +1,7 @@
 <!--选课系统主页面-->
 <template>
   <div>
-    <TopProject :projectId="projectId" name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
+    <TopProject name="北航学生选课系统" @showIbox="showIboxs"></TopProject>
     <div class="context">
       <div class="context-nav">
         <NavProject target="st"></NavProject>
@@ -45,8 +45,7 @@
                 <div class="col-roles">{{ item.description}}</div>
                 <!--<div class="col-datas">{{ item.dataName }}</div>-->
                 <div class="col-operate">
-                  <span>查看</span>
-                  <span @click="editUsecase(item.usecaseId)">修改</span>
+                  <span @click="editUsecase(item.usecaseId, item.usecaseName)">修改</span>
                   <span>删除</span>
                 </div>
               </div>
@@ -56,11 +55,14 @@
       </div>
     </div>
     <div  v-if="show" class="box">
-      <div class="subWindow" v-if="showOne">
-        <CreateUC :title="新建用例" :pId="projectId" @closeNew="closeNew"></CreateUC>
-      </div>
-      <div class="subWindow" v-if="showTwo">
-        <InfoBoxNewProject @closeIbox="close"></InfoBoxNewProject>
+      <div  v-if="show" class="box">
+        <div class="subWindow">
+          <CreateUC  v-if="showOne" :flag="flag" :pId="projectId" @closeNew="closeUc"></CreateUC>
+<!--
+          <InfoBoxNewProject  v-if="showTwo" @closeIbox="close"></InfoBoxNewProject>
+-->
+          <DevStage v-if="showStage" @closeDs="closeDs"></DevStage>
+        </div>
       </div>
     </div>
   </div>
@@ -150,16 +152,20 @@
   import {Button} from 'iview'
   import InfoBoxEvolution from '@/components/InfoBoxEvolution'
   import CreateUC from '@/components/createUC'
+  import DevStage from '@/components/devStage'
 
   export default{
     data () {
       return {
-        projectId: 1,
+        projectId: null,
+        userId: null,
         BusinessData:[1],
         UsageData:[1],
         show: false,
         showOne: false,
-        showTwo: false
+        showTwo: false,
+        showStage: false,
+        flag: true
       }
     },
     components: {
@@ -167,14 +173,15 @@
       NavProject,
       Button,
       InfoBoxEvolution,
-      CreateUC
+      CreateUC,
+      DevStage
     },
     mounted() {
 
-      // this.projectId = this.$route.params.projectId;
-      // var userId = localStorage.getItem("id");
-      // this.reqInfo(projectId,userId);
-      this.reqInfo(1,3);
+      this.projectId = localStorage.getItem("pId");
+      this.userId = localStorage.getItem("id");
+      this.reqInfo(this.projectId, this.userId);
+      //this.reqInfo(1,3);
       // this.close()
     },
     methods: {
@@ -183,10 +190,10 @@
         // 路由跳转
         this.$router.push({name: 'business', params: {type: 'edit'}})
       },
-      editUsecase: function (id) {
+      editUsecase: function (id, name) {
         // do something
         // 路由跳转
-        this.$router.push({name: 'usecase', params: {type: 'edit', id: id}})
+        this.$router.push({name: 'usecase', params: {type: 'edit', id: id, name: name}})
       },
       reqInfo: function (projectId, userId) {
         let info = {
@@ -203,22 +210,31 @@
       createUseCase: function () {
         this.show = true
         this.showOne = true
+        this.flag = true
       },
-      closeNew: function () {
+      createBusiness: function () {
+        this.show = true
+        this.showOne = true
+        this.flag = false
+      },
+
+      closeUc: function () {
         this.show = false
         this.showOne = false
       },
-      showIboxs(idx) {
+      showIbox() {
         this.show = true
-        if (idx === 1) {
-          this.showTwo = true
-        }
+        this.showStage = true
       },
       close(idx) {
         this.show = false
         if (idx === 1) {
           this.showThree = false
         }
+      },
+      closeDs() {
+        this.show = false
+        this.showStage = false
       }
     }
   }

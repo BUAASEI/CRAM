@@ -143,12 +143,12 @@ public class RuleCheckImpl implements RuleCheckService {
         Map<String, Object> map = new HashMap<>();
         if (content.getBasicFlow().getPostCondition() == null || content.getBasicFlow().getPostCondition().length() == 0) {
             map.put("status", 1);
-            map.put("result", "BasicFLow触发了规则1：控制流必须有起始和退出节点\n");
+            map.put("result", "BasicFLow触发了规则1：控制流必须有起始和退出节点;");
         }
         for (int i = 1; i <= content.getAlternativeFlows().size(); i++) {
             if (content.getAlternativeFlows().get(i - 1).getPostCondition() == null || content.getAlternativeFlows().get(i - 1).getPostCondition().length() == 0) {
                 map.put("status", 1);
-                String errorInfo = "AlternativeFLow-" + i + "触发了规则1：控制流必须有后置条件\n";
+                String errorInfo = "AlternativeFLow-" + i + "触发了规则1：控制流必须有后置条件;";
                 if (map.get("result") != null) {
                     String str = (String) map.get("result");
                     str += errorInfo;

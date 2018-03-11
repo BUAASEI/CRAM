@@ -21,7 +21,7 @@
         <div class="colum1">Primary Actor</div>
         <div class="colum2">
           <Select v-model="actor">
-            <Option v-for="item in actors" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            <Option v-for="item in actors" :value="item" :key="item.id">{{ item.name }}</Option>
           </Select>
         </div>
       </div>
@@ -29,7 +29,7 @@
         <div class="colum1">Secondary Actors</div>
         <div class="colum2">
           <Select v-model="primaryActor" multiple>
-            <Option v-for="item in primarys" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            <Option v-for="item in primarys" :value="item" :key="item.id">{{ item.name }}</Option>
           </Select>
         </div>
       </div>
@@ -37,7 +37,7 @@
         <div class="colum1">Dictionary</div>
         <div class="colum2">
           <Select v-model="dictionary" multiple>
-            <Option v-for="item in dicts" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            <Option v-for="item in dicts" :value="item" :key="item.id">{{ item.name }}</Option>
           </Select>
         </div>
       </div>
@@ -90,20 +90,21 @@
   export default{
     data () {
       return {
-        actor: [],
+        actors: [],
         primarys: [],
         dicts: [],
         name: null,
         description: null,
-        actor: null,
+        actor: {},
         primaryActor: [],
-        dictionary: []
+        dictionary: [],
+        title: ''
       }
     },
     props: {
-      title: {
-        type: String,
-        default: '新建用例'
+      flag: {
+        type: Boolean,
+        default: true
       },
       pId: {
         type: Number,
@@ -117,10 +118,12 @@
       Input
     },
     mounted () {
+      this.title = this.flag ? '新增用例' : '新增业务场景'
       this.initData()
     },
     methods: {
       initData: function () { //获取role等
+        this.pId = localStorage.getItem("pId");
         this.$http.post('project/getRoleAndData', {projectId: this.pId})
           .then((response) => {
             let datas = response.data
@@ -130,18 +133,21 @@
           })
       },
       saveData: function () {
+        let [id1, name1] = this.filterData(this.primaryActor, 'id', 'name')
+        let [id2, name2] = this.filterData(this.dictionary, 'id', 'name')
+
         let datas = {
           name: this.name,
           projectId:this.pId,
           description: this.description,
-          primaryActorId: this.actor,
-          secondaryActorIds: this.primaryActor,
-          dictionary: this.dictionary,
+          primaryActorId: this.actor.id,
+          secondaryActorIds: id1,
+          dictionary: id2,
           creatorId: localStorage.getItem("id"),
           rucmSpec: {
             Brief: {
               colum: ["Usecase Name","Brief Description","Precondition","Primary Actor","Secondary Actors","Dependency","Generalization","Input","output","DataDictionary"],
-              data: [this.name, this.description, null, this.actor, this.primaryActor.join(),null,null,this.dictionary.join()]
+              data: [this.name, this.description, null, this.actor.name, name1.join(),null,null,name2.join()]
             },
             BasicFlow: {colum:[1],data:[]},
             SpecificAlternativeFlows: [{
@@ -156,7 +162,8 @@
           },
           useState:'1'
         }
-        this.$http.post('usecase/new', datas)
+        let url = this.flag ? 'usecase/new' : 'business/new'
+        this.$http.post(url, datas)
           .then((response) => {
             this.$emit("closeNew")
           })
@@ -170,6 +177,15 @@
       },
       close () {
         this.$emit("closeNew")
+      },
+      filterData (arr, key1, key2) {
+        let a1 = []
+        let a2 = []
+        arr.forEach((item) => {
+          a1.push(item[key1])
+          a2.push(item[key2])
+        })
+        return [a1, a2]
       }
     }
   }

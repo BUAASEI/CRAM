@@ -222,10 +222,12 @@ public class UsecaseController {
      */
     @RequestMapping(value = "/detect", method = RequestMethod.POST)
     @ResponseBody
-    public String showCheckResult(@Valid @RequestBody String rucmModel) {
+    public Map<String,Object> showCheckResult(@Valid @RequestBody String rucmModel) {
         System.out.println("rucmModel:\n" + rucmModel);
         String result = ruleCheckService.ruleCheckResult(rucmModel);
-        return result;
+        Map<String,Object> m = new HashMap<>();
+        m.put("result",result);
+        return m;
     }
 
 

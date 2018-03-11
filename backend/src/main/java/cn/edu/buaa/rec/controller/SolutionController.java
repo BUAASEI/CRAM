@@ -47,16 +47,16 @@ public class SolutionController {
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public List<List<Map<String,Object>>> getAllSolutionsOfProjectAndUser(@Valid @RequestBody Map<String, Object> params) {
+    public Map<String,Object> getAllSolutionsOfProjectAndUser(@Valid @RequestBody Map<String, Object> params) {
         JSONObject jsonObject = (JSONObject) JSONObject.toJSON(params);
         long projectId = jsonObject.getLong("projectId");
         long userId = jsonObject.getLong("userId");
         System.out.println(projectId + " " + userId);
-        List<List<Map<String,Object>>>  result = new ArrayList<List<Map<String,Object>>>(2);
+        Map<String,Object>  result = new HashMap<>();
         List<Map<String,Object>> solutionsOfProjectAndUser = solutionService.getAllSolutionsOfProjectAndUser(projectId, userId);
         List<Map<String,Object>> solutionOfProject = solutionService.getAllSolutionsOfProject(projectId);
-        result.add(solutionsOfProjectAndUser);
-        result.add(solutionOfProject);
+        result.put("listSolutions",solutionOfProject);
+        result.put("userSolutions",solutionsOfProjectAndUser);
         return result;
     }
 

@@ -167,7 +167,7 @@
           projectId:projectId,
           userId:userId
         };
-        this.$http.post('project/solution',info)
+        this.$http.post('solution/list',info)
           .then((response) => {
             this.listSolutions = response.data.listSolutions;
 

@@ -15,7 +15,7 @@
         <div class="right-tag">
           <span class="focus-blue">{{ creator }}</span>
           <span>当前角色：{{ role }} </span>
-          <span class="focus-btn">转换角色</span>
+         <!-- <span class="focus-btn">转换角色</span>-->
         </div>
       </div>
     </div>

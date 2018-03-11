@@ -3,16 +3,16 @@
     <TopScenario kind="用例" :name="name"></TopScenario>
     <div class="top-btn">
       <div>
-        <button>
+       <!-- <button>
           <router-link to="/evolution">演化历史</router-link>
-        </button>
+        </button>-->
         <button @click="printLack">缺陷检测</button>
       </div>
       <div>
         <button @click="saveData">保存</button>
-        <button>
+       <!-- <button>
           <router-link to="/project/home">返回</router-link>
-        </button>
+        </button>-->
       </div>
     </div>
     <div  v-if="show" class="box1 scroll">
@@ -33,7 +33,7 @@
         <SpecialTable  ref="flow"  @add="add" @del="del"  @otherData="otherData" title="Global Alternative Flow" tag="Guaid"  :pos="index" :data="item"></SpecialTable>
       </div>
     </div>
-    <div class="box3">
+   <!-- <div class="box3">
       <div class="up"><span>相关业务场景：</span></div>
       <p>
         <span class="focus-color">维护课程信息</span>
@@ -41,15 +41,16 @@
       <p>
         <button>关联业务场景</button>
       </p>
-    </div>
-    <div class="box4">
+    </div>-->
+    <!--<div class="box4">
       <div class="up"><span>评论：</span></div>
       <p>
         <button>发表评论</button>
       </p>
-    </div>
+    </div>-->
     <div v-if="showLack" class="box">
-      <p class="content">{{ lackData }}</p>
+      <div class="head" @click="closeRes">X</div>
+      <p v-for="(item,idx) in lackData" class="content">result{{ idx }}:   {{ item }}</p>
     </div>
   </div>
 </template>
@@ -131,12 +132,20 @@
     position: fixed;
     top: 150px;
     left: 400px;
+    padding: 100px;
     width: 800px;
     height: 600px;
     background-color: white;
   }
   .content {
+    font-size: 14px;
     word-break: break-all;
+  }
+  .head {
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    text-align: right;
   }
 </style>
 <script>
@@ -187,6 +196,7 @@
     beforeMount (){
       this.type = this.$route.params.type;
       this.id = this.$route.params.id;
+      this.name = this.$route.params.name
       // alert(this.id);
       this.initData(this.id);
     },
@@ -290,9 +300,13 @@
       reqLack () {
         this.$http.post('usecase/detect',this.cases)
           .then((response) => {
-            this.lackData = response.data
+            let res = response.data.result
+            this.lackData = res.split(';')
             this.showLack = true
           })
+      },
+      closeRes () {
+        this.showLack = false
       }
 
     }
