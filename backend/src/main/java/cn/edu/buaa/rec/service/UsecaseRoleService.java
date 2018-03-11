@@ -5,5 +5,5 @@ import java.util.List;
 public interface UsecaseRoleService {
 
     int creatUsecaseRole(List<Long> roleIds, Long usecaseId);
-    List<Long> getUsecaseIdsByRoleIds(List<Long> roleIds);
+//    List<Long> getUsecaseIdsByRoleIds(List<Long> roleIds);
 }

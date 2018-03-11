@@ -120,7 +120,6 @@ public class UsecaseServiceImpl implements UseCaseService {
         for (Usecase u:us){
             Map<String,Object> f = new HashMap<>();
             f.put("usecaseId", u.getId());
-
             f.put("usecaseName", u.getName());
             f.put("description",u.getDescription());
             usform.add(f);
