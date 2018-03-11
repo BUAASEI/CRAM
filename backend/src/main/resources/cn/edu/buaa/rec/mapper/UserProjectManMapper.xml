@@ -52,18 +52,15 @@
         SET isApproved=#{isapproved}
         WHERE id=#{id}
     </update>
-<<<<<<< HEAD
 
     <select id="checkIsManger" resultType="Integer">
         SELECT isApproved
         FROM user_project_man
         WHERE user_id=#{userId} AND project_id=#{projectId}
     </select>
-=======
     <select id="selectMaxId" resultType="Long">
         SELECT max(id)
         FROM user_project_man
     </select>
 
->>>>>>> e2422047ea39742fd5feeab11d85698cc2f3a9c0
 </mapper>
